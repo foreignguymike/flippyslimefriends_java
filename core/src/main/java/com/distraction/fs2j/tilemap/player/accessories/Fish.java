@@ -25,7 +25,7 @@ public class Fish extends Accessory {
         float siny = MathUtils.sin(2 * time);
         flipping = MathUtils.cos(2 * time + MathUtils.PI / 2f);
         offset.x = 30 * MathUtils.cos(2 * time);
-        offset.y = 10 * siny;
+        offset.y = 10 * siny + 4;
         right = siny < 0f;
         animation.update(dt);
     }

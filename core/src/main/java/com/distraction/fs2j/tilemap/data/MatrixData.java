@@ -85,7 +85,7 @@ public class MatrixData {
                                 0, 0, 0, 0,
                                 0, 0, 0, 0
                         },
-                        19,
+                        11,
                         Arrays.asList(new TilePoint(2, 0)),
                         Arrays.asList(
                                 new ArrowData(1, 3, Direction.UP),

@@ -1,8 +1,7 @@
-# Flippy Slime Friends ![slime](assets/fs2res/pack/slime.png)
-Isometric puzzle game <br>
-Sequel to Flippy Slime (https://github.com/foreignguymike/Sandbox) <br>
+# Flippy Slime Friends ![slime](assets/slime.png)
+Isometric puzzle game
 
-Java version for GWT
+Play the game here! https://foreignguymike.github.io/
 
 ![meadow](https://i.imgur.com/dG1As3s.png)
 

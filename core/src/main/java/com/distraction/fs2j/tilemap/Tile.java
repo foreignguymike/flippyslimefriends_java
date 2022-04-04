@@ -191,8 +191,8 @@ public class Tile {
         }
         for (TileObject it : objects) it.update(dt);
         for (TileObject it : topObjects) it.update(dt);
-        for (TileObject it : objects) it.update(dt);
         objects.removeIf(it -> it.remove);
+        topObjects.removeIf(it -> it.remove);
     }
 
     public void render(SpriteBatch sb) {
