@@ -55,6 +55,23 @@ public class MatrixData {
                 new MapData(
                         4, 4,
                         new int[]{
+                                e, 0, e, e,
+                                0, 0, 0, e,
+                                0, 0, 0, 0,
+                                0, 0, 0, 0
+                        },
+                        10,
+                        Arrays.asList(new TilePoint(1, 0), new TilePoint(2, 3)),
+                        Arrays.asList(
+                                new FinishTileData(1, 2),
+                                new FinishTileData(3, 0),
+                                new TeleportData(3, 3, 0, 1),
+                                new TeleportData(0, 1, 3, 3)
+                        )
+                ),
+                new MapData(
+                        4, 4,
+                        new int[]{
                                 0, 0, 0, 0,
                                 0, 0, e, 0,
                                 0, e, 0, 0,

@@ -11,8 +11,9 @@ buildscript {
 	dependencies {
 		classpath "com.android.tools.build:gradle:$androidPluginVersion"
 		classpath "org.wisepersist:gwt-gradle-plugin:$gwtPluginVersion"
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10'
 
-		// This follows advice from https://blog.gradle.org/log4j-vulnerability
+        // This follows advice from https://blog.gradle.org/log4j-vulnerability
 		constraints {
 			classpath("org.apache.logging.log4j:log4j-core") {
 				version {
