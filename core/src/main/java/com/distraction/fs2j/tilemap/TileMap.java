@@ -180,12 +180,10 @@ public class TileMap implements Tile.TileMoveListener {
         for (Tile it : map) if (it != null && it.index == 0) return false;
         for (FinishTile it : finishTiles) {
             boolean exist = false;
-            if (it.active) {
-                for (Player p : players) {
-                    if (p.row == it.row && p.col == it.col) {
-                        exist = true;
-                        break;
-                    }
+            for (Player p : players) {
+                if (p.row == it.row && p.col == it.col) {
+                    exist = true;
+                    break;
                 }
             }
             if (!exist) return false;

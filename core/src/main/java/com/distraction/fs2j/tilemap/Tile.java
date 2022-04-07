@@ -115,6 +115,9 @@ public class Tile {
         }
     }
 
+    /**
+     * Add tile mechanic
+     */
     public void addObject(TileObject tileObject) {
         objects.add(tileObject);
         Collections.sort(objects, sorter);
@@ -176,6 +179,7 @@ public class Tile {
                     }
                     prevRow = row;
                     prevCol = col;
+                    for (TileObject it : objects) it.setPositionFromTile(row, col);
 
                     // edge case, do not stop when the stayTimer for this path point is 0
                     // this is to prevent the player from jumping on to a moving tile that has

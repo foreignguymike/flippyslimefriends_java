@@ -256,7 +256,7 @@ public class Player extends TileObject implements Tile.TileMoveListener {
                 } else if (it instanceof SuperJump) {
                     superjump = true;
                 } else if (it instanceof Ice) {
-                    if (!dropping) sliding = true;
+                    if (!dropping && !justTeleported) sliding = true;
                 } else if (it instanceof Teleport && !justTeleported) {
                     teleportTimer = 0f;
                     teleportSpeed = Math.max(
