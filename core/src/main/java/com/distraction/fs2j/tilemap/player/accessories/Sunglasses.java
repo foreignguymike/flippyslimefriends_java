@@ -42,13 +42,13 @@ public class Sunglasses extends Accessory {
         }
     }
 
-   @Override
-   public void renderBehind(SpriteBatch sb) {
-      if (!player.forward()) normalRender(sb, imageR);
-   }
+    @Override
+    public void renderBehind(SpriteBatch sb) {
+        if (!player.forward()) normalRender(sb, imageR);
+    }
 
-   @Override
-   public void renderFront(SpriteBatch sb) {
-      if (player.forward()) normalRender(sb, image);
-   }
+    @Override
+    public void renderFront(SpriteBatch sb) {
+        if (player.forward()) normalRender(sb, image);
+    }
 }

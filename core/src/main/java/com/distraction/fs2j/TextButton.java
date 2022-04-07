@@ -10,6 +10,7 @@ public class TextButton extends ImageButton {
     public TextButton(TextureRegion textImage, TextureRegion bgImage) {
         this(textImage, bgImage, 0, 0, 0);
     }
+
     public TextButton(TextureRegion textImage, TextureRegion bgImage, float x, float y) {
         this(textImage, bgImage, x, y, 0);
     }

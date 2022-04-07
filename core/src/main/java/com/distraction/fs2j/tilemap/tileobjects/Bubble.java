@@ -2,7 +2,6 @@ package com.distraction.fs2j.tilemap.tileobjects;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.distraction.fs2j.BreathingImage;
 import com.distraction.fs2j.Context;
 import com.distraction.fs2j.Utils;
 import com.distraction.fs2j.tilemap.TileMap;
