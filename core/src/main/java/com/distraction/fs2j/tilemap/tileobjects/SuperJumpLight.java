@@ -33,8 +33,8 @@ public class SuperJumpLight extends TileObject {
     @Override
     public void render(SpriteBatch sb) {
         tileMap.toIsometric(p.x, p.y, isop);
+        sb.setColor(1, 1, 1, 1);
         if (duration - time < 0.5f) {
-            Color c = sb.getColor();
             Utils.setAlpha(sb, (duration - time) / 0.5f);
         }
         sb.draw(image, isop.x - image.getRegionWidth() / 2f, isop.y - image.getRegionHeight() / 2f + p.z);

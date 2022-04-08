@@ -53,6 +53,7 @@ public class TeleportLight extends TileObject {
     @Override
     public void render(SpriteBatch sb) {
         tileMap.toIsometric(p.x, p.y, isop);
+        sb.setColor(1, 1, 1, 1);
         sb.draw(image, isop.x - image.getRegionWidth() / 2f, isop.y - image.getRegionHeight() / 2f + p.z);
         Color c = sb.getColor();
         sb.setColor(color);

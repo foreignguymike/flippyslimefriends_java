@@ -138,8 +138,8 @@ public class Player extends TileObject implements Tile.TileMoveListener {
             if (currentTile != null && currentTile.moving) return;
 
             // ignore if the tile is blocked
-            // but allow it if super jumping
-            if (!superjump && isTileBlocked(row + drow, col + dcol)) {
+            // but allow it if super jumping or teleporting
+            if (!superjump && !teleporting && isTileBlocked(row + drow, col + dcol)) {
                 sliding = false;
                 return;
             }
@@ -194,7 +194,7 @@ public class Player extends TileObject implements Tile.TileMoveListener {
         if (tile != null) {
             if (tile.isBlocked()) return true;
             for (Player it : getPlayers(row, col)) {
-                if (it != this && !it.bubbling) return true;
+                if (it != this && !it.bubbling && !it.teleporting) return true;
             }
         }
         return false;
@@ -263,8 +263,8 @@ public class Player extends TileObject implements Tile.TileMoveListener {
                             Math.abs(p.y - tileMap.toPosition(((Teleport) it).row2)),
                             Math.abs(p.x - tileMap.toPosition(((Teleport) it).col2))
                     ) * 1.5f;
-                    moveTile(((Teleport) it).row2 - row, ((Teleport) it).col2 - col);
                     teleporting = true;
+                    moveTile(((Teleport) it).row2 - row, ((Teleport) it).col2 - col);
                     justTeleported = true;
                 }
             }
