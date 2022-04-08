@@ -208,7 +208,7 @@ public class Player extends TileObject implements Tile.TileMoveListener {
         return Utils.dist(pdest.x, pdest.y, p.x, p.y);
     }
 
-    private boolean atDestination() {
+    public boolean atDestination() {
         return p.x == pdest.x && p.y == pdest.y;
     }
 

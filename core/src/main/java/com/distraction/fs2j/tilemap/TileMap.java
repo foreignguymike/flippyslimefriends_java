@@ -181,6 +181,7 @@ public class TileMap implements Tile.TileMoveListener {
         for (FinishTile it : finishTiles) {
             boolean exist = false;
             for (Player p : players) {
+                if (!p.atDestination()) continue;
                 if (p.row == it.row && p.col == it.col) {
                     exist = true;
                     break;

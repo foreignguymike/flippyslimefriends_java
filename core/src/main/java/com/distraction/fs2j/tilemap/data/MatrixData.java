@@ -63,7 +63,7 @@ public class MatrixData {
                 ),
                 new MapData(
                         4, 4,
-                        new int[] {
+                        new int[]{
                                 e, 0, 0, 0,
                                 e, 0, 0, 0,
                                 0, 0, 0, e,
@@ -100,7 +100,7 @@ public class MatrixData {
                 ),
                 new MapData(
                         3, 4,
-                        new int[] {
+                        new int[]{
                                 0, 0, 0, 0,
                                 0, 0, 0, 0,
                                 0, 0, 0, 0
@@ -140,7 +140,7 @@ public class MatrixData {
                 ),
                 new MapData(
                         3, 4,
-                        new int[] {
+                        new int[]{
                                 0, 0, 0, 0,
                                 0, 0, 0, 0,
                                 0, 0, 0, 0
@@ -162,7 +162,7 @@ public class MatrixData {
                 ),
                 new MapData(
                         4, 3,
-                        new int[] {
+                        new int[]{
                                 0, 0, 0,
                                 0, 0, 0,
                                 0, 0, 0,
@@ -204,7 +204,7 @@ public class MatrixData {
                 ),
                 new MapData(
                         4, 4,
-                        new int[] {
+                        new int[]{
                                 e, 0, 0, e,
                                 0, 0, 0, 0,
                                 0, 0, 0, 0,
@@ -265,7 +265,7 @@ public class MatrixData {
                 ),
                 new MapData(
                         5, 2,
-                        new int[] {
+                        new int[]{
                                 e, 0,
                                 0, 0,
                                 0, 0,
@@ -351,6 +351,25 @@ public class MatrixData {
                         )
                 ),
                 new MapData(
+                        4, 4,
+                        new int[]{
+                                e, 0, 0, 0,
+                                0, 0, 0, 0,
+                                e, 0, 0, 0,
+                                e, e, 0, 0
+                        },
+                        15,
+                        Arrays.asList(new TilePoint(0, 1)),
+                        Arrays.asList(
+                                new ArrowData(2, 2, Direction.RIGHT),
+                                new TeleportData(1, 0, 0, 3),
+                                new TeleportData(0, 3, 1, 0),
+                                new FinishTileData(1, 2)
+                        ),
+                        new ArrayList<>(),
+                        false
+                ),
+                new MapData(
                         4, 3,
                         new int[]{
                                 0, g, 0,
@@ -383,6 +402,32 @@ public class MatrixData {
                                 new TeleportData(3, 3, 0, 0),
                                 new TeleportData(0, 0, 3, 3)
                         )
+                ),
+                new MapData(
+                        4, 4,
+                        new int[]{
+                                0, e, e, e,
+                                0, 0, 0, e,
+                                0, 0, 0, 0,
+                                e, e, e, 0
+                        },
+                        9,
+                        Arrays.asList(new TilePoint(0, 0)),
+                        Arrays.asList(
+                                new FinishTileData(1, 1),
+                                new IceData(2, 1),
+                                new IceData(2, 2)
+                        ),
+                        Arrays.asList(
+                                Arrays.asList(
+                                        new StopPathPointData(0, 0),
+                                        new PathPointData(0, 3),
+                                        new StopPathPointData(1, 3),
+                                        new PathPointData(0, 3)
+                                ),
+                                Arrays.asList(new StopPathPointData(3, 3), new StopPathPointData(3, 0))
+                        ),
+                        true
                 ),
                 new MapData(
                         4, 4,
@@ -430,6 +475,50 @@ public class MatrixData {
                         )
                 ),
                 new MapData(
+                        4, 5,
+                        new int[] {
+                                e, 0, 0, e, e,
+                                0, 0, 0, 0, 0,
+                                0, 0, 0, 0, 0,
+                                e, e, 0, 0, e
+                        },
+                        13,
+                        Arrays.asList(new TilePoint(1, 0), new TilePoint(2, 4)),
+                        Arrays.asList(
+                                new ArrowData(2, 2, Direction.RIGHT),
+                                new ArrowData(1, 2, Direction.RIGHT),
+                                new TeleportData(0, 1, 3, 3),
+                                new TeleportData(3, 3, 0, 1),
+                                new TeleportData(2, 0, 1, 4),
+                                new TeleportData(1, 4, 2, 0)
+                        ),
+                        new ArrayList<>(),
+                        false
+                ),
+                new MapData(
+                        4, 4,
+                        new int[]{
+                                0, e, e, 0,
+                                0, 0, 0, 0,
+                                0, 0, 0, e,
+                                e, 0, 0, e
+                        },
+                        12,
+                        Arrays.asList(new TilePoint(2, 0)),
+                        Arrays.asList(
+                                new TeleportData(0, 3, 2, 1),
+                                new TeleportData(2, 1, 0, 3),
+                                new IceData(1, 1),
+                                new FinishTileData(1, 2),
+                                new IceData(2, 2)
+                        ),
+                        Arrays.asList(
+                                Arrays.asList(new StopPathPointData(0, 0), new StopPathPointData(0, 2)),
+                                Arrays.asList(new StopPathPointData(1, 3), new StopPathPointData(3, 3))
+                        ),
+                        false
+                ),
+                new MapData(
                         4, 3,
                         new int[]{
                                 0, 0, 0,
@@ -450,7 +539,7 @@ public class MatrixData {
                 ),
                 new MapData(
                         4, 4,
-                        new int[] {
+                        new int[]{
                                 e, e, 0, 0,
                                 0, 0, 0, 0,
                                 0, 0, 0, 0,
@@ -491,7 +580,7 @@ public class MatrixData {
                 ),
                 new MapData(
                         4, 4,
-                        new int[] {
+                        new int[]{
                                 e, 0, 0, e,
                                 0, 0, 0, 0,
                                 0, 0, 0, 0,
@@ -510,6 +599,76 @@ public class MatrixData {
                                 new FinishTileData(2, 2)
                         ),
                         new ArrayList<>(),
+                        false
+                ),
+                new MapData(
+                        4, 5,
+                        new int[] {
+                                e, 0, 0, 0, e,
+                                0, 0, 0, 0, 0,
+                                e, 0, 0, 0, e,
+                                e, e, 0, e, e
+                        },
+                        16,
+                        Arrays.asList(new TilePoint(0, 1), new TilePoint(2, 3)),
+                        Arrays.asList(
+                                new FinishTileData(0, 2),
+                                new TeleportData(1, 0, 1, 4),
+                                new TeleportData(1, 4, 1, 0),
+                                new IceData(1, 1),
+                                new IceData(1, 2),
+                                new IceData(1, 3),
+                                new FinishTileData(3, 2)
+                        ),
+                        new ArrayList<>(),
+                        false
+                ),
+                new MapData(
+                        3, 4,
+                        new int[]{
+                                0, 0, 0, 0,
+                                0, 0, 0, 0,
+                                0, 0, 0, 0
+                        },
+                        18,
+                        Arrays.asList(new TilePoint(1, 0), new TilePoint(1, 3)),
+                        Arrays.asList(
+                                new ArrowData(0, 3, Direction.LEFT),
+                                new ArrowData(0, 0, Direction.RIGHT),
+                                new FinishTileData(0, 1),
+                                new FinishTileData(0, 2),
+                                new IceData(1, 1),
+                                new IceData(1, 2),
+                                new ArrowData(2, 1, Direction.LEFT),
+                                new ArrowData(2, 2, Direction.LEFT)
+                        ),
+                        new ArrayList<>(),
+                        false
+                ),
+                new MapData(
+                        4, 4,
+                        new int[]{
+                                e, 0, 0, 0,
+                                0, 0, 0, 0,
+                                0, 0, 0, 0,
+                                g, e, e, 0
+                        },
+                        20,
+                        Arrays.asList(new TilePoint(2, 0), new TilePoint(0, 3)),
+                        Arrays.asList(
+                                new ArrowData(1, 2, Direction.LEFT),
+                                new ArrowData(1, 1, Direction.LEFT),
+                                new FinishTileData(0, 3),
+                                new FinishTileData(2, 0),
+                                new SuperJumpData(2, 1),
+                                new IceData(2, 2)
+                        ),
+                        Arrays.asList(
+                                Arrays.asList(
+                                        new StopPathPointData(3, 0),
+                                        new StopPathPointData(3, 1),
+                                        new StopPathPointData(3, 2))
+                        ),
                         false
                 )
         );
