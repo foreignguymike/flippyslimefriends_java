@@ -147,7 +147,7 @@ public class UnderseaData {
                                 0, 0, 0,
                                 0, 0, 0
                         },
-                        21,
+                        17,
                         Arrays.asList(new TilePoint(0, 0)),
                         true,
                         Arrays.asList(
@@ -728,7 +728,7 @@ public class UnderseaData {
                                 0, e, 0,
                                 e, 0, 0
                         },
-                        13,
+                        11,
                         Arrays.asList(new TilePoint(0, 0), new TilePoint(1, 0)),
                         true,
                         Arrays.asList(

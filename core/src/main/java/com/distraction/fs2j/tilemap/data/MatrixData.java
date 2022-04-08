@@ -87,7 +87,7 @@ public class MatrixData {
                                 0, 0, 0, 0,
                                 0, 0, 0, 0
                         },
-                        19,
+                        15,
                         Arrays.asList(new TilePoint(1, 3)),
                         Arrays.asList(
                                 new SuperJumpData(1, 1),
@@ -125,7 +125,7 @@ public class MatrixData {
                                 e, 0, 0,
                                 0, 0, 0
                         },
-                        16,
+                        8,
                         Arrays.asList(new TilePoint(0, 1)),
                         Arrays.asList(
                                 new ArrowData(2, 1, Direction.UP),
@@ -618,7 +618,7 @@ public class MatrixData {
                                 0, 0, 0, 0, 0,
                                 e, e, 0, 0, e
                         },
-                        13,
+                        12,
                         Arrays.asList(new TilePoint(1, 0), new TilePoint(2, 4)),
                         Arrays.asList(
                                 new ArrowData(2, 2, Direction.RIGHT),
@@ -809,7 +809,7 @@ public class MatrixData {
                                 0, 0, 0, 0, 0,
                                 e, 0, 0, 0, e
                         },
-                        18,
+                        20,
                         Arrays.asList(new TilePoint(2, 0), new TilePoint(2, 4)),
                         Arrays.asList(
                                 new ArrowData(1, 3, Direction.RIGHT),
@@ -876,7 +876,7 @@ public class MatrixData {
                                 e, 0, 0, 0, 0, e,
                                 e, 0, 0, 0, e, e
                         },
-                        23,
+                        17,
                         Arrays.asList(new TilePoint(3, 1)),
                         Arrays.asList(
                                 new ArrowData(2, 3, Direction.RIGHT),
