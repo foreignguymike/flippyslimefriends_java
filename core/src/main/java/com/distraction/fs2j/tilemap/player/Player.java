@@ -77,10 +77,6 @@ public class Player extends TileObject implements Tile.TileMoveListener {
     public boolean dropping = false;
     public boolean canDrop = false;
 
-    public Player(Context context, TileMap tileMap, MoveListener moveListener, int startRow, int startCol) {
-        this(context, tileMap, moveListener, startRow, startCol, false);
-    }
-
     public Player(Context context, TileMap tileMap, MoveListener moveListener, int row, int col, boolean bubbling) {
         super(context, tileMap);
 

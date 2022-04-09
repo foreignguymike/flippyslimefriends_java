@@ -51,6 +51,19 @@ class TutorialData {
                         },
                         6,
                         Arrays.asList(new TilePoint(0, 0), new TilePoint(2, 2))
+                ),
+                // secret level
+                new MapData(
+                        4, 4,
+                        new int[]{
+                                0, 0, 0, 0,
+                                0, 0, 0, 0,
+                                0, 0, 0, 0,
+                                0, 0, 0, 0
+                        },
+                        1,
+                        Arrays.asList(new TilePoint(1, 1)),
+                        Arrays.asList(new IceData(2, 2))
                 )
         );
     }

@@ -14,25 +14,33 @@ public class TitleState extends GameState {
 
     private ImageButton title;
     private TextButton playButton;
+    private TextButton customizeButton;
 
     public TitleState(Context context) {
         super(context);
 
         title = new ImageButton(context.getImage("title"), Constants.WIDTH / 2, Constants.HEIGHT + 100f, 0);
-        playButton = new TextButton(context.getImage("play"), context.getImage("button"), Constants.WIDTH / 2, 30, 0);
+        playButton = new TextButton(context.getImage("play"), context.getImage("buttonbg"), Constants.WIDTH / 3, 30, 0);
+        customizeButton = new TextButton(context.getImage("avatar"), context.getImage("buttonbg"), 2 * Constants.WIDTH / 3, 30, 0);
 
         title.lerpTo(Constants.WIDTH / 2, Constants.HEIGHT / 2);
     }
 
     private void goToAreaSelect() {
         ignoreInput = true;
-        context.gsm.push(new TransitionState(context, new AreaSelectState(context)));
+        context.gsm.push(new CheckeredTransitionState(context, new AreaSelectState(context)));
+    }
+
+    private void goToCustomize() {
+        ignoreInput = true;
+        context.gsm.push(new CheckeredTransitionState(context, new CustomizeState(context)));
     }
 
     private void handleInput() {
         if (Gdx.input.justTouched()) {
             unprojectTouch();
             if (playButton.containsPoint(touchPoint)) goToAreaSelect();
+            if (customizeButton.containsPoint(touchPoint)) goToCustomize();
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) goToAreaSelect();
     }
@@ -61,6 +69,7 @@ public class TitleState extends GameState {
 
             title.render(sb);
             playButton.render(sb);
+            customizeButton.render(sb);
         }
         sb.end();
     }

@@ -133,13 +133,13 @@ class LevelFinishState extends GameState {
     private void goToNextLevel() {
         if (level < context.gameData.getMapData(area).size() - 1) {
             ignoreInput = true;
-            context.gsm.push(new TransitionState(context, new PlayState(context, area, level + 1), 2));
+            context.gsm.push(new CheckeredTransitionState(context, new PlayState(context, area, level + 1), 2));
         }
     }
 
     private void backToLevelSelect() {
         ignoreInput = true;
-        context.gsm.push(new TransitionState(context, new LevelSelectState(context, area, level), 2));
+        context.gsm.push(new CheckeredTransitionState(context, new LevelSelectState(context, area, level), 2));
     }
 
     private void restart() {

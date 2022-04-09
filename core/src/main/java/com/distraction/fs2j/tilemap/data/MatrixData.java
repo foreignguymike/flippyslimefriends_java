@@ -250,7 +250,7 @@ public class MatrixData {
                 ),
                 new MapData(
                         4, 3,
-                        new int[] {
+                        new int[]{
                                 0, 0, 0,
                                 0, 0, 0,
                                 0, 0, 0,
@@ -307,7 +307,7 @@ public class MatrixData {
                 ),
                 new MapData(
                         4, 6,
-                        new int[] {
+                        new int[]{
                                 e, e, 0, 0, e, e,
                                 e, 0, 0, 0, 0, e,
                                 e, 0, 0, 0, 0, e,
@@ -409,7 +409,7 @@ public class MatrixData {
                 ),
                 new MapData(
                         4, 4,
-                        new int[] {
+                        new int[]{
                                 0, 0, e, e,
                                 0, 0, 0, 0,
                                 0, 0, 0, 0,
@@ -803,7 +803,7 @@ public class MatrixData {
                 ),
                 new MapData(
                         4, 5,
-                        new int[] {
+                        new int[]{
                                 e, 0, 0, 0, e,
                                 0, 0, 0, 0, 0,
                                 0, 0, 0, 0, 0,
@@ -846,7 +846,7 @@ public class MatrixData {
                 ),
                 new MapData(
                         3, 4,
-                        new int[] {
+                        new int[]{
                                 0, 0, 0, 0,
                                 g, 0, 0, g,
                                 0, 0, 0, 0
@@ -932,7 +932,7 @@ public class MatrixData {
                 ),
                 new MapData(
                         5, 4,
-                        new int[] {
+                        new int[]{
                                 e, 0, 0, e,
                                 0, 0, 0, 0,
                                 0, 0, 0, 0,

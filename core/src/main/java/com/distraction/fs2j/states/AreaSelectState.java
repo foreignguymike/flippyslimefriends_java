@@ -50,7 +50,13 @@ public class AreaSelectState extends GameState {
     }
 
     private void goToLevelSelect() {
+        ignoreInput = true;
         context.gsm.push(new TransitionState(context, new LevelSelectState(context, Area.values()[currentIndex])));
+    }
+
+    private void goBack() {
+        ignoreInput = true;
+        context.gsm.push(new TransitionState(context, new TitleState(context)));
     }
 
     private void moveAreaButtons() {
@@ -81,6 +87,7 @@ public class AreaSelectState extends GameState {
         if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) moveRight();
         if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) moveLeft();
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) goToLevelSelect();
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) goBack();
         if (Gdx.input.justTouched()) {
             unprojectTouch();
             if (leftArrow.containsPoint(touchPoint)) moveLeft();

@@ -11,11 +11,10 @@ import java.util.List;
 
 public class Background {
 
-    private Area area;
-
     private TextureRegion pixel;
     private TextureRegion image;
     private Color color;
+    private Color bgIconColor;
 
     private List<Vector3> bgs = new ArrayList<>();
     private float speed = 5f;
@@ -25,10 +24,14 @@ public class Background {
     private float rot = 0f;
 
     public Background(Context context, Area area) {
-        this.area = area;
+        this(context, context.getImage(area.bg), area.colorCopy(), area.bgIconColor);
+    }
+
+    public Background(Context context, TextureRegion image, Color color, Color bgIconColor) {
         pixel = context.getImage("pixel");
-        image = context.getImage(area.bg);
-        color = area.colorCopy();
+        this.image = image;
+        this.color = color;
+        this.bgIconColor = bgIconColor;
 
         for (int row = 0; row <= 5; row++) {
             for (int col = -4; col <= 4; col++) {
@@ -58,7 +61,7 @@ public class Background {
     public void render(SpriteBatch sb) {
         sb.setColor(color);
         sb.draw(pixel, 0f, 0f, Constants.WIDTH, Constants.HEIGHT);
-        sb.setColor(area.bgIconColor);
+        sb.setColor(bgIconColor);
         for (Vector3 it : bgs) Utils.drawRotated(sb, image, it.x, it.y, rot);
         sb.setColor(1, 1, 1, 1);
     }

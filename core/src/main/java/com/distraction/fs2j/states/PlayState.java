@@ -115,7 +115,7 @@ class PlayState extends GameState implements TileMap.TileListener, Player.MoveLi
     private void back() {
         if (!ignoreInput) {
             ignoreInput = true;
-            context.gsm.push(new TransitionState(context, new LevelSelectState(context, area, level)));
+            context.gsm.push(new CheckeredTransitionState(context, new LevelSelectState(context, area, level)));
         }
     }
 

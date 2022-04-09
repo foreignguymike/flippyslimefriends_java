@@ -1,10 +1,10 @@
 package com.distraction.fs2j.tilemap.data;
 
 public enum Direction {
-    LEFT,
+    RIGHT,
     UP,
-    DOWN,
-    RIGHT;
+    LEFT,
+    DOWN;
 
     public Direction opposite() {
         if (this == UP) return DOWN;

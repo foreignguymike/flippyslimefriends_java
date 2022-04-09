@@ -32,8 +32,10 @@ public class ImageButton {
 
     public ImageButton(TextureRegion image, float x, float y, float padding) {
         this.image = image;
-        width = image.getRegionWidth();
-        height = image.getRegionHeight();
+        if (image != null) {
+            width = image.getRegionWidth();
+            height = image.getRegionHeight();
+        }
         pos.set(x, y);
         this.padding = padding;
         setPosition(x, y);
@@ -75,16 +77,18 @@ public class ImageButton {
     }
 
     public void render(SpriteBatch sb) {
-        float scaledWidth = width * scale;
-        float scaledHeight = height * scale;
-        float temp = sb.getColor().a;
-        Utils.setAlpha(sb, alpha);
-        if (flipped) {
-            Utils.drawHFlip(sb, image, pos.x + scaledWidth / 2, pos.y - scaledHeight / 2, scaledWidth, scaledHeight);
-        } else {
-            sb.draw(image, pos.x - scaledWidth / 2, pos.y - scaledHeight / 2, scaledWidth, scaledHeight);
+        if (image != null) {
+            float scaledWidth = width * scale;
+            float scaledHeight = height * scale;
+            float temp = sb.getColor().a;
+            Utils.setAlpha(sb, alpha);
+            if (flipped) {
+                Utils.drawHFlip(sb, image, pos.x + scaledWidth / 2, pos.y - scaledHeight / 2, scaledWidth, scaledHeight);
+            } else {
+                sb.draw(image, pos.x - scaledWidth / 2, pos.y - scaledHeight / 2, scaledWidth, scaledHeight);
+            }
+            Utils.setAlpha(sb, temp);
         }
-        Utils.setAlpha(sb, temp);
     }
 
 }

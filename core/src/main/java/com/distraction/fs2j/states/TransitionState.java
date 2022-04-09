@@ -10,9 +10,9 @@ public class TransitionState extends GameState {
     private GameState nextState;
     private int numPop;
 
-    private float duration = 0.5f;
-    private float time = 0f;
-    private boolean next = false;
+    protected float duration = 0.5f;
+    protected float time = 0f;
+    protected boolean next = false;
 
     public TransitionState(Context context, GameState nextState) {
         this(context, nextState, 1);

@@ -63,7 +63,8 @@ class LevelSelectState extends GameState {
         page = level / pageSize;
 
         levelData = context.gameData.getMapData(area);
-        numLevels = levelData.size();
+        if (area == Area.TUTORIAL) numLevels = 4;
+        else numLevels = levelData.size();
         maxPages = MathUtils.ceil(1f * numLevels / pageSize);
 
         diamond = context.getImage("leveldiamondicon");
@@ -170,7 +171,7 @@ class LevelSelectState extends GameState {
             this.level = level;
             updateLevelSelectedBorder();
             ignoreInput = true;
-            context.gsm.push(new TransitionState(context, new PlayState(context, area, level)));
+            context.gsm.push(new CheckeredTransitionState(context, new PlayState(context, area, level)));
         }
     }
 
