@@ -26,6 +26,18 @@ public class Animation {
         this.repeatCount = repeatCount;
     }
 
+    public Animation(TextureRegion sprite) {
+        this(sprite, 1f / 60f);
+    }
+
+    public Animation(TextureRegion sprite, float delay) {
+        this(sprite, delay, -1);
+    }
+
+    public Animation(TextureRegion sprite, float delay, int repeatCount) {
+        this(new TextureRegion[] { sprite }, delay, repeatCount);
+    }
+
     public int currentFrame() {
         return frameIndex;
     }

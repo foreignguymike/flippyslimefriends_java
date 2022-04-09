@@ -17,6 +17,7 @@ public class Context {
     public GSM gsm;
     public GameData gameData;
     public ScoreHandler scoreHandler;
+    public PlayerDataHandler playerDataHandler;
 
     public Context() {
         assets = new AssetManager();
@@ -38,7 +39,7 @@ public class Context {
         }
 
         scoreHandler = new ScoreHandler(this);
-        scoreHandler.load();
+        playerDataHandler = new PlayerDataHandler();
     }
 
     public TextureRegion getImage(String key) {

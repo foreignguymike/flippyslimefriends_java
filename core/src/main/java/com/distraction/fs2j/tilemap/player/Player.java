@@ -10,12 +10,7 @@ import com.distraction.fs2j.Context;
 import com.distraction.fs2j.Utils;
 import com.distraction.fs2j.tilemap.Tile;
 import com.distraction.fs2j.tilemap.TileMap;
-import com.distraction.fs2j.tilemap.data.Area;
 import com.distraction.fs2j.tilemap.data.Direction;
-import com.distraction.fs2j.tilemap.player.accessories.Fish;
-import com.distraction.fs2j.tilemap.player.accessories.HeadBubble;
-import com.distraction.fs2j.tilemap.player.accessories.SantaHat;
-import com.distraction.fs2j.tilemap.player.accessories.Sunglasses;
 import com.distraction.fs2j.tilemap.tileobjects.Arrow;
 import com.distraction.fs2j.tilemap.tileobjects.Bubble;
 import com.distraction.fs2j.tilemap.tileobjects.Ice;
@@ -41,11 +36,8 @@ public class Player extends TileObject implements Tile.TileMoveListener {
     public static final float SLIDING_MULTIPLIER = 2.5f;
 
     public static final String IDLE = "idle";
-    public static final String IDLER = "idler";
     public static final String JUMP = "jump";
-    public static final String JUMPR = "jumpr";
     public static final String CROUCH = "crouch";
-    public static final String CROUCHR = "crouchr";
 
     public interface MoveListener {
         void onMoved();
@@ -415,87 +407,62 @@ public class Player extends TileObject implements Tile.TileMoveListener {
         private BreathingImage bubbleo = new BreathingImage(context.getImage("bubbledropo"));
 
         public AnimationSet animationSet = new AnimationSet();
-        private List<Accessory> accessories = new ArrayList<>();
+        public AnimationSet faceSet = new AnimationSet();
+
+        public Skin skin;
+        public Face face;
+        public List<AccessoryType> accessoryTypes = new ArrayList<>();
+        public List<Accessory> accessories = new ArrayList<>();
 
         public PlayerRenderer() {
-            animationSet.addAnimation(
-                    IDLE,
-                    new Animation(
-                            context.getImage("playeridle").split(SPRITE_WIDTH, SPRITE_HEIGHT)[0],
-                            0.5f
-                    )
-            );
-            animationSet.addAnimation(
-                    IDLER,
-                    new Animation(
-                            context.getImage("playeridler").split(SPRITE_WIDTH, SPRITE_HEIGHT)[0],
-                            0.5f
-                    )
-            );
-            animationSet.addAnimation(
-                    JUMP,
-                    new Animation(
-                            context.getImage("playerjump").split(SPRITE_WIDTH, SPRITE_HEIGHT)[0],
-                            0.1f,
-                            1
-                    )
-            );
-            animationSet.addAnimation(
-                    JUMPR,
-                    new Animation(
-                            context.getImage("playerjumpr").split(SPRITE_WIDTH, SPRITE_HEIGHT)[0],
-                            0.1f,
-                            1
-                    )
-            );
-            animationSet.addAnimation(
-                    CROUCH,
-                    new Animation(
-                            context.getImage("playercrouch").split(SPRITE_WIDTH, SPRITE_HEIGHT)[0],
-                            0.1f
-                    )
-            );
-            animationSet.addAnimation(
-                    CROUCHR,
-                    new Animation(
-                            context.getImage("playercrouchr").split(SPRITE_WIDTH, SPRITE_HEIGHT)[0],
-                            0.1f
-                    )
-            );
+            setSkin(context.playerDataHandler.skin);
+            setFace(context.playerDataHandler.face);
+            accessoryTypes.addAll(context.playerDataHandler.accessories);
+            accessories = AccessoryType.loadAccessories(Player.this, accessoryTypes);
 
-            animationSet.setAnimation(IDLE);
+            setAnimation(IDLE);
+        }
 
-            if (tileMap.area == Area.MEADOW) {
-                accessories.add(new HeadBubble(Player.this));
-            } else if (tileMap.area == Area.TUNDRA) {
-                accessories.add(new SantaHat(Player.this));
-            } else if (tileMap.area == Area.RUINS) {
-                accessories.add(new HeadBubble(Player.this));
-            } else if (tileMap.area == Area.UNDERSEA) {
-                accessories.add(new HeadBubble(Player.this));
-                accessories.add(new Fish(Player.this));
-            } else if (tileMap.area == Area.MATRIX) {
-                accessories.add(new HeadBubble(Player.this));
-                accessories.add(new Sunglasses(Player.this));
-            }
+        public void setSkin(Skin skin) {
+            this.skin = skin;
+            TextureRegion[] skins = skin.getSprites(context);
+            String key = animationSet.currentAnimationKey;
+            animationSet.clear();
+            animationSet.addAnimation(IDLE, new Animation(new TextureRegion[]{skins[0], skins[1]}, 0.5f));
+            animationSet.addAnimation(JUMP, new Animation(skins[2], 0.1f, 1));
+            animationSet.addAnimation(CROUCH, new Animation(skins[3], 0.1f));
+            animationSet.setAnimation(key);
+        }
+
+        public void setFace(Face face) {
+            this.face = face;
+            TextureRegion[] faces = face.getSprites(context);
+            String key = faceSet.currentAnimationKey;
+            faceSet.clear();
+            faceSet.addAnimation(IDLE, new Animation(faces[0]));
+            faceSet.addAnimation(JUMP, new Animation(faces[1]));
+            faceSet.addAnimation(CROUCH, new Animation(faces[2]));
+            faceSet.setAnimation(key);
+        }
+
+        private void setAnimation(String key) {
+            animationSet.setAnimation(key);
+            faceSet.setAnimation(key);
         }
 
         private void updateAnimations(float dt) {
             String key = animationSet.currentAnimationKey;
-            if (sliding) animationSet.setAnimation(forward() ? CROUCH : CROUCHR);
-            else if (dropping) animationSet.setAnimation(forward() ? JUMP : JUMPR);
+            if (sliding) setAnimation(CROUCH);
+            else if (dropping) setAnimation(JUMP);
             else if (atDestination()) {
-                if (key.equals(JUMP) || key.equals(JUMPR))
-                    animationSet.setAnimation(forward() ? CROUCH : CROUCHR);
-                else if (animationSet.currentAnimation.hasPlayedOnce())
-                    animationSet.setAnimation(forward() ? IDLE : IDLER);
+                if (key.equals(JUMP)) setAnimation(CROUCH);
+                else if (animationSet.currentAnimation.hasPlayedOnce()) setAnimation(IDLE);
             } else {
-                if (key.equals(IDLE) || key.equals(IDLER))
-                    animationSet.setAnimation(forward() ? CROUCH : CROUCHR);
-                else if (key.equals(CROUCH) || key.equals(CROUCHR))
-                    animationSet.setAnimation(forward() ? JUMP : JUMPR);
+                if (key.equals(IDLE)) setAnimation(CROUCH);
+                else if (key.equals(CROUCH)) setAnimation(JUMP);
             }
             animationSet.update(dt);
+            faceSet.update(dt);
             for (Accessory it : accessories) it.update(dt);
         }
 
@@ -510,9 +477,9 @@ public class Player extends TileObject implements Tile.TileMoveListener {
 
         public void render(SpriteBatch sb) {
             tileMap.toIsometric(p.x, p.y, isop);
-            sb.setColor(1, 1, 1, 1);
             if (!teleporting) {
                 if (bubbling) {
+                    sb.setColor(1, 1, 1, 1);
                     if (!dropping) {
                         bubble.setPosition(isop.x, isop.y + p.z + 10);
                         bubble.render(sb);
@@ -529,12 +496,21 @@ public class Player extends TileObject implements Tile.TileMoveListener {
                 }
                 if (forward()) for (Accessory it : accessories) it.renderBehind(sb);
                 else for (Accessory it : accessories) it.renderFront(sb);
+                sb.setColor(1, 1, 1, 1);
                 if (right()) {
                     sb.draw(
                             animationSet.getImage(),
                             isop.x - animationSet.getImage().getRegionWidth() / 2f,
                             isop.y + p.z
                     );
+                    if (forward()) {
+                        float y = animationSet.currentAnimationKey.equals(IDLE) && animationSet.currentAnimation.currentFrame() == 1 ? -1 : 0;
+                        sb.draw(
+                                faceSet.getImage(),
+                                isop.x - faceSet.getImage().getRegionWidth() / 2f,
+                                isop.y + p.z + y
+                        );
+                    }
                 } else {
                     sb.draw(
                             animationSet.getImage(),
@@ -543,6 +519,16 @@ public class Player extends TileObject implements Tile.TileMoveListener {
                             -animationSet.getImage().getRegionWidth() * 1f,
                             animationSet.getImage().getRegionHeight() * 1f
                     );
+                    if (forward()) {
+                        float y = animationSet.currentAnimationKey.equals(IDLE) && animationSet.currentAnimation.currentFrame() == 1 ? -1 : 0;
+                        sb.draw(
+                                faceSet.getImage(),
+                                isop.x + faceSet.getImage().getRegionWidth() / 2f,
+                                isop.y + p.z + y,
+                                -faceSet.getImage().getRegionWidth() * 1f,
+                                faceSet.getImage().getRegionHeight() * 1f
+                        );
+                    }
                 }
                 if (forward()) for (Accessory it : accessories) it.renderFront(sb);
                 else for (Accessory it : accessories) it.renderBehind(sb);

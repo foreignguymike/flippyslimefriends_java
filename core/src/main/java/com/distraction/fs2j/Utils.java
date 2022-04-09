@@ -23,6 +23,10 @@ public class Utils {
 //        pixmap.dispose();
     }
 
+    public static int mod(int divided, int divisor) {
+        return (divided % divisor + divisor) % divisor;
+    }
+
     public static void setColor(SpriteBatch sb, Color c, float a) {
         sb.setColor(c.r, c.g, c.b, a);
     }

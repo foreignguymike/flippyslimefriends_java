@@ -63,7 +63,8 @@ class TutorialData {
                         },
                         1,
                         Arrays.asList(new TilePoint(1, 1)),
-                        Arrays.asList(new IceData(2, 2))
+                        Arrays.asList()
+//                        Arrays.asList(new IceData(2, 2))
                 )
         );
     }

@@ -10,27 +10,41 @@ import com.distraction.fs2j.Background;
 import com.distraction.fs2j.Constants;
 import com.distraction.fs2j.Context;
 import com.distraction.fs2j.ImageButton;
+import com.distraction.fs2j.TextButton;
 import com.distraction.fs2j.Utils;
 import com.distraction.fs2j.tilemap.TileMap;
 import com.distraction.fs2j.tilemap.data.Area;
 import com.distraction.fs2j.tilemap.data.GameColor;
+import com.distraction.fs2j.tilemap.player.AccessoryType;
+import com.distraction.fs2j.tilemap.player.Face;
 import com.distraction.fs2j.tilemap.player.Player;
+import com.distraction.fs2j.tilemap.player.Skin;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CustomizeState extends GameState {
 
     private Background bg;
 
     private TextureRegion pixel;
-    private TextureRegion face;
-    private TextureRegion skin;
-    private TextureRegion accessories;
+    private TextureRegion skinText;
+    private TextureRegion faceText;
+    private TextureRegion accessoriesText;
 
     private AccessoryIcon faceIcon;
     private AccessoryIcon skinIcon;
     private AccessoryIcon[] accessoryIcons;
 
+    private Skin skin;
+    private Face face;
+    private List<AccessoryType> accessoryTypes = new ArrayList<>();
+
     private TileMap tileMap;
     private Player player;
+    private List<Player> players;
+
+    private TextButton saveButton;
 
     private OrthographicCamera staticCam;
 
@@ -58,21 +72,31 @@ public class CustomizeState extends GameState {
 
         bg = new Background(context, context.getImage("slimebg"), GameColor.PEACH, GameColor.WHITE);
         pixel = context.getImage("pixel");
-        face = context.getImage("face");
-        skin = context.getImage("skin");
-        accessories = context.getImage("accessories");
+        skinText = context.getImage("skin");
+        faceText = context.getImage("face");
+        accessoriesText = context.getImage("accessories");
 
-        faceIcon = new AccessoryIcon(context, null, 58, 186);
-        skinIcon = new AccessoryIcon(context, null, 156, 186);
+        skinIcon = new AccessoryIcon(context, null, 73, 211);
+        faceIcon = new AccessoryIcon(context, null, 171, 211);
         accessoryIcons = new AccessoryIcon[10];
         for (int row = 0; row < 2; row++) {
             for (int col = 0; col < 5; col++) {
-                accessoryIcons[row * 5 + col] = new AccessoryIcon(context, null, 24 + col * 40, 86 - row * 40);
+                accessoryIcons[row * 5 + col] = new AccessoryIcon(context, null, 24 + col * 40, 116 - row * 40);
             }
         }
 
         tileMap = new TileMap(context, emptyTileListener, Area.TUTORIAL, 4);
         player = new Player(context, tileMap, emptyMoveListener, 0, 0, false);
+        players = new ArrayList<>();
+        players.add(player);
+
+        saveButton = new TextButton(
+                context.getImage("save"),
+                context.getImage("buttonbg"),
+                Constants.WIDTH / 4f,
+                30,
+                5f
+        );
 
         camera.position.set(-100f, player.isop.y, 0f);
         camera.update();
@@ -87,11 +111,33 @@ public class CustomizeState extends GameState {
         up = new ImageButton(context.getImage("uprightarrow"), ax + dist, ay + dist, 5f);
         right = new ImageButton(context.getImage("downrightarrow"), ax + dist, ay - dist, 5f);
         down = new ImageButton(context.getImage("downleftarrow"), ax - dist, ay - dist, 5f);
+
+        setSkin(context.playerDataHandler.skin);
+        setFace(context.playerDataHandler.face);
+    }
+
+    private void setSkin(Skin skin) {
+        this.skin = skin;
+        skinIcon.setImage(skin.getSprites(context)[0]);
+        player.playerRenderer.setSkin(skin);
+    }
+
+    private void setFace(Face face) {
+        this.face = face;
+        faceIcon.setImage(face.getSprites(context)[0]);
+        player.playerRenderer.setFace(face);
     }
 
     private void goBack() {
         ignoreInput = true;
         context.gsm.push(new TransitionState(context, new TitleState(context)));
+    }
+
+    private void save() {
+        context.playerDataHandler.save(skin);
+        context.playerDataHandler.save(face);
+        context.playerDataHandler.save(accessoryTypes);
+        goBack();
     }
 
     private void handleInput() {
@@ -125,6 +171,11 @@ public class CustomizeState extends GameState {
             up.scale = 1f;
             down.scale = 1f;
         }
+
+        if (Gdx.input.justTouched()) {
+            if (skinIcon.containsPoint(touchPoint)) setSkin(Skin.values()[(skin.ordinal() + 1) % Skin.values().length]);
+            if (saveButton.containsPoint(touchPoint)) save();
+        }
     }
 
     @Override
@@ -132,6 +183,7 @@ public class CustomizeState extends GameState {
         if (!ignoreInput) handleInput();
         bg.update(dt);
         player.update(dt);
+        tileMap.update(dt);
         camera.position.set(Utils.lerp(camera.position, player.isop.x - 120, player.isop.y, 0f, 4f * dt));
         camera.update();
     }
@@ -147,7 +199,7 @@ public class CustomizeState extends GameState {
             sb.setColor(1, 1, 1, 1);
             sb.setProjectionMatrix(camera.combined);
             tileMap.render(sb);
-            player.render(sb);
+            tileMap.renderTop(sb, players);
 
             sb.setProjectionMatrix(staticCam.combined);
             sb.setColor(GameColor.BLACK);
@@ -158,12 +210,14 @@ public class CustomizeState extends GameState {
             sb.draw(pixel, Constants.WIDTH / 2, 0, 1, Constants.HEIGHT);
 
             sb.setColor(1, 1, 1, 1);
-            sb.draw(face, 50, 230);
-            sb.draw(skin, 150, 230);
-            sb.draw(accessories, 55, 130);
+            sb.draw(skinText, 150, 230);
+            sb.draw(faceText, 50, 230);
+            sb.draw(accessoriesText, 55, 150);
 
-            faceIcon.render(sb);
+            saveButton.render(sb);
+
             skinIcon.render(sb);
+            faceIcon.render(sb);
             for (AccessoryIcon it : accessoryIcons) it.render(sb);
 
             left.render(sb);

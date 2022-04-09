@@ -3,11 +3,17 @@ package com.distraction.fs2j.tilemap.data;
 import com.badlogic.gdx.graphics.Color;
 
 public class GameColor {
-    public static final Color CALM_BLUE = new Color(72f / 255f, 139f / 255f, 212f / 255f, 1f);
-    public static final Color BRIGHT_SKY_BLUE = new Color(176 / 255f, 255 / 255f, 241 / 255f, 1f);
+    // slime colors
+    public static final Color GREEN = new Color(119 / 255f, 176 / 255f, 42 / 255f, 1f);
+    public static final Color RED = new Color(212f / 255f, 30f / 255f, 60f / 255f, 1f);
+    public static final Color BLUE = new Color(72f / 255f, 139f / 255f, 212f / 255f, 1f);
+    public static final Color YELLOW = new Color(1f, 245f / 255f, 64f / 255f, 1f);
+    public static final Color CYAN = new Color(176 / 255f, 255 / 255f, 241 / 255f, 1f);
+    public static final Color VIOLET = new Color(1f, 65f / 255f, 125f / 255f, 1f);
+
+
     public static final Color SKY_BLUE = new Color(120f / 255f, 215 / 255f, 1f, 1f);
     public static final Color TEAL = new Color(16f / 255f, 144f / 255f, 142f / 255f, 1f);
-    public static final Color GREEN = new Color(119 / 255f, 176 / 255f, 42 / 255f, 1f);
     public static final Color DARK_GREEN = new Color(66 / 255f, 144 / 255f, 88 / 255f, 1f);
     public static final Color DARK_TEAL = new Color(21f / 255f, 60 / 255f, 74 / 255f, 1f);
     public static final Color MIDNIGHT_BLUE = new Color(5 / 255f, 9 / 255f, 20 / 255f, 1f);

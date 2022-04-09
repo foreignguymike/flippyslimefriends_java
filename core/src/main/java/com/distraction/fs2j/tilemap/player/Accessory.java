@@ -9,6 +9,7 @@ import com.distraction.fs2j.Utils;
 public abstract class Accessory {
 
     public Player player;
+    public String key;
 
     protected Vector2 offset = new Vector2(0f, 15f);
 

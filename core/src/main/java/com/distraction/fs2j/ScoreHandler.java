@@ -19,13 +19,14 @@ public class ScoreHandler {
                 throw new IllegalStateException("map data for " + area + " null");
             scores.put(area, new int[context.gameData.getMapData(area).size()]);
         }
+        load();
     }
 
     private Preferences getPreferences(Area area) {
         return Gdx.app.getPreferences(area.text + "scores");
     }
 
-    public void load() {
+    private void load() {
         for (Area area : Area.values()) {
             Preferences prefs = getPreferences(area);
             int[] areaScores = getScores(area);

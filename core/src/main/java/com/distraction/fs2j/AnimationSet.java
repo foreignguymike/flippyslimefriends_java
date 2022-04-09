@@ -14,7 +14,14 @@ public class AnimationSet {
         set.put(key, value);
     }
 
+    public void clear() {
+        currentAnimation = null;
+        currentAnimationKey = null;
+        set.clear();
+    }
+
     public void setAnimation(String key) {
+        if (key == null) return;
         if (key.equals(currentAnimationKey)) return;
         Animation animation = set.get(key);
         if (animation != null) {

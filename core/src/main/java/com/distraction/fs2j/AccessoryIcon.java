@@ -14,7 +14,7 @@ public class AccessoryIcon extends ImageButton {
 
    @Override
    public void render(SpriteBatch sb) {
-      sb.draw(iconBg, pos.x - width / 2, pos.y - height / 2);
+      sb.draw(iconBg, pos.x - width / 2, pos.y - height / 2 - 5);
       super.render(sb);
    }
 }

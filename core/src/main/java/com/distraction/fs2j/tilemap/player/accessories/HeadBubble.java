@@ -14,6 +14,7 @@ public class HeadBubble extends Accessory {
         super(player);
         image = player.context.getImage("head_bubble");
         offset.x = -10f;
+        key = "headbubble";
     }
 
     @Override
@@ -21,15 +22,12 @@ public class HeadBubble extends Accessory {
         AnimationSet animationSet = player.playerRenderer.animationSet;
         switch (animationSet.currentAnimationKey) {
             case Player.IDLE:
-            case Player.IDLER:
                 offset.y = animationSet.currentAnimation.currentFrame() == 0 ? 18f : 17f;
                 break;
             case Player.CROUCH:
-            case Player.CROUCHR:
                 offset.y = 12f;
                 break;
             case Player.JUMP:
-            case Player.JUMPR:
                 offset.y = 22f;
                 break;
         }
@@ -37,6 +35,7 @@ public class HeadBubble extends Accessory {
 
     @Override
     public void renderBehind(SpriteBatch sb) {
+        sb.setColor(player.playerRenderer.skin.color);
         normalRender(sb, image);
     }
 }

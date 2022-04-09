@@ -31,14 +31,18 @@ public class ImageButton {
     }
 
     public ImageButton(TextureRegion image, float x, float y, float padding) {
+        setImage(image);
+        pos.set(x, y);
+        this.padding = padding;
+        setPosition(x, y);
+    }
+
+    public void setImage(TextureRegion image) {
         this.image = image;
         if (image != null) {
             width = image.getRegionWidth();
             height = image.getRegionHeight();
         }
-        pos.set(x, y);
-        this.padding = padding;
-        setPosition(x, y);
     }
 
     public void setPosition(float x, float y) {

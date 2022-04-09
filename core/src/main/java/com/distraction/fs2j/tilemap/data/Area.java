@@ -8,7 +8,7 @@ public enum Area {
     MEADOW("meadow", GameColor.DARK_GREEN, "meadowbg", GameColor.GREEN, "tilegrass", "tilegrass"),
     TUNDRA("tundra", GameColor.LIGHT_GRAY_PURPLE, "tundrabg", GameColor.WHITE, "tilesnow", "tilesnow"),
     RUINS("ruins", GameColor.TAN, "ruinsbg", GameColor.BRIGHT_YELLOW, "tileruins", "tileruins"),
-    UNDERSEA("undersea", GameColor.DARK_BLUE, "underseabg", GameColor.CALM_BLUE, "tilesea", "tilesea"),
+    UNDERSEA("undersea", GameColor.DARK_BLUE, "underseabg", GameColor.BLUE, "tilesea", "tilesea"),
     MATRIX("matrix", GameColor.BLACK, "matrixbg", GameColor.NEON_GREEN, "tiledark", "tiledarkoff");
 
     public String text;

@@ -16,7 +16,7 @@ public class TeleportLight extends TileObject {
 
     private TextureRegion image;
     private TextureRegion pixel;
-    private Color color = GameColor.BRIGHT_SKY_BLUE;
+    private Color color = GameColor.CYAN;
     private List<Vector3> particles;
 
     private float interval = 0.1f;

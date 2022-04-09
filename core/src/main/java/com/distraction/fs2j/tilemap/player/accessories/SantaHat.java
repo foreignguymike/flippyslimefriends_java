@@ -16,6 +16,7 @@ public class SantaHat extends Accessory {
         image = player.context.getImage("santa_hat");
         imageR = player.context.getImage("santa_hat_r");
         offset.x = -17f;
+        key = "santahat";
     }
 
     @Override
@@ -23,15 +24,12 @@ public class SantaHat extends Accessory {
         AnimationSet animationSet = player.playerRenderer.animationSet;
         switch (animationSet.currentAnimationKey) {
             case Player.IDLE:
-            case Player.IDLER:
                 offset.y = animationSet.currentAnimation.currentFrame() == 0 ? 14f : 13f;
                 break;
             case Player.CROUCH:
-            case Player.CROUCHR:
                 offset.y = 10f;
                 break;
             case Player.JUMP:
-            case Player.JUMPR:
                 offset.y = 18f;
                 break;
         }

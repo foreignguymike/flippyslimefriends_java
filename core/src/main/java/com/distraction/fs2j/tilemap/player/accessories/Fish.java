@@ -17,6 +17,7 @@ public class Fish extends Accessory {
     public Fish(Player player) {
         super(player);
         animation = new Animation(player.context.getImage("fish").split(14, 7)[0], 0.25f);
+        key = "fish";
     }
 
     @Override
