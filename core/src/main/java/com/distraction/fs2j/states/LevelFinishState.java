@@ -68,8 +68,7 @@ class LevelFinishState extends GameState {
                 Constants.WIDTH / 2f,
                 Constants.HEIGHT / 2f,
                 2f * Constants.WIDTH / 4f,
-                4f * Constants.HEIGHT / 5f + 10,
-                GameColor.DARK_BLUE
+                4f * Constants.HEIGHT / 5f + 10
         );
 
         completeImage = new ImageButton(context.getImage("complete"), Constants.WIDTH / 2f, Constants.HEIGHT - 50f);
@@ -185,7 +184,7 @@ class LevelFinishState extends GameState {
             star.alpha = alpha;
             star.scale = scale;
         }
-        Utils.lerp(camera.position, Constants.WIDTH / 2f, Constants.HEIGHT / 2f, 0f, 4f * dt);
+        Utils.lerp(camera.position, Constants.WIDTH / 2f, Constants.HEIGHT / 2f, 0f, 10f * dt);
         camera.update();
         lights.update(dt);
         diamondLights.update(dt);

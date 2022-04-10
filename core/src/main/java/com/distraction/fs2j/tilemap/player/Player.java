@@ -411,14 +411,12 @@ public class Player extends TileObject implements Tile.TileMoveListener {
 
         public Skin skin;
         public Face face;
-        public List<AccessoryType> accessoryTypes = new ArrayList<>();
         public List<Accessory> accessories = new ArrayList<>();
 
         public PlayerRenderer() {
             setSkin(context.playerDataHandler.skin);
             setFace(context.playerDataHandler.face);
-            accessoryTypes.addAll(context.playerDataHandler.accessories);
-            accessories = AccessoryType.loadAccessories(Player.this, accessoryTypes);
+            setAccessories(context.playerDataHandler.accessories);
 
             setAnimation(IDLE);
         }
@@ -443,6 +441,10 @@ public class Player extends TileObject implements Tile.TileMoveListener {
             faceSet.addAnimation(JUMP, new Animation(faces[1]));
             faceSet.addAnimation(CROUCH, new Animation(faces[2]));
             faceSet.setAnimation(key);
+        }
+
+        public void setAccessories(List<AccessoryType> accessoryTypes) {
+            accessories = AccessoryType.loadAccessories(Player.this, accessoryTypes);
         }
 
         private void setAnimation(String key) {
@@ -494,6 +496,7 @@ public class Player extends TileObject implements Tile.TileMoveListener {
                         }
                     }
                 }
+                sb.setColor(1, 1, 1, 1);
                 if (forward()) for (Accessory it : accessories) it.renderBehind(sb);
                 else for (Accessory it : accessories) it.renderFront(sb);
                 sb.setColor(1, 1, 1, 1);
@@ -530,6 +533,7 @@ public class Player extends TileObject implements Tile.TileMoveListener {
                         );
                     }
                 }
+                sb.setColor(1, 1, 1, 1);
                 if (forward()) for (Accessory it : accessories) it.renderFront(sb);
                 else for (Accessory it : accessories) it.renderBehind(sb);
                 if (selected && selectedTimer < 3 && (int) (selectedTimer * 10) % 5 < 3) {

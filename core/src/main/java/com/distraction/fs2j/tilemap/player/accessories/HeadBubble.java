@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.distraction.fs2j.AnimationSet;
 import com.distraction.fs2j.tilemap.player.Accessory;
+import com.distraction.fs2j.tilemap.player.AccessoryType;
 import com.distraction.fs2j.tilemap.player.Player;
 
 public class HeadBubble extends Accessory {
@@ -12,7 +13,7 @@ public class HeadBubble extends Accessory {
 
     public HeadBubble(Player player) {
         super(player);
-        image = player.context.getImage("head_bubble");
+        image = AccessoryType.HEAD_BUBBLE.getSprites(player.context)[0];
         offset.x = -10f;
         key = "headbubble";
     }

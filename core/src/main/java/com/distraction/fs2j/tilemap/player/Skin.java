@@ -22,8 +22,7 @@ public enum Skin {
     }
 
     public TextureRegion[] getSprites(Context context) {
-        String key = "player" + this.key;
-        return context.getImage(key).split(Player.SPRITE_WIDTH, Player.SPRITE_HEIGHT)[0];
+        return context.getImage("player" + key).split(Player.SPRITE_WIDTH, Player.SPRITE_HEIGHT)[0];
     }
 
     public static Skin find(String key) {

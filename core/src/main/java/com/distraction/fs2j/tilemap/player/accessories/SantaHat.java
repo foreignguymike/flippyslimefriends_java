@@ -4,17 +4,16 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.distraction.fs2j.AnimationSet;
 import com.distraction.fs2j.tilemap.player.Accessory;
+import com.distraction.fs2j.tilemap.player.AccessoryType;
 import com.distraction.fs2j.tilemap.player.Player;
 
 public class SantaHat extends Accessory {
 
-    private TextureRegion image;
-    private TextureRegion imageR;
+    private TextureRegion[] sprites;
 
     public SantaHat(Player player) {
         super(player);
-        image = player.context.getImage("santa_hat");
-        imageR = player.context.getImage("santa_hat_r");
+        sprites = AccessoryType.SANTA_HAT.getSprites(player.context);
         offset.x = -17f;
         key = "santahat";
     }
@@ -37,11 +36,11 @@ public class SantaHat extends Accessory {
 
     @Override
     public void renderBehind(SpriteBatch sb) {
-        if (!player.forward()) normalRender(sb, imageR);
+        if (!player.forward()) normalRender(sb, sprites[1]);
     }
 
     @Override
     public void renderFront(SpriteBatch sb) {
-        if (player.forward()) normalRender(sb, image);
+        if (player.forward()) normalRender(sb, sprites[0]);
     }
 }

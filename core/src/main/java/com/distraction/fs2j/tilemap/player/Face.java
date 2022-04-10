@@ -16,8 +16,7 @@ public enum Face {
     }
 
     public TextureRegion[] getSprites(Context context) {
-        String key = "face" + this.key;
-        return context.getImage(key).split(Player.SPRITE_WIDTH, Player.SPRITE_HEIGHT)[0];
+        return context.getImage("face" + key).split(Player.SPRITE_WIDTH, Player.SPRITE_HEIGHT)[0];
     }
 
     public static Face find(String key) {

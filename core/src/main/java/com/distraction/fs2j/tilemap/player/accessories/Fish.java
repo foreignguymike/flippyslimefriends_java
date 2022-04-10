@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.distraction.fs2j.Animation;
 import com.distraction.fs2j.tilemap.player.Accessory;
+import com.distraction.fs2j.tilemap.player.AccessoryType;
 import com.distraction.fs2j.tilemap.player.Player;
 
 public class Fish extends Accessory {
@@ -16,7 +17,7 @@ public class Fish extends Accessory {
 
     public Fish(Player player) {
         super(player);
-        animation = new Animation(player.context.getImage("fish").split(14, 7)[0], 0.25f);
+        animation = new Animation(AccessoryType.FISH.getSprites(player.context), 0.25f);
         key = "fish";
     }
 
@@ -35,6 +36,7 @@ public class Fish extends Accessory {
     public void renderBehind(SpriteBatch sb) {
         Vector3 isop = player.isop;
         if (player.forward() && !right || !player.forward() && right) {
+            sb.setColor(1, 1, 1, 1);
             sb.draw(
                     animation.getImage(),
                     isop.x + offset.x,
@@ -49,6 +51,7 @@ public class Fish extends Accessory {
     public void renderFront(SpriteBatch sb) {
         Vector3 isop = player.isop;
         if (player.forward() && right || !player.forward() && !right) {
+            sb.setColor(1, 1, 1, 1);
             sb.draw(
                     animation.getImage(),
                     isop.x + offset.x,

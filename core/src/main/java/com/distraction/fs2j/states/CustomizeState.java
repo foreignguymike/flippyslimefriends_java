@@ -21,6 +21,8 @@ import com.distraction.fs2j.tilemap.player.Player;
 import com.distraction.fs2j.tilemap.player.Skin;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class CustomizeState extends GameState {
@@ -28,9 +30,9 @@ public class CustomizeState extends GameState {
     private Background bg;
 
     private TextureRegion pixel;
-    private TextureRegion skinText;
-    private TextureRegion faceText;
-    private TextureRegion accessoriesText;
+    private ImageButton skinText;
+    private ImageButton faceText;
+    private ImageButton accessoriesText;
 
     private AccessoryIcon faceIcon;
     private AccessoryIcon skinIcon;
@@ -38,7 +40,7 @@ public class CustomizeState extends GameState {
 
     private Skin skin;
     private Face face;
-    private List<AccessoryType> accessoryTypes = new ArrayList<>();
+    private AccessoryType[] accessoryTypes;
 
     private TileMap tileMap;
     private Player player;
@@ -70,27 +72,41 @@ public class CustomizeState extends GameState {
     protected CustomizeState(Context context) {
         super(context);
 
-        bg = new Background(context, context.getImage("slimebg"), GameColor.PEACH, GameColor.WHITE);
-        pixel = context.getImage("pixel");
-        skinText = context.getImage("skin");
-        faceText = context.getImage("face");
-        accessoriesText = context.getImage("accessories");
-
-        skinIcon = new AccessoryIcon(context, null, 71, 208);
-        skinIcon.setOffset(0, 4);
-        faceIcon = new AccessoryIcon(context, null, 173, 208);
-        faceIcon.setOffset(-1, 6);
-        accessoryIcons = new AccessoryIcon[10];
-        for (int row = 0; row < 2; row++) {
-            for (int col = 0; col < 5; col++) {
-                accessoryIcons[row * 5 + col] = new AccessoryIcon(context, null, 42 + col * 40, 128 - row * 40);
-            }
-        }
-
         tileMap = new TileMap(context, emptyTileListener, Area.TUTORIAL, 4);
         player = new Player(context, tileMap, emptyMoveListener, 0, 0, false);
         players = new ArrayList<>();
         players.add(player);
+
+        bg = new Background(context, context.getImage("slimebg"), GameColor.PEACH, GameColor.WHITE);
+        pixel = context.getImage("pixel");
+        skinText = new ImageButton(context.getImage("skin"), Constants.WIDTH / 6, 245);
+        faceText = new ImageButton(context.getImage("face"), 2 * Constants.WIDTH / 6, 245);
+        accessoriesText = new ImageButton(context.getImage("accessories"), Constants.WIDTH / 4, 165);
+
+        skinIcon = new AccessoryIcon(context, null, skinText.pos.x, skinText.pos.y - 33);
+        skinIcon.setOffset(0, 4);
+        faceIcon = new AccessoryIcon(context, null, faceText.pos.x, faceText.pos.y - 33);
+        faceIcon.setOffset(-1, 6);
+        accessoryTypes = new AccessoryType[10];
+        accessoryIcons = new AccessoryIcon[10];
+        int r = 2;
+        int c = 5;
+        int p = 5;
+        int w = 30;
+        int tw = w * c + p * (c - 1);
+        float s = accessoriesText.pos.x - tw / 2f + w / 2f;
+        for (int row = 0; row < r; row++) {
+            for (int col = 0; col < c; col++) {
+                int i = row * c + col;
+                accessoryIcons[i] = new AccessoryIcon(context, null,
+                        s + col * (w + p),
+                        accessoriesText.pos.y - 33 - row * (w + p)
+                );
+                if (i < context.playerDataHandler.accessories.size()) {
+                    setAccessory(context.playerDataHandler.accessories.get(i), i);
+                }
+            }
+        }
 
         saveButton = new TextButton(
                 context.getImage("save"),
@@ -118,16 +134,41 @@ public class CustomizeState extends GameState {
         setFace(context.playerDataHandler.face);
     }
 
-    private void setSkin(Skin skin) {
+    private void openSkinSelect() {
+        ignoreInput = true;
+        context.gsm.push(new SkinSelectState(context, this));
+        context.gsm.depth++;
+    }
+
+    private void openFaceSelect() {
+        ignoreInput = true;
+        context.gsm.push(new FaceSelectState(context, this));
+        context.gsm.depth++;
+    }
+
+    private void openAccessorySelect(int index) {
+        ignoreInput = true;
+        context.gsm.push(new AccessorySelectState(context, this, index, accessoryTypes));
+        context.gsm.depth++;
+    }
+
+    public void setSkin(Skin skin) {
         this.skin = skin;
         skinIcon.setIconImage(skin.getSprites(context)[0]);
         player.playerRenderer.setSkin(skin);
     }
 
-    private void setFace(Face face) {
+    public void setFace(Face face) {
         this.face = face;
         faceIcon.setIconImage(face.getSprites(context)[0]);
         player.playerRenderer.setFace(face);
+    }
+
+    public void setAccessory(AccessoryType accessoryType, int index) {
+        accessoryTypes[index] = accessoryType;
+        if (accessoryType == null) accessoryIcons[index].setIconImage(null);
+        else accessoryIcons[index].setIconImage(accessoryType.getSprites(context)[0]);
+        player.playerRenderer.setAccessories(new ArrayList<>(Arrays.asList(accessoryTypes)));
     }
 
     private void goBack() {
@@ -138,7 +179,9 @@ public class CustomizeState extends GameState {
     private void save() {
         context.playerDataHandler.save(skin);
         context.playerDataHandler.save(face);
-        context.playerDataHandler.save(accessoryTypes);
+        List<AccessoryType> list = new ArrayList<>(Arrays.asList(accessoryTypes));
+        list.removeAll(Collections.singleton(null));
+        context.playerDataHandler.save(list);
         goBack();
     }
 
@@ -175,8 +218,12 @@ public class CustomizeState extends GameState {
         }
 
         if (Gdx.input.justTouched()) {
-            if (skinIcon.containsPoint(touchPoint)) setSkin(Skin.values()[(skin.ordinal() + 1) % Skin.values().length]);
-            if (faceIcon.containsPoint(touchPoint)) setFace(Face.values()[(face.ordinal() + 1) % Face.values().length]);
+            if (skinIcon.containsPoint(touchPoint)) openSkinSelect();
+            if (faceIcon.containsPoint(touchPoint)) openFaceSelect();
+            for (int i = 0; i < accessoryIcons.length; i++) {
+                if (accessoryIcons[i].containsPoint(touchPoint)) openAccessorySelect(i);
+            }
+
             if (saveButton.containsPoint(touchPoint)) save();
         }
     }
@@ -213,9 +260,9 @@ public class CustomizeState extends GameState {
             sb.draw(pixel, Constants.WIDTH / 2, 0, 1, Constants.HEIGHT);
 
             sb.setColor(1, 1, 1, 1);
-            sb.draw(skinText, 50, 230);
-            sb.draw(faceText, 150, 230);
-            sb.draw(accessoriesText, 60, 150);
+            skinText.render(sb);
+            faceText.render(sb);
+            accessoriesText.render(sb);
 
             saveButton.render(sb);
 

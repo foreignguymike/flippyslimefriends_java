@@ -84,14 +84,12 @@ public class ImageButton {
         if (image != null) {
             float scaledWidth = width * scale;
             float scaledHeight = height * scale;
-            float temp = sb.getColor().a;
             Utils.setAlpha(sb, alpha);
             if (flipped) {
                 Utils.drawHFlip(sb, image, pos.x + scaledWidth / 2, pos.y - scaledHeight / 2, scaledWidth, scaledHeight);
             } else {
                 sb.draw(image, pos.x - scaledWidth / 2, pos.y - scaledHeight / 2, scaledWidth, scaledHeight);
             }
-            Utils.setAlpha(sb, temp);
         }
     }
 

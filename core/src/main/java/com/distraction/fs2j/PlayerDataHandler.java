@@ -8,6 +8,7 @@ import com.distraction.fs2j.tilemap.player.Skin;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Handles player customization persistence.
@@ -57,6 +58,9 @@ public class PlayerDataHandler {
                 accessories.add(AccessoryType.find(it));
             }
         }
+        System.out.println("loaded skin " + skin.key);
+        System.out.println("loaded face " + face.key);
+        System.out.println("loading accessories [" + accessories.stream().map(it -> it.key).collect(Collectors.joining(",")) + "]");
     }
 
     public void save(Skin skin) {
@@ -80,11 +84,13 @@ public class PlayerDataHandler {
         Preferences prefs = getPrefs();
         StringBuilder keys = new StringBuilder();
         for (int i = 0; i < accessoryTypes.size(); i++) {
-            keys.append(accessoryTypes.get(i).key);
-            if (i < accessoryTypes.size() - 1) keys.append(",");
+            if (accessoryTypes.get(i) != null) {
+                keys.append(accessoryTypes.get(i).key);
+                if (i < accessoryTypes.size() - 1) keys.append(",");
+            }
         }
         prefs.putString(ACCESSORIES_KEY, keys.toString());
-        System.out.println("saving accessories " + keys);
+        System.out.println("saving accessories [" + keys + "]");
         prefs.flush();
         accessories.clear();
         accessories.addAll(accessoryTypes);

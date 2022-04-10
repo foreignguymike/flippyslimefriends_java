@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
+import java.lang.reflect.Array;
+
 public class Utils {
 
     public static void takeScreenshot() {
@@ -25,6 +27,11 @@ public class Utils {
 
     public static int mod(int divided, int divisor) {
         return (divided % divisor + divisor) % divisor;
+    }
+
+    public static <T> boolean contains(T[] arr, T val) {
+        for (T it : arr) if (it == val) return true;
+        return false;
     }
 
     public static void setColor(SpriteBatch sb, Color c, float a) {

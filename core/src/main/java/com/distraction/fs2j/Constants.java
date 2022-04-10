@@ -12,4 +12,6 @@ public class Constants {
 
     public static final String VERSION = "v0.0.001";
 
+    public static final boolean FULLSCREEN = false;
+
 }

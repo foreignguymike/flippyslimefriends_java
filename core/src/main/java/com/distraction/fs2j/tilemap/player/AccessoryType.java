@@ -1,5 +1,7 @@
 package com.distraction.fs2j.tilemap.player;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.distraction.fs2j.Context;
 import com.distraction.fs2j.tilemap.player.accessories.Fish;
 import com.distraction.fs2j.tilemap.player.accessories.HeadBubble;
 import com.distraction.fs2j.tilemap.player.accessories.SantaHat;
@@ -7,18 +9,27 @@ import com.distraction.fs2j.tilemap.player.accessories.Sunglasses;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public enum AccessoryType {
 
-    FISH("fish"),
+    FISH("fish", 14, 7),
     HEAD_BUBBLE("headbubble"),
-    SANTA_HAT("santahat"),
-    SUNGLASSES("sunglasses");
+    SANTA_HAT("santahat", 27, 20),
+    SUNGLASSES("sunglasses", 22, 7);
 
     public String key;
+    private int width = -1;
+    private int height = -1;
 
     AccessoryType(String key) {
         this.key = key;
+    }
+
+    AccessoryType(String key, int width, int height) {
+        this.key = key;
+        this.width = width;
+        this.height = height;
     }
 
     public static AccessoryType find(String key) {
@@ -35,5 +46,10 @@ public enum AccessoryType {
             if (it == SUNGLASSES) accessories.add(new Sunglasses(player));
         }
         return accessories;
+    }
+
+    public TextureRegion[] getSprites(Context context) {
+        if (width == -1 || height == -1) return new TextureRegion[] { context.getImage("acc" + key) };
+        else return context.getImage("acc" + key).split(width, height)[0];
     }
 }

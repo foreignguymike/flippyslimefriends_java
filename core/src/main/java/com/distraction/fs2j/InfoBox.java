@@ -18,7 +18,7 @@ public class InfoBox extends ImageButton {
     private float bottom;
 
     public InfoBox(Context context, float x, float y, float width, float height) {
-        this(context, x, y, width, height, GameColor.PURPLE);
+        this(context, x, y, width, height, GameColor.DARK_BLUE);
     }
 
     public InfoBox(Context context, float x, float y, float width, float height, Color color) {

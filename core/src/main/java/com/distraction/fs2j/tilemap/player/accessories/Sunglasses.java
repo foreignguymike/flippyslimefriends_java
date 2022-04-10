@@ -4,17 +4,16 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.distraction.fs2j.AnimationSet;
 import com.distraction.fs2j.tilemap.player.Accessory;
+import com.distraction.fs2j.tilemap.player.AccessoryType;
 import com.distraction.fs2j.tilemap.player.Player;
 
 public class Sunglasses extends Accessory {
 
-    private TextureRegion image;
-    private TextureRegion imageR;
+    private TextureRegion[] sprites;
 
     public Sunglasses(Player player) {
         super(player);
-        image = player.context.getImage("sunglasses");
-        imageR = player.context.getImage("sunglasses_r");
+        sprites = AccessoryType.SUNGLASSES.getSprites(player.context);
         key = "sunglasses";
     }
 
@@ -41,11 +40,11 @@ public class Sunglasses extends Accessory {
 
     @Override
     public void renderBehind(SpriteBatch sb) {
-        if (!player.forward()) normalRender(sb, imageR);
+        if (!player.forward()) normalRender(sb, sprites[1]);
     }
 
     @Override
     public void renderFront(SpriteBatch sb) {
-        if (player.forward()) normalRender(sb, image);
+        if (player.forward()) normalRender(sb, sprites[0]);
     }
 }

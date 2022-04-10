@@ -8,6 +8,7 @@ public class AccessoryIcon extends ImageButton {
 
     private TextureRegion iconImage;
     private Vector2 offset = new Vector2();
+    public boolean disabled = false;
 
     public AccessoryIcon(Context context, TextureRegion image, float x, float y) {
         super(context.getImage("accessoryiconbg"), x, y);
@@ -24,6 +25,8 @@ public class AccessoryIcon extends ImageButton {
 
     @Override
     public void render(SpriteBatch sb) {
+        if (disabled) sb.setColor(0.5f, 0.5f, 0.5f, 1f);
+        else sb.setColor(1, 1, 1, 1);
         super.render(sb);
         if (iconImage != null) {
             sb.draw(iconImage, pos.x - width / 2 + offset.x, pos.y - height / 2 + offset.y);
