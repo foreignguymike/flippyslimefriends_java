@@ -13,14 +13,16 @@ import java.util.stream.Collectors;
 
 public enum AccessoryType {
 
-    FISH("fish", 14, 7),
-    HEAD_BUBBLE("headbubble"),
-    SANTA_HAT("santahat", 27, 20),
-    SUNGLASSES("sunglasses", 22, 7);
+    FISH("fish", 14, 7, 8, 11),
+    HEAD_BUBBLE("headbubble", 10f, 8f),
+    SANTA_HAT("santahat", 27, 20, 1, 4),
+    SUNGLASSES("sunglasses", 22, 7, 3, 11);
 
     public String key;
     private int width = -1;
     private int height = -1;
+    public float xoffset = 0;
+    public float yoffset = 0;
 
     AccessoryType(String key) {
         this.key = key;
@@ -30,6 +32,20 @@ public enum AccessoryType {
         this.key = key;
         this.width = width;
         this.height = height;
+    }
+
+    AccessoryType(String key, float xoffset, float yoffset) {
+        this.key = key;
+        this.xoffset = xoffset;
+        this.yoffset = yoffset;
+    }
+
+    AccessoryType(String key, int width, int height, float xoffset, float yoffset) {
+        this.key = key;
+        this.width = width;
+        this.height = height;
+        this.xoffset = xoffset;
+        this.yoffset = yoffset;
     }
 
     public static AccessoryType find(String key) {

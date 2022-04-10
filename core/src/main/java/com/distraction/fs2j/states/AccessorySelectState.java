@@ -60,7 +60,7 @@ class AccessorySelectState extends GameState {
                         s + col * (w + p),
                         sy - row * (w + p) + 10
                 );
-                accessoryIcons[i].setOffset(-1, 6);
+                accessoryIcons[i].setOffset(accessoryTypes[i].xoffset, accessoryTypes[i].yoffset);
                 if (Utils.contains(alreadySelected, accessoryTypes[i])) {
                     accessoryIcons[i].disabled = true;
                 }

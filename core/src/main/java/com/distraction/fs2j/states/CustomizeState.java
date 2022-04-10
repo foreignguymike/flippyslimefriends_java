@@ -166,8 +166,13 @@ public class CustomizeState extends GameState {
 
     public void setAccessory(AccessoryType accessoryType, int index) {
         accessoryTypes[index] = accessoryType;
-        if (accessoryType == null) accessoryIcons[index].setIconImage(null);
-        else accessoryIcons[index].setIconImage(accessoryType.getSprites(context)[0]);
+        if (accessoryType == null) {
+            accessoryIcons[index].setIconImage(null);
+        }
+        else {
+            accessoryIcons[index].setIconImage(accessoryType.getSprites(context)[0]);
+            accessoryIcons[index].setOffset(accessoryType.xoffset, accessoryType.yoffset);
+        }
         player.playerRenderer.setAccessories(new ArrayList<>(Arrays.asList(accessoryTypes)));
     }
 
