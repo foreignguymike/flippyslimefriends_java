@@ -76,12 +76,14 @@ public class CustomizeState extends GameState {
         faceText = context.getImage("face");
         accessoriesText = context.getImage("accessories");
 
-        skinIcon = new AccessoryIcon(context, null, 73, 211);
-        faceIcon = new AccessoryIcon(context, null, 171, 211);
+        skinIcon = new AccessoryIcon(context, null, 71, 208);
+        skinIcon.setOffset(0, 4);
+        faceIcon = new AccessoryIcon(context, null, 173, 208);
+        faceIcon.setOffset(-1, 6);
         accessoryIcons = new AccessoryIcon[10];
         for (int row = 0; row < 2; row++) {
             for (int col = 0; col < 5; col++) {
-                accessoryIcons[row * 5 + col] = new AccessoryIcon(context, null, 24 + col * 40, 116 - row * 40);
+                accessoryIcons[row * 5 + col] = new AccessoryIcon(context, null, 42 + col * 40, 128 - row * 40);
             }
         }
 
@@ -118,13 +120,13 @@ public class CustomizeState extends GameState {
 
     private void setSkin(Skin skin) {
         this.skin = skin;
-        skinIcon.setImage(skin.getSprites(context)[0]);
+        skinIcon.setIconImage(skin.getSprites(context)[0]);
         player.playerRenderer.setSkin(skin);
     }
 
     private void setFace(Face face) {
         this.face = face;
-        faceIcon.setImage(face.getSprites(context)[0]);
+        faceIcon.setIconImage(face.getSprites(context)[0]);
         player.playerRenderer.setFace(face);
     }
 
@@ -174,6 +176,7 @@ public class CustomizeState extends GameState {
 
         if (Gdx.input.justTouched()) {
             if (skinIcon.containsPoint(touchPoint)) setSkin(Skin.values()[(skin.ordinal() + 1) % Skin.values().length]);
+            if (faceIcon.containsPoint(touchPoint)) setFace(Face.values()[(face.ordinal() + 1) % Face.values().length]);
             if (saveButton.containsPoint(touchPoint)) save();
         }
     }
@@ -210,9 +213,9 @@ public class CustomizeState extends GameState {
             sb.draw(pixel, Constants.WIDTH / 2, 0, 1, Constants.HEIGHT);
 
             sb.setColor(1, 1, 1, 1);
-            sb.draw(skinText, 150, 230);
-            sb.draw(faceText, 50, 230);
-            sb.draw(accessoriesText, 55, 150);
+            sb.draw(skinText, 50, 230);
+            sb.draw(faceText, 150, 230);
+            sb.draw(accessoriesText, 60, 150);
 
             saveButton.render(sb);
 

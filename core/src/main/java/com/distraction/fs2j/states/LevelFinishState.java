@@ -185,7 +185,7 @@ class LevelFinishState extends GameState {
             star.alpha = alpha;
             star.scale = scale;
         }
-        Utils.lerp(camera.position, Constants.WIDTH / 2f, Constants.HEIGHT / 2f, 0f, 0.1f);
+        Utils.lerp(camera.position, Constants.WIDTH / 2f, Constants.HEIGHT / 2f, 0f, 4f * dt);
         camera.update();
         lights.update(dt);
         diamondLights.update(dt);

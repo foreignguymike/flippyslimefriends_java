@@ -109,13 +109,13 @@ public class HUD {
         labels[2].font.setNum(labels[2].font.num + 1);
     }
 
-    private void updateVisibility() {
+    private void updateVisibility(float dt) {
         if (hideInfo) {
-            Utils.lerp(topCam.position, Constants.WIDTH / 2f, Constants.HEIGHT / 2f - HEIGHT * 2, 0f, 0.1f);
-            Utils.lerp(bottomCam.position, Constants.WIDTH / 2f, 300f, 0f, 0.1f);
+            Utils.lerp(topCam.position, Constants.WIDTH / 2f, Constants.HEIGHT / 2f - HEIGHT * 2, 0f, 4f * dt);
+            Utils.lerp(bottomCam.position, Constants.WIDTH / 2f, 300f, 0f, 4f * dt);
         } else {
-            Utils.lerp(topCam.position, Constants.WIDTH / 2f, Constants.HEIGHT / 2f, 0f, 0.1f);
-            Utils.lerp(bottomCam.position, Constants.WIDTH / 2f, Constants.HEIGHT / 2f, 0f, 0.1f);
+            Utils.lerp(topCam.position, Constants.WIDTH / 2f, Constants.HEIGHT / 2f, 0f, 4f * dt);
+            Utils.lerp(bottomCam.position, Constants.WIDTH / 2f, Constants.HEIGHT / 2f, 0f, 4f * dt);
         }
         topCam.update();
         bottomCam.update();
@@ -163,8 +163,8 @@ public class HUD {
         }
     }
 
-    public void update() {
-        updateVisibility();
+    public void update(float dt) {
+        updateVisibility(dt);
     }
 
     public void render(SpriteBatch sb) {

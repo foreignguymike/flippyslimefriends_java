@@ -35,10 +35,6 @@ public class Utils {
         return (float) Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
     }
 
-    public static Vector3 lerp(Vector3 v, float x, float y, float z) {
-        return lerp(v, x, y, z, 0.1f);
-    }
-
     public static Vector3 lerp(Vector3 v, float x, float y, float z, float amount) {
         v.x += amount * (x - v.x);
         v.y += amount * (y - v.y);

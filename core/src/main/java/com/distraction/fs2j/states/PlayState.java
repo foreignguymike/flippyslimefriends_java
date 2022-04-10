@@ -174,7 +174,7 @@ class PlayState extends GameState implements TileMap.TileListener, Player.MoveLi
 
         bg.update(dt);
         tileMap.update(dt);
-        hud.update();
+        hud.update(dt);
     }
 
     @Override

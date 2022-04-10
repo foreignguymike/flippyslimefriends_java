@@ -4,7 +4,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.distraction.fs2j.Context;
 
 public enum Face {
-    NORMAL("normal");
+    NORMAL("normal"),
+    LASHES("lashes"),
+    COOL("cool")
+    ;
 
     public String key;
 
@@ -13,9 +16,7 @@ public enum Face {
     }
 
     public TextureRegion[] getSprites(Context context) {
-        String key = null;
-        if (this == NORMAL) key = "face1";
-        if (key == null) throw new IllegalArgumentException("invalid face sprites");
+        String key = "face" + this.key;
         return context.getImage(key).split(Player.SPRITE_WIDTH, Player.SPRITE_HEIGHT)[0];
     }
 
