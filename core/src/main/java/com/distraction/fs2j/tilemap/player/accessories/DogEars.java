@@ -1,6 +1,5 @@
 package com.distraction.fs2j.tilemap.player.accessories;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.distraction.fs2j.AnimationSet;
@@ -8,14 +7,13 @@ import com.distraction.fs2j.tilemap.player.Accessory;
 import com.distraction.fs2j.tilemap.player.AccessoryType;
 import com.distraction.fs2j.tilemap.player.Player;
 
-public class HeadBubble extends Accessory {
+public class DogEars extends Accessory {
 
     private TextureRegion image;
 
-    public HeadBubble(Player player) {
+    public DogEars(Player player) {
         super(player);
-        image = AccessoryType.HEAD_BUBBLE.getSprites(player.context)[0];
-        offset.x = -10f;
+        image = AccessoryType.DOGEARS.getSprites(player.context)[0];
     }
 
     @Override
@@ -23,22 +21,27 @@ public class HeadBubble extends Accessory {
         AnimationSet animationSet = player.playerRenderer.animationSet;
         switch (animationSet.currentAnimationKey) {
             case Player.IDLE:
-                offset.y = animationSet.currentAnimation.currentFrame() == 0 ? 18f : 17f;
+                offset.x = -15;
+                offset.y = animationSet.currentAnimation.currentFrame() == 0 ? 11f : 10f;
                 break;
             case Player.CROUCH:
-                offset.y = 12f;
+                offset.x = -18;
+                offset.y = 5f;
                 break;
             case Player.JUMP:
-                offset.y = 22f;
+                offset.x = -13;
+                offset.y = 15f;
                 break;
         }
     }
 
     @Override
-    public void renderBehind(SpriteBatch sb) {
-        Color c = sb.getColor();
-        sb.setColor(player.playerRenderer.skin.color);
+    public void renderFront(SpriteBatch sb) {
         normalRender(sb, image);
-        sb.setColor(c);
+    }
+
+    @Override
+    public void renderBehind(SpriteBatch sb) {
+        normalRender(sb, image, !player.right(), 0, 1);
     }
 }

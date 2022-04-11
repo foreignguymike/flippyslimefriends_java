@@ -47,15 +47,22 @@ public class PlayerDataHandler {
             initialize();
             return;
         }
-        skin = Skin.find(skinKey);
+        try { skin = Skin.find(skinKey); }
+        catch (Exception e) { save(Skin.GREEN); }
         String faceKey = prefs.getString(FACE_KEY);
-        face = Face.find(faceKey);
+        try { face = Face.find(faceKey); }
+        catch (Exception e) { save(Face.NORMAL); }
         String accessoryKey = prefs.getString(ACCESSORIES_KEY);
         accessories.clear();
         if (accessoryKey != null && !accessoryKey.isEmpty()) {
             String[] accessoryKeys = accessoryKey.split(",");
             for (String it : accessoryKeys) {
-                accessories.add(AccessoryType.find(it));
+                try {
+                    accessories.add(AccessoryType.find(it));
+                } catch (Exception e) {
+                    save(new ArrayList<>());
+                    break;
+                }
             }
         }
         System.out.println("loaded skin " + skin.key);

@@ -8,6 +8,7 @@ import com.distraction.fs2j.BreathingImage;
 import com.distraction.fs2j.Constants;
 import com.distraction.fs2j.Context;
 import com.distraction.fs2j.ImageButton;
+import com.distraction.fs2j.TextButton;
 import com.distraction.fs2j.Utils;
 import com.distraction.fs2j.tilemap.data.Area;
 import com.distraction.fs2j.tilemap.data.GameColor;
@@ -18,6 +19,7 @@ import java.util.List;
 public class AreaSelectState extends GameState {
 
     private float width = Constants.WIDTH / 5;
+    private TextButton backButton;
     private List<ImageButton> areaButtons;
     private BreathingImage rightArrow;
     private BreathingImage leftArrow;
@@ -31,6 +33,7 @@ public class AreaSelectState extends GameState {
     public AreaSelectState(Context context, int currentIndex) {
         super(context);
         this.currentIndex = currentIndex;
+        backButton = new TextButton(context.getImage("backicon"), context.getImage("iconbuttonbg"), 25f, Constants.HEIGHT - 25f,  5f);
 
         areaButtons = new ArrayList<>();
         for (int i = 0; i < Area.values().length; i++) {
@@ -92,8 +95,8 @@ public class AreaSelectState extends GameState {
             unprojectTouch();
             if (leftArrow.containsPoint(touchPoint)) moveLeft();
             else if (rightArrow.containsPoint(touchPoint)) moveRight();
-            else if (areaButtons.get(currentIndex).containsPoint(touchPoint))
-                goToLevelSelect();
+            else if (areaButtons.get(currentIndex).containsPoint(touchPoint)) goToLevelSelect();
+            if (backButton.containsPoint(touchPoint)) goBack();
         }
     }
 
@@ -126,6 +129,8 @@ public class AreaSelectState extends GameState {
             sb.setColor(1, 1, 1, 1);
             sb.draw(pixel, 0f, 56f, Constants.WIDTH, 1f);
             sb.draw(pixel, 0f, Constants.HEIGHT - 58f, Constants.WIDTH, 1f);
+
+            backButton.render(sb);
 
             for (int i = 0; i < currentIndex; i++) {
                 areaButtons.get(i).render(sb);

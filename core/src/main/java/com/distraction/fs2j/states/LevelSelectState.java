@@ -88,7 +88,7 @@ class LevelSelectState extends GameState {
                 0, 1f, 0.03f
         );
         levelSelectImage = context.getImage("levelselect");
-        backButton = new TextButton(context.getImage("back"), context.getImage("buttonbg"), Constants.WIDTH / 2f, 20f);
+        backButton = new TextButton(context.getImage("backicon"), context.getImage("iconbuttonbg"), 25f, Constants.HEIGHT - 25, 5f);
         staticCam = new OrthographicCamera();
         staticCam.setToOrtho(false, Constants.WIDTH, Constants.HEIGHT);
         leftButton = new BreathingImage(context.getImage("areaselectarrow"), 50f, Constants.HEIGHT / 2f, 10f);

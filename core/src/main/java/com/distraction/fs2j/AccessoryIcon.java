@@ -29,7 +29,7 @@ public class AccessoryIcon extends ImageButton {
         else sb.setColor(1, 1, 1, 1);
         super.render(sb);
         if (iconImage != null) {
-            sb.draw(iconImage, pos.x - width / 2 + offset.x, pos.y - height / 2 + offset.y);
+            sb.draw(iconImage, pos.x - iconImage.getRegionWidth() / 2f + offset.x, pos.y - iconImage.getRegionHeight() / 2f + offset.y);
         }
     }
 }

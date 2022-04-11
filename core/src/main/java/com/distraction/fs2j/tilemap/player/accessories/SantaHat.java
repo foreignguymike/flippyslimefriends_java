@@ -15,7 +15,6 @@ public class SantaHat extends Accessory {
         super(player);
         sprites = AccessoryType.SANTA_HAT.getSprites(player.context);
         offset.x = -17f;
-        key = "santahat";
     }
 
     @Override

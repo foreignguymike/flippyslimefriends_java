@@ -18,7 +18,6 @@ public class Fish extends Accessory {
     public Fish(Player player) {
         super(player);
         animation = new Animation(AccessoryType.FISH.getSprites(player.context), 0.25f);
-        key = "fish";
     }
 
     @Override

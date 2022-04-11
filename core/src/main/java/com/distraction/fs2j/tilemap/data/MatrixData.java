@@ -513,7 +513,7 @@ public class MatrixData {
                                 0, 0, 0, 0, 0,
                                 e, 0, 0, 0, e
                         },
-                        20,
+                        16,
                         Arrays.asList(new TilePoint(3, 2)),
                         Arrays.asList(
                                 new TeleportData(0, 1, 2, 4),

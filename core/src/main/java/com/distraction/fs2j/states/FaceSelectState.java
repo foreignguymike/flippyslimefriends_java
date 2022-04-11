@@ -23,7 +23,7 @@ public class FaceSelectState extends GameState {
     private InfoBox infoBox;
 
     private float cameraDest;
-    private AccessoryIcon[] accessoryIcons;
+    private AccessoryIcon[] faceIcons;
 
     private Face[] faces = Face.values();
 
@@ -39,9 +39,9 @@ public class FaceSelectState extends GameState {
         camera.update();
         cameraDest = Constants.HEIGHT / 2f;
 
-        accessoryIcons = new AccessoryIcon[faces.length];
-        int r = 1;
-        int c = 3;
+        faceIcons = new AccessoryIcon[faces.length];
+        int r = 2;
+        int c = 4;
         int p = 5;
         int w = 30;
         int tw = w * c + p * (c - 1);
@@ -51,11 +51,12 @@ public class FaceSelectState extends GameState {
         for (int row = 0; row < r; row++) {
             for (int col = 0; col < c; col++) {
                 int i = row * c + col;
-                accessoryIcons[i] = new AccessoryIcon(context, faces[i].getSprites(context)[0],
+                if (i == faceIcons.length) break;
+                faceIcons[i] = new AccessoryIcon(context, faces[i].getSprites(context)[0],
                         s + col * (w + p),
                         sy - row * (w + p)
                 );
-                accessoryIcons[i].setOffset(-1, 6);
+                faceIcons[i].setOffset(-1, 6);
             }
         }
     }
@@ -74,8 +75,8 @@ public class FaceSelectState extends GameState {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) goBack();
         if (Gdx.input.justTouched()) {
             unprojectTouch();
-            for (int i = 0; i < accessoryIcons.length; i++) {
-                if (accessoryIcons[i].containsPoint(touchPoint)) {
+            for (int i = 0; i < faceIcons.length; i++) {
+                if (faceIcons[i].containsPoint(touchPoint)) {
                     select(faces[i]);
                 }
             }
@@ -110,7 +111,7 @@ public class FaceSelectState extends GameState {
             sb.setProjectionMatrix(camera.combined);
             infoBox.render(sb);
 
-            for (AccessoryIcon it : accessoryIcons) it.render(sb);
+            for (AccessoryIcon it : faceIcons) it.render(sb);
         }
         sb.end();
     }

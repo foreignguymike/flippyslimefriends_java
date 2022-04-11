@@ -30,6 +30,9 @@ public class CustomizeState extends GameState {
     private Background bg;
 
     private TextureRegion pixel;
+
+    private TextButton backButton;
+
     private ImageButton skinText;
     private ImageButton faceText;
     private ImageButton accessoriesText;
@@ -79,6 +82,7 @@ public class CustomizeState extends GameState {
 
         bg = new Background(context, context.getImage("slimebg"), GameColor.PEACH, GameColor.WHITE);
         pixel = context.getImage("pixel");
+        backButton = new TextButton(context.getImage("backicon"), context.getImage("iconbuttonbg"), 25f, Constants.HEIGHT - 25, 5f);
         skinText = new ImageButton(context.getImage("skin"), Constants.WIDTH / 6, 245);
         faceText = new ImageButton(context.getImage("face"), 2 * Constants.WIDTH / 6, 245);
         accessoriesText = new ImageButton(context.getImage("accessories"), Constants.WIDTH / 4, 165);
@@ -215,6 +219,7 @@ public class CustomizeState extends GameState {
                 player.moveTile(0, 1);
                 right.scale = 0.75f;
             } else right.scale = 1f;
+            if (backButton.containsPoint(touchPoint)) goBack();
         } else {
             left.scale = 1f;
             right.scale = 1f;
@@ -265,6 +270,7 @@ public class CustomizeState extends GameState {
             sb.draw(pixel, Constants.WIDTH / 2, 0, 1, Constants.HEIGHT);
 
             sb.setColor(1, 1, 1, 1);
+            backButton.render(sb);
             skinText.render(sb);
             faceText.render(sb);
             accessoriesText.render(sb);

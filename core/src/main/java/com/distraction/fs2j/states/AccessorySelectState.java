@@ -45,7 +45,7 @@ class AccessorySelectState extends GameState {
         cameraDest = Constants.HEIGHT / 2f;
 
         accessoryIcons = new AccessoryIcon[accessoryTypes.length];
-        int r = 1;
+        int r = 2;
         int c = 4;
         int p = 5;
         int w = 30;
@@ -56,6 +56,9 @@ class AccessorySelectState extends GameState {
         for (int row = 0; row < r; row++) {
             for (int col = 0; col < c; col++) {
                 int i = row * c + col;
+                System.out.println("length: " + accessoryIcons.length);
+                System.out.println("current i " + i);
+                if (i == accessoryIcons.length) break;
                 accessoryIcons[i] = new AccessoryIcon(context, accessoryTypes[i].getSprites(context)[0],
                         s + col * (w + p),
                         sy - row * (w + p) + 10

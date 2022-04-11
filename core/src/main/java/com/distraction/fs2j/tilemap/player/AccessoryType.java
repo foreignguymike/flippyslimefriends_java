@@ -2,6 +2,8 @@ package com.distraction.fs2j.tilemap.player;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.distraction.fs2j.Context;
+import com.distraction.fs2j.tilemap.player.accessories.BunnyEars;
+import com.distraction.fs2j.tilemap.player.accessories.DogEars;
 import com.distraction.fs2j.tilemap.player.accessories.Fish;
 import com.distraction.fs2j.tilemap.player.accessories.HeadBubble;
 import com.distraction.fs2j.tilemap.player.accessories.SantaHat;
@@ -9,14 +11,16 @@ import com.distraction.fs2j.tilemap.player.accessories.Sunglasses;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public enum AccessoryType {
 
-    FISH("fish", 14, 7, 8, 11),
-    HEAD_BUBBLE("headbubble", 10f, 8f),
-    SANTA_HAT("santahat", 27, 20, 1, 4),
-    SUNGLASSES("sunglasses", 22, 7, 3, 11);
+    FISH("fish", 14, 7),
+    HEAD_BUBBLE("headbubble"),
+    SANTA_HAT("santahat", 27, 20),
+    SUNGLASSES("sunglasses", 22, 7),
+    DOGEARS("dogears", 10, 10),
+    BUNNYEARS("bunnyears", 8, 16)
+    ;
 
     public String key;
     private int width = -1;
@@ -50,7 +54,8 @@ public enum AccessoryType {
 
     public static AccessoryType find(String key) {
         for (AccessoryType it : values()) if (it.key.equals(key)) return it;
-        throw new IllegalArgumentException("cannot find accessory " + key);
+        System.out.println("cannot find accessory " + key);
+        throw new IllegalArgumentException();
     }
 
     public static List<Accessory> loadAccessories(Player player, List<AccessoryType> accessoryTypes) {
@@ -60,6 +65,8 @@ public enum AccessoryType {
             if (it == HEAD_BUBBLE) accessories.add(new HeadBubble(player));
             if (it == SANTA_HAT) accessories.add(new SantaHat(player));
             if (it == SUNGLASSES) accessories.add(new Sunglasses(player));
+            if (it == DOGEARS) accessories.add(new DogEars(player));
+            if (it == BUNNYEARS) accessories.add(new BunnyEars(player));
         }
         return accessories;
     }

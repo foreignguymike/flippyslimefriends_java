@@ -14,7 +14,6 @@ public class Sunglasses extends Accessory {
     public Sunglasses(Player player) {
         super(player);
         sprites = AccessoryType.SUNGLASSES.getSprites(player.context);
-        key = "sunglasses";
     }
 
     @Override
@@ -25,15 +24,15 @@ public class Sunglasses extends Accessory {
                 if (player.forward())
                     offset.set(-11f, animationSet.currentAnimation.currentFrame() == 0 ? 8f : 7f);
                 else
-                    offset.set(5f, animationSet.currentAnimation.currentFrame() == 0 ? 12f : 11f);
+                    offset.set(-11f, animationSet.currentAnimation.currentFrame() == 0 ? 12f : 11f);
                 break;
             case Player.CROUCH:
-                if (player.forward()) offset.set(-11f, 5f);
-                else offset.set(5f, 8f);
+                if (player.forward()) offset.set(-10f, 5f);
+                else offset.set(-11f, 8f);
                 break;
             case Player.JUMP:
                 if (player.forward()) offset.set(-11f, 12f);
-                else offset.set(5f, 12f);
+                else offset.set(-11f, 14f);
                 break;
         }
     }

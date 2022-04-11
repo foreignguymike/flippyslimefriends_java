@@ -6,7 +6,12 @@ import com.distraction.fs2j.Context;
 public enum Face {
     NORMAL("normal"),
     LASHES("lashes"),
-    COOL("cool")
+    COOL("cool"),
+    DOG("dog"),
+    STARE("stare"),
+    BUNNY("bunny"),
+    SLEEP("sleep"),
+    EMIL("emil")
     ;
 
     public String key;
@@ -21,6 +26,7 @@ public enum Face {
 
     public static Face find(String key) {
         for (Face it : values()) if (it.key.equals(key)) return it;
-        throw new IllegalArgumentException("cannot find face " + key);
+        System.out.println("cannot find face " + key);
+        throw new IllegalArgumentException();
     }
 }

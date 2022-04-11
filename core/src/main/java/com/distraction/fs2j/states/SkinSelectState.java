@@ -23,7 +23,7 @@ public class SkinSelectState extends GameState {
     private InfoBox infoBox;
 
     private float cameraDest;
-    private AccessoryIcon[] accessoryIcons;
+    private AccessoryIcon[] skinIcons;
 
     private Skin[] skins = Skin.values();
 
@@ -39,9 +39,9 @@ public class SkinSelectState extends GameState {
         camera.update();
         cameraDest = Constants.HEIGHT / 2f;
 
-        accessoryIcons = new AccessoryIcon[skins.length];
+        skinIcons = new AccessoryIcon[skins.length];
         int r = 2;
-        int c = 3;
+        int c = 5;
         int p = 5;
         int w = 30;
         int tw = w * c + p * (c - 1);
@@ -51,11 +51,12 @@ public class SkinSelectState extends GameState {
         for (int row = 0; row < r; row++) {
             for (int col = 0; col < c; col++) {
                 int i = row * c + col;
-                accessoryIcons[i] = new AccessoryIcon(context, skins[i].getSprites(context)[0],
+                if (i == skinIcons.length) break;
+                skinIcons[i] = new AccessoryIcon(context, skins[i].getSprites(context)[0],
                         s + col * (w + p),
                         sy - row * (w + p)
                 );
-                accessoryIcons[i].setOffset(0, 4);
+                skinIcons[i].setOffset(0, 4);
             }
         }
     }
@@ -74,8 +75,8 @@ public class SkinSelectState extends GameState {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) goBack();
         if (Gdx.input.justTouched()) {
             unprojectTouch();
-            for (int i = 0; i < accessoryIcons.length; i++) {
-                if (accessoryIcons[i].containsPoint(touchPoint)) {
+            for (int i = 0; i < skinIcons.length; i++) {
+                if (skinIcons[i].containsPoint(touchPoint)) {
                     select(skins[i]);
                 }
             }
@@ -110,7 +111,7 @@ public class SkinSelectState extends GameState {
             sb.setProjectionMatrix(camera.combined);
             infoBox.render(sb);
 
-            for (AccessoryIcon it : accessoryIcons) it.render(sb);
+            for (AccessoryIcon it : skinIcons) it.render(sb);
         }
         sb.end();
     }

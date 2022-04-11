@@ -9,7 +9,6 @@ import com.distraction.fs2j.Utils;
 public abstract class Accessory {
 
     public Player player;
-    public String key;
 
     protected Vector2 offset = new Vector2(0f, 15f);
 
@@ -31,8 +30,12 @@ public abstract class Accessory {
     }
 
     protected void normalRender(SpriteBatch sb, TextureRegion image, boolean right) {
+        normalRender(sb, image, right, 0, 0);
+    }
+
+    protected void normalRender(SpriteBatch sb, TextureRegion image, boolean right, float xo, float yo) {
         Vector3 isop = player.isop;
-        if (right) sb.draw(image, isop.x + offset.x, isop.y + player.p.z + offset.y);
-        else Utils.drawHFlip(sb, image, isop.x - offset.x, isop.y + player.p.z + offset.y);
+        if (right) sb.draw(image, isop.x + offset.x + xo, isop.y + player.p.z + offset.y + yo);
+        else Utils.drawHFlip(sb, image, isop.x - offset.x + xo, isop.y + player.p.z + offset.y + yo);
     }
 }
