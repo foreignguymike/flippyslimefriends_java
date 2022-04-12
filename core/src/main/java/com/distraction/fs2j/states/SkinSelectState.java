@@ -44,7 +44,7 @@ public class SkinSelectState extends GameState {
 
         skinIcons = new AccessoryIcon[skins.length];
         int r = 2;
-        int c = 5;
+        int c = 6;
         int p = 5;
         int w = 30;
         int tw = w * c + p * (c - 1);
@@ -85,7 +85,7 @@ public class SkinSelectState extends GameState {
         if (Gdx.input.justTouched()) {
             unprojectTouch();
             for (int i = 0; i < skinIcons.length; i++) {
-                if (skinIcons[i].containsPoint(touchPoint) && !skinIcons[i].disabled) {
+                if (skinIcons[i].containsPoint(touchPoint) && !skinIcons[i].disabled && !skinIcons[i].locked) {
                     select(skins[i]);
                 }
             }

@@ -6,13 +6,13 @@ import com.distraction.fs2j.AnimationSet;
 import com.distraction.fs2j.tilemap.player.AccessoryType;
 import com.distraction.fs2j.tilemap.player.Player;
 
-public class WhiteHeadband extends Accessory {
+public class Headband extends Accessory {
 
     private TextureRegion[] sprites;
 
-    public WhiteHeadband(Player player) {
+    public Headband(Player player, AccessoryType type) {
         super(player);
-        sprites = AccessoryType.WHITEHEADBAND.getSprites(player.context);
+        sprites = type.getSprites(player.context);
     }
 
     @Override
@@ -26,7 +26,7 @@ public class WhiteHeadband extends Accessory {
                 offset.y = 6f;
                 break;
             case Player.JUMP:
-                offset.y = 15f;
+                offset.y = 13f;
                 break;
         }
         offset.x = player.forward() ? -17f : -15f;

@@ -12,7 +12,7 @@ public class WizardHat extends Accessory {
 
     public WizardHat(Player player) {
         super(player);
-        image = AccessoryType.WIZARDHAT.getSprites(player.context)[0];
+        image = AccessoryType.WIZARD_HAT.getSprites(player.context)[0];
         offset.x = -15f;
     }
 

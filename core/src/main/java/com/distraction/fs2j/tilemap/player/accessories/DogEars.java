@@ -12,7 +12,7 @@ public class DogEars extends Accessory {
 
     public DogEars(Player player) {
         super(player);
-        image = AccessoryType.DOGEARS.getSprites(player.context)[0];
+        image = AccessoryType.DOG_EARS.getSprites(player.context)[0];
     }
 
     @Override

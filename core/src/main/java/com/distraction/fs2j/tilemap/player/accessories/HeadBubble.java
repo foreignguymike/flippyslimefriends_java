@@ -3,18 +3,22 @@ package com.distraction.fs2j.tilemap.player.accessories;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector3;
 import com.distraction.fs2j.AnimationSet;
+import com.distraction.fs2j.Utils;
 import com.distraction.fs2j.tilemap.player.AccessoryType;
 import com.distraction.fs2j.tilemap.player.Player;
 
 public class HeadBubble extends Accessory {
 
     private TextureRegion image;
+    private TextureRegion pixel;
 
     public HeadBubble(Player player) {
         super(player);
-        image = AccessoryType.HEADBUBBLE.getSprites(player.context)[0];
+        image = AccessoryType.HEAD_BUBBLE.getSprites(player.context)[0];
         offset.x = -10f;
+        pixel = player.context.getImage("pixel");
     }
 
     @Override
@@ -38,6 +42,10 @@ public class HeadBubble extends Accessory {
         Color c = sb.getColor();
         sb.setColor(player.playerRenderer.skin.color);
         normalRender(sb, image);
+        sb.setColor(1, 1, 1, 1);
+        Vector3 isop = player.isop;
+        if (player.right()) sb.draw(pixel, isop.x + offset.x + 2, isop.y + player.p.z + offset.y + 11);
+        else sb.draw(pixel, isop.x + offset.x + 17, isop.y + player.p.z + offset.y + 11);
         sb.setColor(c);
     }
 }

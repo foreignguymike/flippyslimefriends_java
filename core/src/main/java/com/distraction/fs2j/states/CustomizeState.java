@@ -218,7 +218,7 @@ public class CustomizeState extends GameState {
         if (selectedAccessoryIndex == -1) return;
         int targetIndex = selectedAccessoryIndex + amount;
         if (targetIndex < 0 || targetIndex >= accessoryIcons.length) return;
-        if (accessoryIcons[targetIndex].disabled) return;
+        if (accessoryIcons[targetIndex].locked) return;
 
         AccessoryType temp = accessoryTypes[selectedAccessoryIndex];
         setAccessory(accessoryTypes[targetIndex], selectedAccessoryIndex);
@@ -280,10 +280,10 @@ public class CustomizeState extends GameState {
         }
 
         if (Gdx.input.justTouched()) {
-            if (skinIcon.containsPoint(touchPoint) && !skinIcon.disabled) openSkinSelect();
-            if (faceIcon.containsPoint(touchPoint) && !faceIcon.disabled) openFaceSelect();
+            if (skinIcon.containsPoint(touchPoint)) openSkinSelect();
+            if (faceIcon.containsPoint(touchPoint)) openFaceSelect();
             for (int i = 0; i < accessoryIcons.length; i++) {
-                if (accessoryIcons[i].containsPoint(touchPoint) && !accessoryIcons[i].disabled)
+                if (accessoryIcons[i].containsPoint(touchPoint) && !accessoryIcons[i].locked)
                     openAccessorySelect(i);
             }
             if (shiftLeft.scale == 0.75f) shiftAccessory(-1);

@@ -16,6 +16,7 @@ public class AccessoryIcon extends ImageButton {
     private TextureRegion iconImage;
     private Vector2 offset = new Vector2();
     public boolean disabled = false;
+    public boolean locked = false;
 
     // requirements
     private TextureRegion star;
@@ -42,13 +43,13 @@ public class AccessoryIcon extends ImageButton {
     public void setStars(int stars) {
         this.stars = stars;
         starFont.setNum(stars);
-        disabled = context.scoreHandler.getNumStars() < stars || context.scoreHandler.getNumDiamonds() < diamonds;
+        locked = context.scoreHandler.getNumStars() < stars || context.scoreHandler.getNumDiamonds() < diamonds;
     }
 
     public void setDiamonds(int diamonds) {
         this.diamonds = diamonds;
         diamondFont.setNum(diamonds);
-        disabled = context.scoreHandler.getNumStars() < stars || context.scoreHandler.getNumDiamonds() < diamonds;
+        locked = context.scoreHandler.getNumStars() < stars || context.scoreHandler.getNumDiamonds() < diamonds;
     }
 
     public void setType(Customizer type) {
@@ -70,21 +71,18 @@ public class AccessoryIcon extends ImageButton {
 
     @Override
     public void render(SpriteBatch sb) {
-        if (disabled) sb.setColor(0.5f, 0.5f, 0.5f, 1f);
+        if (disabled || locked) sb.setColor(0.5f, 0.5f, 0.5f, 1f);
         else sb.setColor(1, 1, 1, 1);
         super.render(sb);
 
-        if (disabled) {
+        if (locked) {
             sb.setColor(1, 1, 1, 1);
             if (stars > 0) {
-                Utils.drawCentered(sb, star, pos.x, pos.y + 4);
-                starFont.render(sb, pos.x, pos.y - 6);
+                Utils.drawCentered(sb, star, pos.x, pos.y + 6);
+                starFont.render(sb, pos.x, pos.y - 7);
             } else if (diamonds > 0) {
                 Utils.drawCentered(sb, diamond, pos.x, pos.y + 6);
                 diamondFont.render(sb, pos.x, pos.y - 6);
-            } else if (iconImage != null) {
-                sb.setColor(0.5f, 0.5f, 0.5f, 1);
-                sb.draw(iconImage, pos.x - iconImage.getRegionWidth() / 2f + offset.x, pos.y - iconImage.getRegionHeight() / 2f + offset.y);
             }
         } else if (iconImage != null) {
             sb.draw(iconImage, pos.x - iconImage.getRegionWidth() / 2f + offset.x, pos.y - iconImage.getRegionHeight() / 2f + offset.y);

@@ -14,7 +14,7 @@ public class BunnyEars extends Accessory {
 
     public BunnyEars(Player player) {
         super(player);
-        sprites = AccessoryType.BUNNYEARS.getSprites(player.context);
+        sprites = AccessoryType.BUNNY_EARS.getSprites(player.context);
     }
 
     @Override

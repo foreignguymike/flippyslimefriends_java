@@ -19,7 +19,7 @@ public class WoodStaff extends Accessory {
 
     public WoodStaff(Player player) {
         super(player);
-        image = AccessoryType.WOODSTAFF.getSprites(player.context)[0];
+        image = AccessoryType.WOOD_STAFF.getSprites(player.context)[0];
     }
 
     @Override

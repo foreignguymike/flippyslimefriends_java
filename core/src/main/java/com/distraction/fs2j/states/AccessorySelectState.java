@@ -56,7 +56,7 @@ class AccessorySelectState extends GameState {
 
         accessoryIcons = new AccessoryIcon[accessoryTypes.length];
         int r = 3;
-        int c = 4;
+        int c = 6;
         int p = 5;
         int w = 30;
         int tw = w * c + p * (c - 1);
@@ -85,7 +85,6 @@ class AccessorySelectState extends GameState {
         diamond = new ImageButton(context.getImage("diamondunlock"));
         diamondFont = new NumberFont(context, false, NumberFont.NumberSize.LARGE);
         diamondFont.setNum(context.scoreHandler.getNumDiamonds());
-        System.out.println(diamondFont.getTotalWidth());
         diamond.setPosition((Constants.WIDTH - diamondFont.getTotalWidth()) / 2f - 3, infoBox.pos.y + infoBox.height / 2 - 20);
     }
 
@@ -104,7 +103,7 @@ class AccessorySelectState extends GameState {
         if (Gdx.input.justTouched()) {
             unprojectTouch();
             for (int i = 0; i < accessoryIcons.length; i++) {
-                if (accessoryIcons[i].containsPoint(touchPoint) && !accessoryIcons[i].disabled) {
+                if (accessoryIcons[i].containsPoint(touchPoint) && !accessoryIcons[i].disabled && !accessoryIcons[i].locked) {
                     select(accessoryTypes[i]);
                 }
             }

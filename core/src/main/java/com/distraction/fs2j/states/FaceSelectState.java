@@ -44,7 +44,7 @@ public class FaceSelectState extends GameState {
 
         faceIcons = new AccessoryIcon[faces.length];
         int r = 2;
-        int c = 4;
+        int c = 6;
         int p = 5;
         int w = 30;
         int tw = w * c + p * (c - 1);
@@ -85,7 +85,7 @@ public class FaceSelectState extends GameState {
         if (Gdx.input.justTouched()) {
             unprojectTouch();
             for (int i = 0; i < faceIcons.length; i++) {
-                if (faceIcons[i].containsPoint(touchPoint) && !faceIcons[i].disabled) {
+                if (faceIcons[i].containsPoint(touchPoint) && !faceIcons[i].disabled && !faceIcons[i].locked) {
                     select(faces[i]);
                 }
             }

@@ -3,14 +3,15 @@ package com.distraction.fs2j.tilemap.player;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.distraction.fs2j.Context;
 import com.distraction.fs2j.Logging;
+import com.distraction.fs2j.Utils;
 import com.distraction.fs2j.tilemap.player.accessories.Accessory;
 import com.distraction.fs2j.tilemap.player.accessories.BunnyEars;
 import com.distraction.fs2j.tilemap.player.accessories.DogEars;
 import com.distraction.fs2j.tilemap.player.accessories.Fish;
 import com.distraction.fs2j.tilemap.player.accessories.HeadBubble;
+import com.distraction.fs2j.tilemap.player.accessories.Headband;
 import com.distraction.fs2j.tilemap.player.accessories.SantaHat;
 import com.distraction.fs2j.tilemap.player.accessories.Sunglasses;
-import com.distraction.fs2j.tilemap.player.accessories.WhiteHeadband;
 import com.distraction.fs2j.tilemap.player.accessories.WizardHat;
 import com.distraction.fs2j.tilemap.player.accessories.WoodStaff;
 
@@ -19,15 +20,32 @@ import java.util.List;
 
 public enum AccessoryType implements Customizer {
 
-    HEADBUBBLE("headbubble"),
-    WHITEHEADBAND("whiteheadband", 10, 30, 10),
-    SANTAHAT("santahat", 20, 27, 20),
-    WIZARDHAT("wizardhat", 30),
+    HEAD_BUBBLE("headbubble"),
+    HEADBAND_WHITE("headbandwhite", 10, 30, 10),
+    HEADBAND_BLUE("headbandblue", 10, 30, 10),
+    HEADBAND_GREEN("headbandgreen", 10, 30, 10),
+    HEADBAND_RED("headbandred", 10, 30, 10),
+    SANTA_HAT("santahat", 20, 27, 20),
+    HEADBAND_ORANGE("headbandorange", 25, 30, 10),
+    WIZARD_HAT("wizardhat", 30),
+    HEADBAND_YELLOW("headbandyellow", 35, 30, 10),
     SUNGLASSES("sunglasses", 40, 22, 7),
-    DOGEARS("dogears", 50, 10, 10),
-    WOODSTAFF("woodstaff", 65),
-    BUNNYEARS("bunnyears", 100, 8, 16),
-    FISH("fish", 120, 14, 7);
+    DOG_EARS("dogears", 50, 10, 10),
+    HEADBAND_BLACK("headbandblack", 50, 30, 10),
+    WOOD_STAFF("woodstaff", 65),
+    HEADBAND_BLACK_YELLOW_TRIM("headbandblackyellowtrim", 80, 30, 10),
+    BUNNY_EARS("bunnyears", 100, 8, 16),
+    HEADBAND_COBRA_KAI("headbandcobrakai", 100, 30, 10),
+    FISH("fish", 120, 14, 7),
+    HEADBAND_MIYAGI("headbandmiyagi", 150, 30, 10),
+    ;
+
+    private static final AccessoryType[] headbands = new AccessoryType[] {
+            HEADBAND_BLUE, HEADBAND_WHITE, HEADBAND_GREEN, HEADBAND_RED, HEADBAND_ORANGE, HEADBAND_YELLOW, HEADBAND_BLACK,
+            HEADBAND_BLACK_YELLOW_TRIM,
+            HEADBAND_COBRA_KAI, HEADBAND_MIYAGI
+
+    };
 
     public String key;
     private int diamond = 0;
@@ -87,14 +105,14 @@ public enum AccessoryType implements Customizer {
         List<Accessory> accessories = new ArrayList<>();
         for (AccessoryType it : accessoryTypes) {
             if (it == FISH) accessories.add(new Fish(player));
-            else if (it == HEADBUBBLE) accessories.add(new HeadBubble(player));
-            else if (it == SANTAHAT) accessories.add(new SantaHat(player));
+            else if (it == HEAD_BUBBLE) accessories.add(new HeadBubble(player));
+            else if (it == SANTA_HAT) accessories.add(new SantaHat(player));
             else if (it == SUNGLASSES) accessories.add(new Sunglasses(player));
-            else if (it == DOGEARS) accessories.add(new DogEars(player));
-            else if (it == BUNNYEARS) accessories.add(new BunnyEars(player));
-            else if (it == WIZARDHAT) accessories.add(new WizardHat(player));
-            else if (it == WOODSTAFF) accessories.add(new WoodStaff(player));
-            else if (it == WHITEHEADBAND) accessories.add(new WhiteHeadband(player));
+            else if (it == DOG_EARS) accessories.add(new DogEars(player));
+            else if (it == BUNNY_EARS) accessories.add(new BunnyEars(player));
+            else if (it == WIZARD_HAT) accessories.add(new WizardHat(player));
+            else if (it == WOOD_STAFF) accessories.add(new WoodStaff(player));
+            else if (Utils.contains(headbands, it)) accessories.add(new Headband(player, it));
         }
         return accessories;
     }

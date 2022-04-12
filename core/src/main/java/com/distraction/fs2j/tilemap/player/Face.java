@@ -12,7 +12,8 @@ public enum Face implements Customizer {
     DOG("dog", 40),
     BUNNY("bunny", 50),
     STARE("stare", 80),
-    EMIL("emil", 100);
+    EYE("eye", 100),
+    EMIL("emil", 200);
 
     public String key;
     private int diamond;
