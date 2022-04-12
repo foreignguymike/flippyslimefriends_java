@@ -496,9 +496,14 @@ public class Player extends TileObject implements Tile.TileMoveListener {
                         }
                     }
                 }
+
+                // draw accessories behind player first
+                // these have to go in reverse order since accessories are ordered by distance to center of player
                 sb.setColor(1, 1, 1, 1);
-                if (forward()) for (Accessory it : accessories) it.renderBehind(sb);
-                else for (Accessory it : accessories) it.renderFront(sb);
+                if (forward()) for (int i = accessories.size() - 1; i >= 0; i--) accessories.get(i).renderBehind(sb);
+                else for (int i = accessories.size() - 1; i >= 0; i--) accessories.get(i).renderFront(sb);
+
+                // draw player with face
                 sb.setColor(1, 1, 1, 1);
                 if (right()) {
                     sb.draw(
@@ -533,9 +538,12 @@ public class Player extends TileObject implements Tile.TileMoveListener {
                         );
                     }
                 }
+
+                // draw accessories in front of player
                 sb.setColor(1, 1, 1, 1);
                 if (forward()) for (Accessory it : accessories) it.renderFront(sb);
                 else for (Accessory it : accessories) it.renderBehind(sb);
+
                 if (selected && selectedTimer < 3 && (int) (selectedTimer * 10) % 5 < 3) {
                     sb.draw(
                             pointerImage,
