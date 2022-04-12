@@ -19,9 +19,15 @@ public abstract class Accessory {
     public void update(float dt) {
     }
 
+    /**
+     * Render things that should go behind the player in game space.
+     */
     public void renderBehind(SpriteBatch sb) {
     }
 
+    /**
+     * Render things that should go in front of the player in game space.
+     */
     public void renderFront(SpriteBatch sb) {
     }
 

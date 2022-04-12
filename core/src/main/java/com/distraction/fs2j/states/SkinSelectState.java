@@ -52,7 +52,7 @@ public class SkinSelectState extends GameState {
             for (int col = 0; col < c; col++) {
                 int i = row * c + col;
                 if (i == skinIcons.length) break;
-                skinIcons[i] = new AccessoryIcon(context, skins[i].getSprites(context)[0],
+                skinIcons[i] = new AccessoryIcon(context, skins[i],
                         s + col * (w + p),
                         sy - row * (w + p)
                 );

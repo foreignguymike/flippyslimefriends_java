@@ -52,7 +52,7 @@ public class FaceSelectState extends GameState {
             for (int col = 0; col < c; col++) {
                 int i = row * c + col;
                 if (i == faceIcons.length) break;
-                faceIcons[i] = new AccessoryIcon(context, faces[i].getSprites(context)[0],
+                faceIcons[i] = new AccessoryIcon(context, faces[i],
                         s + col * (w + p),
                         sy - row * (w + p)
                 );

@@ -8,14 +8,14 @@ import com.distraction.fs2j.tilemap.player.Accessory;
 import com.distraction.fs2j.tilemap.player.AccessoryType;
 import com.distraction.fs2j.tilemap.player.Player;
 
-public class HeadBubble extends Accessory {
+public class WizardHat extends Accessory {
 
     private TextureRegion image;
 
-    public HeadBubble(Player player) {
+    public WizardHat(Player player) {
         super(player);
-        image = AccessoryType.HEADBUBBLE.getSprites(player.context)[0];
-        offset.x = -10f;
+        image = AccessoryType.WIZARDHAT.getSprites(player.context)[0];
+        offset.x = -15f;
     }
 
     @Override
@@ -23,22 +23,24 @@ public class HeadBubble extends Accessory {
         AnimationSet animationSet = player.playerRenderer.animationSet;
         switch (animationSet.currentAnimationKey) {
             case Player.IDLE:
-                offset.y = animationSet.currentAnimation.currentFrame() == 0 ? 18f : 17f;
+                offset.y = animationSet.currentAnimation.currentFrame() == 0 ? 14f : 13f;
                 break;
             case Player.CROUCH:
-                offset.y = 12f;
+                offset.y = 10f;
                 break;
             case Player.JUMP:
-                offset.y = 22f;
+                offset.y = 18f;
                 break;
         }
     }
 
-    @Override
-    public void renderBehind(SpriteBatch sb) {
-        Color c = sb.getColor();
-        sb.setColor(player.playerRenderer.skin.color);
-        normalRender(sb, image);
-        sb.setColor(c);
-    }
+   @Override
+   public void renderFront(SpriteBatch sb) {
+      normalRender(sb, image);
+   }
+
+   @Override
+   public void renderBehind(SpriteBatch sb) {
+      normalRender(sb, image);
+   }
 }

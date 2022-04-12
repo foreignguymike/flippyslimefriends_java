@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.distraction.fs2j.AccessoryIcon;
 import com.distraction.fs2j.Background;
+import com.distraction.fs2j.BreathingImage;
 import com.distraction.fs2j.Constants;
 import com.distraction.fs2j.Context;
 import com.distraction.fs2j.ImageButton;
@@ -40,6 +41,11 @@ public class CustomizeState extends GameState {
     private AccessoryIcon faceIcon;
     private AccessoryIcon skinIcon;
     private AccessoryIcon[] accessoryIcons;
+
+    private int selectedAccessoryIndex = -1;
+    private BreathingImage selectedBorder;
+    private ImageButton shiftLeft;
+    private ImageButton shiftRight;
 
     private Skin skin;
     private Face face;
@@ -111,6 +117,9 @@ public class CustomizeState extends GameState {
                 }
             }
         }
+        selectedBorder = new BreathingImage(context.getImage("levelselectedborder"), -100, -100, 0, 1f, 0.03f);
+        shiftLeft = new ImageButton(context.getImage("shiftleft"), Constants.WIDTH / 4 - 15, accessoryIcons[accessoryIcons.length - 1].pos.y - 35, 10);
+        shiftRight = new ImageButton(context.getImage("shiftright"), Constants.WIDTH / 4 + 15, accessoryIcons[accessoryIcons.length - 1].pos.y - 35, 10);
 
         saveButton = new TextButton(
                 context.getImage("save"),
@@ -151,33 +160,50 @@ public class CustomizeState extends GameState {
     }
 
     private void openAccessorySelect(int index) {
+        setSelectedIndex(index);
         ignoreInput = true;
-        context.gsm.push(new AccessorySelectState(context, this, index, accessoryTypes));
+        context.gsm.push(new AccessorySelectState(context, this, index, accessoryTypes[index], accessoryTypes));
         context.gsm.depth++;
+    }
+
+    private void setSelectedIndex(int index) {
+        selectedAccessoryIndex = index;
+        if (index == -1) selectedBorder.setPosition(-100f, -100f);
+        else selectedBorder.setPosition(accessoryIcons[index].pos.x, accessoryIcons[index].pos.y);
     }
 
     public void setSkin(Skin skin) {
         this.skin = skin;
-        skinIcon.setIconImage(skin.getSprites(context)[0]);
+        skinIcon.setType(skin);
         player.playerRenderer.setSkin(skin);
     }
 
     public void setFace(Face face) {
         this.face = face;
-        faceIcon.setIconImage(face.getSprites(context)[0]);
+        faceIcon.setType(face);
         player.playerRenderer.setFace(face);
     }
 
     public void setAccessory(AccessoryType accessoryType, int index) {
         accessoryTypes[index] = accessoryType;
-        if (accessoryType == null) {
-            accessoryIcons[index].setIconImage(null);
-        }
-        else {
-            accessoryIcons[index].setIconImage(accessoryType.getSprites(context)[0]);
+        accessoryIcons[index].setType(accessoryType);
+        if (accessoryType != null) {
             accessoryIcons[index].setOffset(accessoryType.xoffset, accessoryType.yoffset);
+        } else {
+            setSelectedIndex(-1);
         }
         player.playerRenderer.setAccessories(new ArrayList<>(Arrays.asList(accessoryTypes)));
+    }
+
+    private void shiftAccessory(int amount) {
+        if (selectedAccessoryIndex == -1) return;
+        int targetIndex = selectedAccessoryIndex + amount;
+        if (targetIndex < 0 || targetIndex >= accessoryIcons.length) return;
+
+        AccessoryType temp = accessoryTypes[selectedAccessoryIndex];
+        setAccessory(accessoryTypes[targetIndex], selectedAccessoryIndex);
+        setAccessory(temp, targetIndex);
+        setSelectedIndex(targetIndex);
     }
 
     private void goBack() {
@@ -219,12 +245,18 @@ public class CustomizeState extends GameState {
                 player.moveTile(0, 1);
                 right.scale = 0.75f;
             } else right.scale = 1f;
+            if (shiftLeft.containsPoint(touchPoint)) shiftLeft.scale = 0.75f;
+            else shiftLeft.scale = 1f;
+            if (shiftRight.containsPoint(touchPoint)) shiftRight.scale = 0.75f;
+            else shiftRight.scale = 1f;
             if (backButton.containsPoint(touchPoint)) goBack();
         } else {
             left.scale = 1f;
             right.scale = 1f;
             up.scale = 1f;
             down.scale = 1f;
+            shiftLeft.scale = 1f;
+            shiftRight.scale = 1f;
         }
 
         if (Gdx.input.justTouched()) {
@@ -233,6 +265,8 @@ public class CustomizeState extends GameState {
             for (int i = 0; i < accessoryIcons.length; i++) {
                 if (accessoryIcons[i].containsPoint(touchPoint)) openAccessorySelect(i);
             }
+            if (shiftLeft.scale == 0.75f) shiftAccessory(-1);
+            if (shiftRight.scale == 0.75f) shiftAccessory(1);
 
             if (saveButton.containsPoint(touchPoint)) save();
         }
@@ -246,6 +280,7 @@ public class CustomizeState extends GameState {
         tileMap.update(dt);
         camera.position.set(Utils.lerp(camera.position, player.isop.x - 120, player.isop.y, 0f, 4f * dt));
         camera.update();
+        selectedBorder.update(dt);
     }
 
     @Override
@@ -280,6 +315,9 @@ public class CustomizeState extends GameState {
             skinIcon.render(sb);
             faceIcon.render(sb);
             for (AccessoryIcon it : accessoryIcons) it.render(sb);
+            selectedBorder.render(sb);
+            shiftLeft.render(sb);
+            shiftRight.render(sb);
 
             left.render(sb);
             up.render(sb);

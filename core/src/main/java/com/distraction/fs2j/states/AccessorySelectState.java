@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.distraction.fs2j.AccessoryIcon;
+import com.distraction.fs2j.BreathingImage;
 import com.distraction.fs2j.Constants;
 import com.distraction.fs2j.Context;
 import com.distraction.fs2j.InfoBox;
@@ -18,9 +19,11 @@ class AccessorySelectState extends GameState {
 
     private CustomizeState customizeState;
     private int accessoryIndex;
+    private AccessoryType replacing;
     private AccessoryType[] alreadySelected;
 
     private TextureRegion pixel;
+    private BreathingImage selectedBorder;
 
     private float alpha = 0f;
     private InfoBox infoBox;
@@ -31,12 +34,14 @@ class AccessorySelectState extends GameState {
 
     private TextButton xbutton;
 
-    protected AccessorySelectState(Context context, CustomizeState customizeState, int accessoryIndex, AccessoryType[] alreadySelected) {
+    protected AccessorySelectState(Context context, CustomizeState customizeState, int accessoryIndex, AccessoryType replacing, AccessoryType[] alreadySelected) {
         super(context);
         this.customizeState = customizeState;
         this.accessoryIndex = accessoryIndex;
+        this.replacing = replacing;
         this.alreadySelected = alreadySelected;
         this.accessoryTypes = AccessoryType.values();
+        selectedBorder = new BreathingImage(context.getImage("levelselectedborder"), -100, -100, 0, 1f, 0.03f);
 
         pixel = context.getImage("pixel");
 
@@ -56,16 +61,16 @@ class AccessorySelectState extends GameState {
         for (int row = 0; row < r; row++) {
             for (int col = 0; col < c; col++) {
                 int i = row * c + col;
-                System.out.println("length: " + accessoryIcons.length);
-                System.out.println("current i " + i);
                 if (i == accessoryIcons.length) break;
-                accessoryIcons[i] = new AccessoryIcon(context, accessoryTypes[i].getSprites(context)[0],
-                        s + col * (w + p),
-                        sy - row * (w + p) + 10
-                );
+                float x = s + col * (w + p);
+                float y = sy - row * (w + p) + 10;
+                accessoryIcons[i] = new AccessoryIcon(context, accessoryTypes[i], x, y);
                 accessoryIcons[i].setOffset(accessoryTypes[i].xoffset, accessoryTypes[i].yoffset);
-                if (Utils.contains(alreadySelected, accessoryTypes[i])) {
+                if (accessoryTypes[i] != replacing && Utils.contains(alreadySelected, accessoryTypes[i])) {
                     accessoryIcons[i].disabled = true;
+                }
+                if (accessoryTypes[i] == replacing) {
+                    selectedBorder.setPosition(x, y);
                 }
             }
         }
@@ -111,6 +116,7 @@ class AccessorySelectState extends GameState {
         else alpha += 2 * dt;
         if (alpha < 0) alpha = 0;
         if (alpha > MAX_ALPHA) alpha = MAX_ALPHA;
+        selectedBorder.update(dt);
     }
 
     @Override
@@ -127,6 +133,7 @@ class AccessorySelectState extends GameState {
             for (AccessoryIcon it : accessoryIcons) it.render(sb);
             sb.setColor(1, 1, 1, 1);
             xbutton.render(sb);
+            selectedBorder.render(sb);
         }
         sb.end();
     }

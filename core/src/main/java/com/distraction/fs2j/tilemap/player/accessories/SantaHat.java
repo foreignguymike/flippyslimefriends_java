@@ -13,7 +13,7 @@ public class SantaHat extends Accessory {
 
     public SantaHat(Player player) {
         super(player);
-        sprites = AccessoryType.SANTA_HAT.getSprites(player.context);
+        sprites = AccessoryType.SANTAHAT.getSprites(player.context);
         offset.x = -17f;
     }
 

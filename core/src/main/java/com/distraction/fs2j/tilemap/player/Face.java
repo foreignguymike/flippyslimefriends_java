@@ -2,22 +2,28 @@ package com.distraction.fs2j.tilemap.player;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.distraction.fs2j.Context;
+import com.distraction.fs2j.Logging;
 
-public enum Face {
+public enum Face implements Customizer {
     NORMAL("normal"),
     LASHES("lashes"),
-    COOL("cool"),
-    DOG("dog"),
-    STARE("stare"),
-    BUNNY("bunny"),
-    SLEEP("sleep"),
-    EMIL("emil")
-    ;
+    SLEEP("sleep", 10),
+    COOL("cool", 20),
+    DOG("dog", 40),
+    BUNNY("bunny", 50),
+    STARE("stare", 80),
+    EMIL("emil", 100);
 
     public String key;
+    public int diamond;
 
     Face(String key) {
         this.key = key;
+    }
+
+    Face(String key, int diamond) {
+        this.key = key;
+        this.diamond = diamond;
     }
 
     public TextureRegion[] getSprites(Context context) {
@@ -26,7 +32,7 @@ public enum Face {
 
     public static Face find(String key) {
         for (Face it : values()) if (it.key.equals(key)) return it;
-        System.out.println("cannot find face " + key);
+        Logging.error("cannot find face " + key);
         throw new IllegalArgumentException();
     }
 }

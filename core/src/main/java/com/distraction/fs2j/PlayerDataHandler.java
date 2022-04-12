@@ -47,11 +47,17 @@ public class PlayerDataHandler {
             initialize();
             return;
         }
-        try { skin = Skin.find(skinKey); }
-        catch (Exception e) { save(Skin.GREEN); }
+        try {
+            skin = Skin.find(skinKey);
+        } catch (Exception e) {
+            save(Skin.GREEN);
+        }
         String faceKey = prefs.getString(FACE_KEY);
-        try { face = Face.find(faceKey); }
-        catch (Exception e) { save(Face.NORMAL); }
+        try {
+            face = Face.find(faceKey);
+        } catch (Exception e) {
+            save(Face.NORMAL);
+        }
         String accessoryKey = prefs.getString(ACCESSORIES_KEY);
         accessories.clear();
         if (accessoryKey != null && !accessoryKey.isEmpty()) {
@@ -65,15 +71,15 @@ public class PlayerDataHandler {
                 }
             }
         }
-        System.out.println("loaded skin " + skin.key);
-        System.out.println("loaded face " + face.key);
-        System.out.println("loading accessories [" + accessories.stream().map(it -> it.key).collect(Collectors.joining(",")) + "]");
+        Logging.info("loaded skin " + skin.key);
+        Logging.info("loaded face " + face.key);
+        Logging.info("loading accessories [" + accessories.stream().map(it -> it.key).collect(Collectors.joining(",")) + "]");
     }
 
     public void save(Skin skin) {
         Preferences prefs = getPrefs();
         prefs.putString(SKIN_KEY, skin.key);
-        System.out.println("saving skin " + skin.key);
+        Logging.info("saving skin " + skin.key);
         prefs.flush();
         this.skin = skin;
     }
@@ -81,7 +87,7 @@ public class PlayerDataHandler {
     public void save(Face face) {
         Preferences prefs = getPrefs();
         prefs.putString(FACE_KEY, face.key);
-        System.out.println("saving face " + face.key);
+        Logging.info("saving face " + face.key);
         prefs.flush();
         load();
         this.face = face;
@@ -97,7 +103,7 @@ public class PlayerDataHandler {
             }
         }
         prefs.putString(ACCESSORIES_KEY, keys.toString());
-        System.out.println("saving accessories [" + keys + "]");
+        Logging.info("saving accessories [" + keys + "]");
         prefs.flush();
         accessories.clear();
         accessories.addAll(accessoryTypes);

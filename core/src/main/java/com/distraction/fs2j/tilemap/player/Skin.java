@@ -3,26 +3,33 @@ package com.distraction.fs2j.tilemap.player;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.distraction.fs2j.Context;
+import com.distraction.fs2j.Logging;
 import com.distraction.fs2j.tilemap.data.GameColor;
 
-public enum Skin {
+public enum Skin implements Customizer {
     GREEN("green", GameColor.LIME_GREEN),
     RED("red", GameColor.RED_ORANGE),
     BLUE("blue", GameColor.BLUE),
-    YELLOW("yellow", GameColor.YELLOW),
-    CYAN("cyan", GameColor.CYAN),
-    VIOLET("violet", GameColor.VIOLET),
-    EGG("egg", GameColor.LIGHT_GRAY),
-    BROWNFUR("brownfur", GameColor.TAN),
-    WHITEFUR("whitefur", GameColor.WHITE)
-    ;
+    VIOLET("violet", GameColor.VIOLET, 15),
+    CYAN("cyan", GameColor.CYAN, 30),
+    EGG("egg", GameColor.LIGHT_GRAY, 40),
+    YELLOW("yellow", GameColor.YELLOW, 50),
+    BROWNFUR("brownfur", GameColor.TAN, 60),
+    WHITEFUR("whitefur", GameColor.WHITE, 100);
 
     public String key;
     public Color color;
+    public int diamond;
 
     Skin(String key, Color color) {
         this.key = key;
         this.color = color;
+    }
+
+    Skin(String key, Color color, int diamond) {
+        this.key = key;
+        this.color = color;
+        this.diamond = diamond;
     }
 
     public TextureRegion[] getSprites(Context context) {
@@ -31,7 +38,7 @@ public enum Skin {
 
     public static Skin find(String key) {
         for (Skin it : values()) if (it.key.equals(key)) return it;
-        System.out.println("cannot find skin " + key);
-        throw new IllegalArgumentException("cannot find skin " + key);
+        Logging.info("cannot find skin " + key);
+        throw new IllegalArgumentException();
     }
 }

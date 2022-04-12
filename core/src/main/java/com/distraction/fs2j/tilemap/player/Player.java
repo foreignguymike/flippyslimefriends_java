@@ -53,7 +53,7 @@ public class Player extends TileObject implements Tile.TileMoveListener {
 
     private float jumpHeight = 40f;
     private float totalDist = 0f;
-    private boolean moving = false;
+    public boolean moving = false;
     private boolean sliding = false;
     private boolean superjump = false;
     private boolean teleporting = false;
