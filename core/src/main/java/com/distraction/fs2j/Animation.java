@@ -35,7 +35,7 @@ public class Animation {
     }
 
     public Animation(TextureRegion sprite, float delay, int repeatCount) {
-        this(new TextureRegion[] { sprite }, delay, repeatCount);
+        this(new TextureRegion[]{sprite}, delay, repeatCount);
     }
 
     public int currentFrame() {

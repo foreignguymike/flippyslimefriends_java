@@ -48,6 +48,10 @@ public class NumberFont {
         this.num = num;
     }
 
+    public int getTotalWidth() {
+        return length;
+    }
+
     public void render(SpriteBatch sb, float x, float y) {
         if (num < 0) {
             if (centerAlign) sb.draw(nan, x - length / 2f, y - nan.getRegionHeight() / 2f);

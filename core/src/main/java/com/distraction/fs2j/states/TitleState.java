@@ -16,6 +16,8 @@ public class TitleState extends GameState {
     private TextButton playButton;
     private TextButton customizeButton;
 
+    private int unlockCount = 0;
+
     public TitleState(Context context) {
         super(context);
 
@@ -39,6 +41,11 @@ public class TitleState extends GameState {
     private void handleInput() {
         if (Gdx.input.justTouched()) {
             unprojectTouch();
+            if (title.containsPoint(touchPoint)) {
+                unlockCount++;
+                if (unlockCount == 5) Utils.UNLOCK_ALL = true;
+            } else unlockCount = 0;
+
             if (playButton.containsPoint(touchPoint)) goToAreaSelect();
             if (customizeButton.containsPoint(touchPoint)) goToCustomize();
         }

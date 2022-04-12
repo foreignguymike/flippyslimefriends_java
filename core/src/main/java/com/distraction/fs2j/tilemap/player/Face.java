@@ -15,7 +15,7 @@ public enum Face implements Customizer {
     EMIL("emil", 100);
 
     public String key;
-    public int diamond;
+    private int diamond;
 
     Face(String key) {
         this.key = key;
@@ -24,6 +24,11 @@ public enum Face implements Customizer {
     Face(String key, int diamond) {
         this.key = key;
         this.diamond = diamond;
+    }
+
+    @Override
+    public int getDiamonds() {
+        return diamond;
     }
 
     public TextureRegion[] getSprites(Context context) {

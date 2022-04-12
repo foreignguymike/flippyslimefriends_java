@@ -1,11 +1,8 @@
 package com.distraction.fs2j.states;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
-import com.distraction.fs2j.Constants;
 import com.distraction.fs2j.Context;
-import com.distraction.fs2j.Utils;
 import com.distraction.fs2j.tilemap.data.GameColor;
 
 class CheckeredTransitionState extends TransitionState {

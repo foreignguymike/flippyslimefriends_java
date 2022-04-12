@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
-import com.distraction.fs2j.tilemap.player.Accessory;
 import com.distraction.fs2j.tilemap.player.AccessoryType;
 import com.distraction.fs2j.tilemap.player.Player;
 

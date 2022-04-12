@@ -15,7 +15,6 @@ import com.distraction.fs2j.SpinningLights;
 import com.distraction.fs2j.TextButton;
 import com.distraction.fs2j.Utils;
 import com.distraction.fs2j.tilemap.data.Area;
-import com.distraction.fs2j.tilemap.data.GameColor;
 
 class LevelFinishState extends GameState {
 
@@ -131,8 +130,11 @@ class LevelFinishState extends GameState {
 
     private void goToNextLevel() {
         if (level < context.gameData.getMapData(area).size() - 1) {
-            ignoreInput = true;
-            context.gsm.push(new CheckeredTransitionState(context, new PlayState(context, area, level + 1), 2));
+            // hide secret level
+            if (area != Area.TUTORIAL && level != 4) {
+                ignoreInput = true;
+                context.gsm.push(new CheckeredTransitionState(context, new PlayState(context, area, level + 1), 2));
+            }
         }
     }
 
@@ -221,7 +223,12 @@ class LevelFinishState extends GameState {
 
             restartButton.render(sb);
             backButton.render(sb);
-            if (level < context.gameData.getMapData(area).size() - 1) nextButton.render(sb);
+            if (level < context.gameData.getMapData(area).size() - 1) {
+                // hide secret level
+                if (area != Area.TUTORIAL && level != 4) {
+                    nextButton.render(sb);
+                }
+            }
         }
         sb.end();
     }

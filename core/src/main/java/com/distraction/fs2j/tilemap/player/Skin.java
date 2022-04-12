@@ -13,13 +13,14 @@ public enum Skin implements Customizer {
     VIOLET("violet", GameColor.VIOLET, 15),
     CYAN("cyan", GameColor.CYAN, 30),
     EGG("egg", GameColor.LIGHT_GRAY, 40),
-    YELLOW("yellow", GameColor.YELLOW, 50),
-    BROWNFUR("brownfur", GameColor.TAN, 60),
+    LIGHTBLUE("lightblue", GameColor.SKY_BLUE, 50),
+    YELLOW("yellow", GameColor.YELLOW, 60),
+    BROWNFUR("brownfur", GameColor.TAN, 80),
     WHITEFUR("whitefur", GameColor.WHITE, 100);
 
     public String key;
     public Color color;
-    public int diamond;
+    private int diamond;
 
     Skin(String key, Color color) {
         this.key = key;
@@ -30,6 +31,11 @@ public enum Skin implements Customizer {
         this.key = key;
         this.color = color;
         this.diamond = diamond;
+    }
+
+    @Override
+    public int getDiamonds() {
+        return diamond;
     }
 
     public TextureRegion[] getSprites(Context context) {

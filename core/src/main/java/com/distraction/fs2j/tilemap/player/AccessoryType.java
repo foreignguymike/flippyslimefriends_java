@@ -3,12 +3,14 @@ package com.distraction.fs2j.tilemap.player;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.distraction.fs2j.Context;
 import com.distraction.fs2j.Logging;
+import com.distraction.fs2j.tilemap.player.accessories.Accessory;
 import com.distraction.fs2j.tilemap.player.accessories.BunnyEars;
 import com.distraction.fs2j.tilemap.player.accessories.DogEars;
 import com.distraction.fs2j.tilemap.player.accessories.Fish;
 import com.distraction.fs2j.tilemap.player.accessories.HeadBubble;
 import com.distraction.fs2j.tilemap.player.accessories.SantaHat;
 import com.distraction.fs2j.tilemap.player.accessories.Sunglasses;
+import com.distraction.fs2j.tilemap.player.accessories.WhiteHeadband;
 import com.distraction.fs2j.tilemap.player.accessories.WizardHat;
 import com.distraction.fs2j.tilemap.player.accessories.WoodStaff;
 
@@ -18,16 +20,17 @@ import java.util.List;
 public enum AccessoryType implements Customizer {
 
     HEADBUBBLE("headbubble"),
+    WHITEHEADBAND("whiteheadband", 10, 30, 10),
     SANTAHAT("santahat", 20, 27, 20),
     WIZARDHAT("wizardhat", 30),
     SUNGLASSES("sunglasses", 40, 22, 7),
-    WOODSTAFF("woodstaff", 45),
     DOGEARS("dogears", 50, 10, 10),
+    WOODSTAFF("woodstaff", 65),
     BUNNYEARS("bunnyears", 100, 8, 16),
     FISH("fish", 120, 14, 7);
 
     public String key;
-    public int diamond = 0;
+    private int diamond = 0;
     private int width = -1;
     private int height = -1;
     public float xoffset = 0; // for icon
@@ -69,6 +72,11 @@ public enum AccessoryType implements Customizer {
         this.yoffset = yoffset;
     }
 
+    @Override
+    public int getDiamonds() {
+        return diamond;
+    }
+
     public static AccessoryType find(String key) {
         for (AccessoryType it : values()) if (it.key.equals(key)) return it;
         Logging.error("cannot find accessory " + key);
@@ -86,6 +94,7 @@ public enum AccessoryType implements Customizer {
             else if (it == BUNNYEARS) accessories.add(new BunnyEars(player));
             else if (it == WIZARDHAT) accessories.add(new WizardHat(player));
             else if (it == WOODSTAFF) accessories.add(new WoodStaff(player));
+            else if (it == WHITEHEADBAND) accessories.add(new WhiteHeadband(player));
         }
         return accessories;
     }

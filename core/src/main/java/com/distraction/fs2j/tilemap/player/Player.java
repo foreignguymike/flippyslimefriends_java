@@ -11,6 +11,7 @@ import com.distraction.fs2j.Utils;
 import com.distraction.fs2j.tilemap.Tile;
 import com.distraction.fs2j.tilemap.TileMap;
 import com.distraction.fs2j.tilemap.data.Direction;
+import com.distraction.fs2j.tilemap.player.accessories.Accessory;
 import com.distraction.fs2j.tilemap.tileobjects.Arrow;
 import com.distraction.fs2j.tilemap.tileobjects.Bubble;
 import com.distraction.fs2j.tilemap.tileobjects.Ice;
@@ -500,8 +501,10 @@ public class Player extends TileObject implements Tile.TileMoveListener {
                 // draw accessories behind player first
                 // these have to go in reverse order since accessories are ordered by distance to center of player
                 sb.setColor(1, 1, 1, 1);
-                if (forward()) for (int i = accessories.size() - 1; i >= 0; i--) accessories.get(i).renderBehind(sb);
-                else for (int i = accessories.size() - 1; i >= 0; i--) accessories.get(i).renderFront(sb);
+                if (forward()) for (int i = accessories.size() - 1; i >= 0; i--)
+                    accessories.get(i).renderBehind(sb);
+                else for (int i = accessories.size() - 1; i >= 0; i--)
+                    accessories.get(i).renderFront(sb);
 
                 // draw player with face
                 sb.setColor(1, 1, 1, 1);

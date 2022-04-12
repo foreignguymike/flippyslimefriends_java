@@ -1,10 +1,11 @@
-package com.distraction.fs2j.tilemap.player;
+package com.distraction.fs2j.tilemap.player.accessories;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.distraction.fs2j.Utils;
+import com.distraction.fs2j.tilemap.player.Player;
 
 public abstract class Accessory {
 
@@ -42,6 +43,7 @@ public abstract class Accessory {
     protected void normalRender(SpriteBatch sb, TextureRegion image, boolean right, float xo, float yo) {
         Vector3 isop = player.isop;
         if (right) sb.draw(image, isop.x + offset.x + xo, isop.y + player.p.z + offset.y + yo);
-        else Utils.drawHFlip(sb, image, isop.x - offset.x + xo, isop.y + player.p.z + offset.y + yo);
+        else
+            Utils.drawHFlip(sb, image, isop.x - offset.x + xo, isop.y + player.p.z + offset.y + yo);
     }
 }

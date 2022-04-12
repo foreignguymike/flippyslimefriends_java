@@ -7,7 +7,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.distraction.fs2j.AccessoryIcon;
 import com.distraction.fs2j.Constants;
 import com.distraction.fs2j.Context;
+import com.distraction.fs2j.ImageButton;
 import com.distraction.fs2j.InfoBox;
+import com.distraction.fs2j.NumberFont;
 import com.distraction.fs2j.Utils;
 import com.distraction.fs2j.tilemap.player.Skin;
 
@@ -27,13 +29,14 @@ public class SkinSelectState extends GameState {
 
     private Skin[] skins = Skin.values();
 
+    private ImageButton diamond;
+    private NumberFont diamondFont;
+
     protected SkinSelectState(Context context, CustomizeState customizeState) {
         super(context);
         this.customizeState = customizeState;
 
         pixel = context.getImage("pixel");
-
-        infoBox = new InfoBox(context, Constants.WIDTH / 2, Constants.HEIGHT / 2, 200, 100);
 
         camera.position.y = 2f * Constants.HEIGHT;
         camera.update();
@@ -47,7 +50,7 @@ public class SkinSelectState extends GameState {
         int tw = w * c + p * (c - 1);
         int th = w * r + p * (r - 1);
         float s = Constants.WIDTH / 2 - tw / 2f + w / 2f;
-        float sy = Constants.HEIGHT / 2 + th / 2f - w / 2f;
+        float sy = Constants.HEIGHT / 2 + th / 2f - w / 2f - 10;
         for (int row = 0; row < r; row++) {
             for (int col = 0; col < c; col++) {
                 int i = row * c + col;
@@ -59,6 +62,12 @@ public class SkinSelectState extends GameState {
                 skinIcons[i].setOffset(0, 4);
             }
         }
+
+        infoBox = new InfoBox(context, Constants.WIDTH / 2, Constants.HEIGHT / 2, tw + 40, th + 55);
+        diamond = new ImageButton(context.getImage("diamondunlock"));
+        diamondFont = new NumberFont(context, false, NumberFont.NumberSize.LARGE);
+        diamondFont.setNum(context.scoreHandler.getNumDiamonds());
+        diamond.setPosition((Constants.WIDTH - diamondFont.getTotalWidth()) / 2f - 3, infoBox.pos.y + infoBox.height / 2 - 20);
     }
 
     private void goBack() {
@@ -76,7 +85,7 @@ public class SkinSelectState extends GameState {
         if (Gdx.input.justTouched()) {
             unprojectTouch();
             for (int i = 0; i < skinIcons.length; i++) {
-                if (skinIcons[i].containsPoint(touchPoint)) {
+                if (skinIcons[i].containsPoint(touchPoint) && !skinIcons[i].disabled) {
                     select(skins[i]);
                 }
             }
@@ -112,6 +121,8 @@ public class SkinSelectState extends GameState {
             infoBox.render(sb);
 
             for (AccessoryIcon it : skinIcons) it.render(sb);
+            diamond.render(sb);
+            diamondFont.render(sb, diamond.pos.x + diamond.width / 2 + 6, diamond.pos.y);
         }
         sb.end();
     }

@@ -17,10 +17,38 @@ public class AccessoryIcon extends ImageButton {
     private Vector2 offset = new Vector2();
     public boolean disabled = false;
 
+    // requirements
+    private TextureRegion star;
+    private TextureRegion diamond;
+    private int stars;
+    private int diamonds;
+    private NumberFont starFont;
+    private NumberFont diamondFont;
+
     public AccessoryIcon(Context context, Customizer type, float x, float y) {
         super(context.getImage("accessoryiconbg"), x, y);
         this.context = context;
+        star = context.getImage("starunlock");
+        diamond = context.getImage("diamondunlock");
+        starFont = new NumberFont(context, true, NumberFont.NumberSize.MEDIUM);
+        diamondFont = new NumberFont(context, true, NumberFont.NumberSize.MEDIUM);
         setType(type);
+        if (type != null) {
+            diamondFont.setNum(type.getDiamonds());
+            setDiamonds(type.getDiamonds());
+        }
+    }
+
+    public void setStars(int stars) {
+        this.stars = stars;
+        starFont.setNum(stars);
+        disabled = context.scoreHandler.getNumStars() < stars || context.scoreHandler.getNumDiamonds() < diamonds;
+    }
+
+    public void setDiamonds(int diamonds) {
+        this.diamonds = diamonds;
+        diamondFont.setNum(diamonds);
+        disabled = context.scoreHandler.getNumStars() < stars || context.scoreHandler.getNumDiamonds() < diamonds;
     }
 
     public void setType(Customizer type) {
@@ -30,6 +58,7 @@ public class AccessoryIcon extends ImageButton {
             if (type instanceof Skin) iconImage = ((Skin) type).getSprites(context)[0];
             if (type instanceof AccessoryType)
                 iconImage = ((AccessoryType) type).getSprites(context)[0];
+            setDiamonds(type.getDiamonds());
         } else {
             iconImage = null;
         }
@@ -44,7 +73,20 @@ public class AccessoryIcon extends ImageButton {
         if (disabled) sb.setColor(0.5f, 0.5f, 0.5f, 1f);
         else sb.setColor(1, 1, 1, 1);
         super.render(sb);
-        if (iconImage != null) {
+
+        if (disabled) {
+            sb.setColor(1, 1, 1, 1);
+            if (stars > 0) {
+                Utils.drawCentered(sb, star, pos.x, pos.y + 4);
+                starFont.render(sb, pos.x, pos.y - 6);
+            } else if (diamonds > 0) {
+                Utils.drawCentered(sb, diamond, pos.x, pos.y + 6);
+                diamondFont.render(sb, pos.x, pos.y - 6);
+            } else if (iconImage != null) {
+                sb.setColor(0.5f, 0.5f, 0.5f, 1);
+                sb.draw(iconImage, pos.x - iconImage.getRegionWidth() / 2f + offset.x, pos.y - iconImage.getRegionHeight() / 2f + offset.y);
+            }
+        } else if (iconImage != null) {
             sb.draw(iconImage, pos.x - iconImage.getRegionWidth() / 2f + offset.x, pos.y - iconImage.getRegionHeight() / 2f + offset.y);
         }
     }

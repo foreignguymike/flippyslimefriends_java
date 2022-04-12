@@ -9,9 +9,12 @@ import java.util.Map;
 
 public class ScoreHandler {
 
+    private Context context;
+
     public Map<Area, int[]> scores;
 
     public ScoreHandler(Context context) {
+        this.context = context;
         scores = new HashMap<>();
         for (Area area : Area.values()) {
             if (context.gameData == null) throw new IllegalStateException("game data null");
@@ -38,6 +41,31 @@ public class ScoreHandler {
                 areaScores[i] = prefs.getInteger(Integer.toString(i), 0);
             }
         }
+    }
+
+    public int getNumStars() {
+        if (Utils.UNLOCK_ALL) return 1000;
+        int count = 0;
+        for (Area area : Area.values()) {
+            int[] areaScores = getScores(area);
+            for (int areaScore : areaScores) if (areaScore > 0) count++;
+        }
+        return count;
+    }
+
+    public int getNumDiamonds() {
+        if (Utils.UNLOCK_ALL) return 1000;
+        int count = 0;
+        for (Area area : Area.values()) {
+            int[] areaScores = getScores(area);
+            for (int i = 0; i < areaScores.length; i++) {
+                int areaScore = areaScores[i];
+                if (areaScore > 0) {
+                    if (areaScore <= context.gameData.getMapData(area).get(i).goal) count++;
+                }
+            }
+        }
+        return count;
     }
 
     public int[] getScores(Area area) {

@@ -39,7 +39,7 @@ public class Context {
         }
 
         scoreHandler = new ScoreHandler(this);
-        playerDataHandler = new PlayerDataHandler();
+        playerDataHandler = new PlayerDataHandler(this);
     }
 
     public TextureRegion getImage(String key) {

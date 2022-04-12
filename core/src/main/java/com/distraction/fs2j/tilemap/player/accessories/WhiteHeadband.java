@@ -6,13 +6,13 @@ import com.distraction.fs2j.AnimationSet;
 import com.distraction.fs2j.tilemap.player.AccessoryType;
 import com.distraction.fs2j.tilemap.player.Player;
 
-public class DogEars extends Accessory {
+public class WhiteHeadband extends Accessory {
 
-    private TextureRegion image;
+    private TextureRegion[] sprites;
 
-    public DogEars(Player player) {
+    public WhiteHeadband(Player player) {
         super(player);
-        image = AccessoryType.DOGEARS.getSprites(player.context)[0];
+        sprites = AccessoryType.WHITEHEADBAND.getSprites(player.context);
     }
 
     @Override
@@ -20,27 +20,26 @@ public class DogEars extends Accessory {
         AnimationSet animationSet = player.playerRenderer.animationSet;
         switch (animationSet.currentAnimationKey) {
             case Player.IDLE:
-                offset.x = -15;
-                offset.y = animationSet.currentAnimation.currentFrame() == 0 ? 11f : 10f;
+                offset.y = animationSet.currentAnimation.currentFrame() == 0 ? 9f : 8f;
                 break;
             case Player.CROUCH:
-                offset.x = -18;
-                offset.y = 5f;
+                offset.y = 6f;
                 break;
             case Player.JUMP:
-                offset.x = -13;
                 offset.y = 15f;
                 break;
         }
+        offset.x = player.forward() ? -17f : -15f;
     }
 
     @Override
     public void renderFront(SpriteBatch sb) {
-        normalRender(sb, image);
+        normalRender(sb, sprites[player.forward() ? 0 : 1]);
     }
 
     @Override
     public void renderBehind(SpriteBatch sb) {
-        normalRender(sb, image, !player.right(), 0, 1);
+        normalRender(sb, sprites[player.forward() ? 0 : 1]);
     }
+
 }

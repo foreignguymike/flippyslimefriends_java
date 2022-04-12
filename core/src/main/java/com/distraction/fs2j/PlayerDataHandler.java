@@ -19,11 +19,14 @@ public class PlayerDataHandler {
     public static final String FACE_KEY = "face";
     public static final String ACCESSORIES_KEY = "accessories";
 
+    private Context context;
+
     public Skin skin = Skin.GREEN;
     public Face face = Face.NORMAL;
     public List<AccessoryType> accessories = new ArrayList<>();
 
-    public PlayerDataHandler() {
+    public PlayerDataHandler(Context context) {
+        this.context = context;
         load();
     }
 
@@ -42,6 +45,7 @@ public class PlayerDataHandler {
 
     private void load() {
         Preferences prefs = getPrefs();
+        int diamonds = context.scoreHandler.getNumDiamonds();
         String skinKey = prefs.getString(SKIN_KEY);
         if (skinKey == null || skinKey.isEmpty()) {
             initialize();
@@ -49,12 +53,14 @@ public class PlayerDataHandler {
         }
         try {
             skin = Skin.find(skinKey);
+            if (diamonds < skin.getDiamonds()) save(Skin.GREEN);
         } catch (Exception e) {
             save(Skin.GREEN);
         }
         String faceKey = prefs.getString(FACE_KEY);
         try {
             face = Face.find(faceKey);
+            if (diamonds < face.getDiamonds()) save(Face.NORMAL);
         } catch (Exception e) {
             save(Face.NORMAL);
         }
@@ -64,7 +70,13 @@ public class PlayerDataHandler {
             String[] accessoryKeys = accessoryKey.split(",");
             for (String it : accessoryKeys) {
                 try {
-                    accessories.add(AccessoryType.find(it));
+                    AccessoryType accessoryType = AccessoryType.find(it);
+                    if (diamonds < accessoryType.getDiamonds()) {
+                        save(new ArrayList<>());
+                        break;
+                    } else {
+                        accessories.add(AccessoryType.find(it));
+                    }
                 } catch (Exception e) {
                     save(new ArrayList<>());
                     break;

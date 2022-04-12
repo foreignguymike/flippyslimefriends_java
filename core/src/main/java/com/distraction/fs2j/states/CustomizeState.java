@@ -11,6 +11,7 @@ import com.distraction.fs2j.BreathingImage;
 import com.distraction.fs2j.Constants;
 import com.distraction.fs2j.Context;
 import com.distraction.fs2j.ImageButton;
+import com.distraction.fs2j.NumberFont;
 import com.distraction.fs2j.TextButton;
 import com.distraction.fs2j.Utils;
 import com.distraction.fs2j.tilemap.TileMap;
@@ -64,6 +65,9 @@ public class CustomizeState extends GameState {
     private ImageButton left;
     private ImageButton up;
 
+    private TextureRegion star;
+    private NumberFont starFont;
+
     private TileMap.TileListener emptyTileListener = tileMap -> {
     };
     private Player.MoveListener emptyMoveListener = new Player.MoveListener() {
@@ -91,7 +95,7 @@ public class CustomizeState extends GameState {
         backButton = new TextButton(context.getImage("backicon"), context.getImage("iconbuttonbg"), 25f, Constants.HEIGHT - 25, 5f);
         skinText = new ImageButton(context.getImage("skin"), Constants.WIDTH / 6, 245);
         faceText = new ImageButton(context.getImage("face"), 2 * Constants.WIDTH / 6, 245);
-        accessoriesText = new ImageButton(context.getImage("accessories"), Constants.WIDTH / 4, 165);
+        accessoriesText = new ImageButton(context.getImage("accessories"), Constants.WIDTH / 4 - 20, 165);
 
         skinIcon = new AccessoryIcon(context, null, skinText.pos.x, skinText.pos.y - 33);
         skinIcon.setOffset(0, 4);
@@ -104,7 +108,7 @@ public class CustomizeState extends GameState {
         int p = 5;
         int w = 30;
         int tw = w * c + p * (c - 1);
-        float s = accessoriesText.pos.x - tw / 2f + w / 2f;
+        float s = Constants.WIDTH / 4 - tw / 2f + w / 2f;
         for (int row = 0; row < r; row++) {
             for (int col = 0; col < c; col++) {
                 int i = row * c + col;
@@ -117,6 +121,16 @@ public class CustomizeState extends GameState {
                 }
             }
         }
+        accessoryIcons[1].setStars(10);
+        accessoryIcons[2].setStars(20);
+        accessoryIcons[3].setStars(30);
+        accessoryIcons[4].setStars(50);
+        accessoryIcons[5].setStars(70);
+        accessoryIcons[6].setStars(100);
+        accessoryIcons[7].setStars(130);
+        accessoryIcons[8].setStars(160);
+        accessoryIcons[9].setStars(200);
+
         selectedBorder = new BreathingImage(context.getImage("levelselectedborder"), -100, -100, 0, 1f, 0.03f);
         shiftLeft = new ImageButton(context.getImage("shiftleft"), Constants.WIDTH / 4 - 15, accessoryIcons[accessoryIcons.length - 1].pos.y - 35, 10);
         shiftRight = new ImageButton(context.getImage("shiftright"), Constants.WIDTH / 4 + 15, accessoryIcons[accessoryIcons.length - 1].pos.y - 35, 10);
@@ -145,6 +159,11 @@ public class CustomizeState extends GameState {
 
         setSkin(context.playerDataHandler.skin);
         setFace(context.playerDataHandler.face);
+
+        star = context.getImage("starunlock");
+        starFont = new NumberFont(context, false, NumberFont.NumberSize.LARGE);
+        starFont.setNum(context.scoreHandler.getNumStars());
+        accessoriesText.setPosition(Constants.WIDTH / 4 - (19 + star.getRegionWidth() + starFont.getTotalWidth()) / 2f, accessoriesText.pos.y);
     }
 
     private void openSkinSelect() {
@@ -199,6 +218,7 @@ public class CustomizeState extends GameState {
         if (selectedAccessoryIndex == -1) return;
         int targetIndex = selectedAccessoryIndex + amount;
         if (targetIndex < 0 || targetIndex >= accessoryIcons.length) return;
+        if (accessoryIcons[targetIndex].disabled) return;
 
         AccessoryType temp = accessoryTypes[selectedAccessoryIndex];
         setAccessory(accessoryTypes[targetIndex], selectedAccessoryIndex);
@@ -260,10 +280,11 @@ public class CustomizeState extends GameState {
         }
 
         if (Gdx.input.justTouched()) {
-            if (skinIcon.containsPoint(touchPoint)) openSkinSelect();
-            if (faceIcon.containsPoint(touchPoint)) openFaceSelect();
+            if (skinIcon.containsPoint(touchPoint) && !skinIcon.disabled) openSkinSelect();
+            if (faceIcon.containsPoint(touchPoint) && !faceIcon.disabled) openFaceSelect();
             for (int i = 0; i < accessoryIcons.length; i++) {
-                if (accessoryIcons[i].containsPoint(touchPoint)) openAccessorySelect(i);
+                if (accessoryIcons[i].containsPoint(touchPoint) && !accessoryIcons[i].disabled)
+                    openAccessorySelect(i);
             }
             if (shiftLeft.scale == 0.75f) shiftAccessory(-1);
             if (shiftRight.scale == 0.75f) shiftAccessory(1);
@@ -305,6 +326,9 @@ public class CustomizeState extends GameState {
             sb.draw(pixel, Constants.WIDTH / 2, 0, 1, Constants.HEIGHT);
 
             sb.setColor(1, 1, 1, 1);
+            Utils.drawCentered(sb, star, accessoriesText.pos.x + 80, accessoriesText.pos.y);
+            starFont.render(sb, accessoriesText.pos.x + 95, accessoriesText.pos.y);
+
             backButton.render(sb);
             skinText.render(sb);
             faceText.render(sb);

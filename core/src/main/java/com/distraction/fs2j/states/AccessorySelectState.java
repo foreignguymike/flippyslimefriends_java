@@ -8,7 +8,9 @@ import com.distraction.fs2j.AccessoryIcon;
 import com.distraction.fs2j.BreathingImage;
 import com.distraction.fs2j.Constants;
 import com.distraction.fs2j.Context;
+import com.distraction.fs2j.ImageButton;
 import com.distraction.fs2j.InfoBox;
+import com.distraction.fs2j.NumberFont;
 import com.distraction.fs2j.TextButton;
 import com.distraction.fs2j.Utils;
 import com.distraction.fs2j.tilemap.player.AccessoryType;
@@ -34,6 +36,9 @@ class AccessorySelectState extends GameState {
 
     private TextButton xbutton;
 
+    private ImageButton diamond;
+    private NumberFont diamondFont;
+
     protected AccessorySelectState(Context context, CustomizeState customizeState, int accessoryIndex, AccessoryType replacing, AccessoryType[] alreadySelected) {
         super(context);
         this.customizeState = customizeState;
@@ -50,20 +55,20 @@ class AccessorySelectState extends GameState {
         cameraDest = Constants.HEIGHT / 2f;
 
         accessoryIcons = new AccessoryIcon[accessoryTypes.length];
-        int r = 2;
+        int r = 3;
         int c = 4;
         int p = 5;
         int w = 30;
         int tw = w * c + p * (c - 1);
         int th = w * r + p * (r - 1);
         float s = Constants.WIDTH / 2 - tw / 2f + w / 2f;
-        float sy = Constants.HEIGHT / 2 + th / 2f - w / 2f;
+        float sy = Constants.HEIGHT / 2 + th / 2f - w / 2f + 8;
         for (int row = 0; row < r; row++) {
             for (int col = 0; col < c; col++) {
                 int i = row * c + col;
                 if (i == accessoryIcons.length) break;
                 float x = s + col * (w + p);
-                float y = sy - row * (w + p) + 10;
+                float y = sy - row * (w + p);
                 accessoryIcons[i] = new AccessoryIcon(context, accessoryTypes[i], x, y);
                 accessoryIcons[i].setOffset(accessoryTypes[i].xoffset, accessoryTypes[i].yoffset);
                 if (accessoryTypes[i] != replacing && Utils.contains(alreadySelected, accessoryTypes[i])) {
@@ -74,8 +79,14 @@ class AccessorySelectState extends GameState {
                 }
             }
         }
-        xbutton = new TextButton(context.getImage("xicon"), context.getImage("iconbuttonbg"), Constants.WIDTH / 2, sy - th);
-        infoBox = new InfoBox(context, Constants.WIDTH / 2, Constants.HEIGHT / 2, tw + 50, th + 100);
+
+        infoBox = new InfoBox(context, Constants.WIDTH / 2, Constants.HEIGHT / 2, tw + 40, th + 90);
+        xbutton = new TextButton(context.getImage("xicon"), context.getImage("iconbuttonbg"), Constants.WIDTH / 2, infoBox.pos.y - infoBox.height / 2 + 30);
+        diamond = new ImageButton(context.getImage("diamondunlock"));
+        diamondFont = new NumberFont(context, false, NumberFont.NumberSize.LARGE);
+        diamondFont.setNum(context.scoreHandler.getNumDiamonds());
+        System.out.println(diamondFont.getTotalWidth());
+        diamond.setPosition((Constants.WIDTH - diamondFont.getTotalWidth()) / 2f - 3, infoBox.pos.y + infoBox.height / 2 - 20);
     }
 
     private void goBack() {
@@ -134,6 +145,9 @@ class AccessorySelectState extends GameState {
             sb.setColor(1, 1, 1, 1);
             xbutton.render(sb);
             selectedBorder.render(sb);
+
+            diamond.render(sb);
+            diamondFont.render(sb, diamond.pos.x + diamond.width / 2 + 6, diamond.pos.y);
         }
         sb.end();
     }

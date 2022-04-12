@@ -8,9 +8,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
-import java.lang.reflect.Array;
-
 public class Utils {
+
+    public static boolean UNLOCK_ALL = false;
 
     public static void takeScreenshot() {
 //        String name = "FS2 " + UUID.randomUUID();
