@@ -10,6 +10,7 @@ public enum Face implements Customizer {
     SLEEP("sleep", 10),
     COOL("cool", 20),
     DOG("dog", 40),
+    INVERTED("inverted", 45),
     BUNNY("bunny", 50),
     STARE("stare", 80),
     EYE("eye", 100),

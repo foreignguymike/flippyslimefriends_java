@@ -43,7 +43,7 @@ public class SkinSelectState extends GameState {
         cameraDest = Constants.HEIGHT / 2f;
 
         skinIcons = new AccessoryIcon[skins.length];
-        int r = 2;
+        int r = 3;
         int c = 6;
         int p = 5;
         int w = 30;

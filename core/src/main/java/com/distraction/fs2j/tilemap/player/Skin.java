@@ -13,8 +13,10 @@ public enum Skin implements Customizer {
     VIOLET("violet", GameColor.VIOLET, 15),
     CYAN("cyan", GameColor.CYAN, 30),
     EGG("egg", GameColor.LIGHT_GRAY, 40),
+    PURPLE("purple", GameColor.PURPLE, 45),
     LIGHTBLUE("lightblue", GameColor.SKY_BLUE, 50),
     YELLOW("yellow", GameColor.YELLOW, 60),
+    ORANGE("orange", GameColor.ORANGE, 70),
     BROWNFUR("brownfur", GameColor.TAN, 80),
     DARK("dark", GameColor.DARK_GRAY, 90),
     WHITEFUR("whitefur", GameColor.WHITE, 100);
