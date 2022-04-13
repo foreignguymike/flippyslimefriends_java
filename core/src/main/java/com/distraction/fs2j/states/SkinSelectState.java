@@ -43,8 +43,10 @@ public class SkinSelectState extends GameState {
         cameraDest = Constants.HEIGHT / 2f;
 
         skinIcons = new AccessoryIcon[skins.length];
-        int r = 3;
-        int c = 6;
+        int r = (int) (9 * 0.363241579);
+        int c = (int) Math.ceil(16 * 0.363241579);
+        while (r * c < skinIcons.length) c++;
+        while ((r - 1) * c > skinIcons.length) r--;
         int p = 5;
         int w = 30;
         int tw = w * c + p * (c - 1);
@@ -52,6 +54,7 @@ public class SkinSelectState extends GameState {
         float s = Constants.WIDTH / 2 - tw / 2f + w / 2f;
         float sy = Constants.HEIGHT / 2 + th / 2f - w / 2f - 10;
         for (int row = 0; row < r; row++) {
+            if (row * c >= skinIcons.length) break;
             for (int col = 0; col < c; col++) {
                 int i = row * c + col;
                 if (i == skinIcons.length) break;

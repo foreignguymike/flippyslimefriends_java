@@ -1,0 +1,64 @@
+======
+skins
+======
+
+metal
+pumpkin
+matte colors?
+
+
+======
+faces
+======
+
+depressed
+ghost
+pumpkin
+robot
+
+============
+accessories
+============
+
+hats:
+cowboy hat
+pajama hat
+straw hat (color)
+cap (color)
+cultural (too many?)
+halo
+
+
+face:
+markings?
+eye brows
+cheek
+facial hair
+
+effects:
+big star (max stars)
+orbiting stars (max stars)
+big diamond (max diamonds)
+orbiting diamonds (max diamonds)
+floating wisps
+floating candles
+sparkling
+weather (small weather thing floating over you, eg: little rain cloud)
+
+back:
+backpack (different styles/colors)
+angel wings
+devil wings
+all of the wings
+all of the capes
+rocket boosters
+turtle shell
+weapons
+
+wield:
+staves
+swords
+pitchfork
+shield
+
+special:

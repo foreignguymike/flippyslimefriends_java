@@ -1,6 +1,6 @@
 name=fs2
 filename=
-output=../../AndroidStudioWorkspace/fs2j/assets
+output=../assets
 
 alias=true
 alphaThreshold=0

@@ -43,8 +43,10 @@ public class FaceSelectState extends GameState {
         cameraDest = Constants.HEIGHT / 2f;
 
         faceIcons = new AccessoryIcon[faces.length];
-        int r = 2;
-        int c = 6;
+        int r = (int) (9 * 0.363241579);
+        int c = (int) Math.ceil(16 * 0.363241579);
+        while (r * c < faceIcons.length) c++;
+        while ((r - 1) * c > faceIcons.length) r--;
         int p = 5;
         int w = 30;
         int tw = w * c + p * (c - 1);
@@ -52,6 +54,7 @@ public class FaceSelectState extends GameState {
         float s = Constants.WIDTH / 2 - tw / 2f + w / 2f;
         float sy = Constants.HEIGHT / 2 + th / 2f - w / 2f - 10;
         for (int row = 0; row < r; row++) {
+            if (row * c >= faceIcons.length) break;
             for (int col = 0; col < c; col++) {
                 int i = row * c + col;
                 if (i == faceIcons.length) break;

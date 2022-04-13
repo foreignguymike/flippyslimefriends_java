@@ -17,8 +17,9 @@ public enum Skin implements Customizer {
     LIGHTBLUE("lightblue", GameColor.SKY_BLUE, 50),
     YELLOW("yellow", GameColor.YELLOW, 60),
     ORANGE("orange", GameColor.ORANGE, 70),
-    BROWNFUR("brownfur", GameColor.TAN, 80),
-    DARK("dark", GameColor.DARK_GRAY, 90),
+    DARK("dark", GameColor.DARK_GRAY, 80),
+    WHITE("white", GameColor.WHITE, 100),
+    BROWNFUR("brownfur", GameColor.TAN, 100),
     WHITEFUR("whitefur", GameColor.WHITE, 100);
 
     public String key;

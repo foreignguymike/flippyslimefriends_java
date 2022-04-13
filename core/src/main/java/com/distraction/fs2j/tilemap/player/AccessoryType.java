@@ -6,6 +6,8 @@ import com.distraction.fs2j.Logging;
 import com.distraction.fs2j.Utils;
 import com.distraction.fs2j.tilemap.player.accessories.Accessory;
 import com.distraction.fs2j.tilemap.player.accessories.BunnyEars;
+import com.distraction.fs2j.tilemap.player.accessories.CatEars;
+import com.distraction.fs2j.tilemap.player.accessories.Crown;
 import com.distraction.fs2j.tilemap.player.accessories.DogEars;
 import com.distraction.fs2j.tilemap.player.accessories.Fish;
 import com.distraction.fs2j.tilemap.player.accessories.HeadBubble;
@@ -33,6 +35,8 @@ public enum AccessoryType implements Customizer {
     DOG_EARS("dogears", 50, 10, 10),
     HEADBAND_BLACK("headbandblack", 50, 30, 10),
     WOOD_STAFF("woodstaff", 65),
+    CAT_EARS("catears", 60, 9, 10),
+    CROWN("crown", 70, 13, 11),
     HEADBAND_BLACK_YELLOW_TRIM("headbandblackyellowtrim", 80, 30, 10),
     BUNNY_EARS("bunnyears", 100, 8, 16),
     HEADBAND_COBRA_KAI("headbandcobrakai", 100, 30, 10),
@@ -40,7 +44,7 @@ public enum AccessoryType implements Customizer {
     HEADBAND_MIYAGI("headbandmiyagi", 150, 30, 10),
     ;
 
-    private static final AccessoryType[] headbands = new AccessoryType[] {
+    private static final AccessoryType[] headbands = new AccessoryType[]{
             HEADBAND_BLUE, HEADBAND_WHITE, HEADBAND_GREEN, HEADBAND_RED, HEADBAND_ORANGE, HEADBAND_YELLOW, HEADBAND_BLACK,
             HEADBAND_BLACK_YELLOW_TRIM,
             HEADBAND_COBRA_KAI, HEADBAND_MIYAGI
@@ -113,6 +117,8 @@ public enum AccessoryType implements Customizer {
             else if (it == WIZARD_HAT) accessories.add(new WizardHat(player));
             else if (it == WOOD_STAFF) accessories.add(new WoodStaff(player));
             else if (Utils.contains(headbands, it)) accessories.add(new Headband(player, it));
+            else if (it == CROWN) accessories.add(new Crown(player));
+            else if (it == CAT_EARS) accessories.add(new CatEars(player));
         }
         return accessories;
     }

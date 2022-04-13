@@ -15,7 +15,7 @@
 		<activity
 				android:name="com.distraction.fs2j.android.AndroidLauncher"
 				android:label="@string/app_name"
-				android:screenOrientation="landscape"
+				android:screenOrientation="sensorLandscape"
 				android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenSize|screenLayout"
           		android:exported="true">
 				<intent-filter>
