@@ -508,36 +508,32 @@ public class Player extends TileObject implements Tile.TileMoveListener {
 
                 // draw player with face
                 sb.setColor(1, 1, 1, 1);
-                if (right()) {
+                if (!skin.isReversible() || !forward()) {
                     sb.draw(
                             animationSet.getImage(),
                             isop.x - animationSet.getImage().getRegionWidth() / 2f,
                             isop.y + p.z
                     );
-                    if (forward()) {
-                        float y = animationSet.currentAnimationKey.equals(IDLE) && animationSet.currentAnimation.currentFrame() == 1 ? -1 : 0;
+                } else {
+                    Utils.drawHFlip(sb,
+                            animationSet.getImage(),
+                            isop.x + animationSet.getImage().getRegionWidth() / 2f,
+                            isop.y + p.z
+                    );
+                }
+                if (forward()) {
+                    float y = animationSet.currentAnimationKey.equals(IDLE) && animationSet.currentAnimation.currentFrame() == 1 ? -1 : 0;
+                    if (right()) {
                         sb.draw(
                                 faceSet.getImage(),
                                 isop.x - faceSet.getImage().getRegionWidth() / 2f,
                                 isop.y + p.z + y
                         );
-                    }
-                } else {
-                    sb.draw(
-                            animationSet.getImage(),
-                            isop.x + animationSet.getImage().getRegionWidth() / 2f,
-                            isop.y + p.z,
-                            -animationSet.getImage().getRegionWidth() * 1f,
-                            animationSet.getImage().getRegionHeight() * 1f
-                    );
-                    if (forward()) {
-                        float y = animationSet.currentAnimationKey.equals(IDLE) && animationSet.currentAnimation.currentFrame() == 1 ? -1 : 0;
-                        sb.draw(
+                    } else {
+                        Utils.drawHFlip(sb,
                                 faceSet.getImage(),
                                 isop.x + faceSet.getImage().getRegionWidth() / 2f,
-                                isop.y + p.z + y,
-                                -faceSet.getImage().getRegionWidth() * 1f,
-                                faceSet.getImage().getRegionHeight() * 1f
+                                isop.y + p.z + y
                         );
                     }
                 }

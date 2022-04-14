@@ -12,9 +12,11 @@ public abstract class Accessory {
     public Player player;
 
     protected Vector2 offset = new Vector2(0f, 15f);
+    private TextureRegion pixel;
 
     public Accessory(Player player) {
         this.player = player;
+        pixel = player.context.getImage("pixel");
     }
 
     public void update(float dt) {
@@ -33,17 +35,21 @@ public abstract class Accessory {
     }
 
     protected void normalRender(SpriteBatch sb, TextureRegion image) {
-        normalRender(sb, image, player.right());
+        normalRender(sb, image, player.right(), 0, 0);
     }
 
     protected void normalRender(SpriteBatch sb, TextureRegion image, boolean right) {
         normalRender(sb, image, right, 0, 0);
     }
 
+    protected void normalRender(SpriteBatch sb, TextureRegion image, float xo, float yo) {
+        normalRender(sb, image, player.right(), xo, yo);
+    }
+
     protected void normalRender(SpriteBatch sb, TextureRegion image, boolean right, float xo, float yo) {
         Vector3 isop = player.isop;
-        if (right) sb.draw(image, isop.x + offset.x + xo, isop.y + player.p.z + offset.y + yo);
+        if (right) sb.draw(image, isop.x - image.getRegionWidth() / 2f + offset.x + xo, isop.y + player.p.z + offset.y + yo);
         else
-            Utils.drawHFlip(sb, image, isop.x - offset.x + xo, isop.y + player.p.z + offset.y + yo);
+            Utils.drawHFlip(sb, image, isop.x + image.getRegionWidth() / 2f - offset.x + xo, isop.y + player.p.z + offset.y + yo);
     }
 }

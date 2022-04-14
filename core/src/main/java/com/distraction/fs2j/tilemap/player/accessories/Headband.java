@@ -29,7 +29,7 @@ public class Headband extends Accessory {
                 offset.y = 13f;
                 break;
         }
-        offset.x = player.forward() ? -17f : -15f;
+        offset.x = player.forward() ? -2 : 0;
     }
 
     @Override

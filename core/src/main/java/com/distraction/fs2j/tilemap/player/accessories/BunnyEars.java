@@ -22,18 +22,18 @@ public class BunnyEars extends Accessory {
         AnimationSet animationSet = player.playerRenderer.animationSet;
         switch (animationSet.currentAnimationKey) {
             case Player.IDLE:
-                offset.x = -13;
-                offset.y = animationSet.currentAnimation.currentFrame() == 0 ? 16f : 15f;
+                offset.x = -8;
+                offset.y = animationSet.currentAnimation.currentFrame() == 0 ? 15f : 14f;
                 offset2.x = 18;
                 break;
             case Player.CROUCH:
-                offset.x = -16;
-                offset.y = 10f;
+                offset.x = -10;
+                offset.y = 9f;
                 offset2.x = 20;
                 break;
             case Player.JUMP:
-                offset.x = -11;
-                offset.y = 20f;
+                offset.x = -6;
+                offset.y = 18f;
                 offset2.x = 15;
                 break;
         }

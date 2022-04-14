@@ -20,15 +20,15 @@ public class CatEars extends Accessory {
         AnimationSet animationSet = player.playerRenderer.animationSet;
         switch (animationSet.currentAnimationKey) {
             case Player.IDLE:
-                offset.x = -12;
+                offset.x = -9;
                 offset.y = animationSet.currentAnimation.currentFrame() == 0 ? 15f : 14f;
                 break;
             case Player.CROUCH:
-                offset.x = -15;
+                offset.x = -12;
                 offset.y = 9f;
                 break;
             case Player.JUMP:
-                offset.x = -13;
+                offset.x = -7;
                 offset.y = 18f;
                 break;
         }

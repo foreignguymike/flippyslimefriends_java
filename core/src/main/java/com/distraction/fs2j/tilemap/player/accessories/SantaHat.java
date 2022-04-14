@@ -13,7 +13,7 @@ public class SantaHat extends Accessory {
     public SantaHat(Player player) {
         super(player);
         sprites = AccessoryType.SANTA_HAT.getSprites(player.context);
-        offset.x = -17f;
+        offset.x = -3f;
     }
 
     @Override
@@ -21,13 +21,13 @@ public class SantaHat extends Accessory {
         AnimationSet animationSet = player.playerRenderer.animationSet;
         switch (animationSet.currentAnimationKey) {
             case Player.IDLE:
-                offset.y = animationSet.currentAnimation.currentFrame() == 0 ? 14f : 13f;
+                offset.y = animationSet.currentAnimation.currentFrame() == 0 ? 12f : 11f;
                 break;
             case Player.CROUCH:
-                offset.y = 10f;
+                offset.y = 8f;
                 break;
             case Player.JUMP:
-                offset.y = 18f;
+                offset.y = 16f;
                 break;
         }
     }

@@ -6,7 +6,6 @@ metal
 pumpkin
 matte colors?
 
-
 ======
 faces
 ======
@@ -21,13 +20,10 @@ accessories
 ============
 
 hats:
-cowboy hat
 pajama hat
 straw hat (color)
 cap (color)
 cultural (too many?)
-halo
-
 
 face:
 markings?

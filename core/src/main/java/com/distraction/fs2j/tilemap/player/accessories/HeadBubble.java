@@ -17,7 +17,7 @@ public class HeadBubble extends Accessory {
     public HeadBubble(Player player) {
         super(player);
         image = AccessoryType.HEAD_BUBBLE.getSprites(player.context)[0];
-        offset.x = -10f;
+        offset.x = -4;
         pixel = player.context.getImage("pixel");
     }
 
@@ -42,10 +42,11 @@ public class HeadBubble extends Accessory {
         Color c = sb.getColor();
         sb.setColor(player.playerRenderer.skin.color);
         normalRender(sb, image);
+
         sb.setColor(1, 1, 1, 1);
         Vector3 isop = player.isop;
-        if (player.right()) sb.draw(pixel, isop.x + offset.x + 2, isop.y + player.p.z + offset.y + 11);
-        else sb.draw(pixel, isop.x + offset.x + 17, isop.y + player.p.z + offset.y + 11);
+        if (player.right()) sb.draw(pixel, isop.x + offset.x - 2, isop.y + player.p.z + offset.y + 11);
+        else sb.draw(pixel, isop.x + offset.x + 9, isop.y + player.p.z + offset.y + 11);
         sb.setColor(c);
     }
 }

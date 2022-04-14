@@ -15,16 +15,18 @@ public enum Skin implements Customizer {
     EGG("egg", GameColor.LIGHT_GRAY, 40),
     PURPLE("purple", GameColor.PURPLE, 45),
     LIGHTBLUE("lightblue", GameColor.SKY_BLUE, 50),
+    METAL("metal", GameColor.LIGHT_GRAY_PURPLE, 50),
     YELLOW("yellow", GameColor.YELLOW, 60),
     ORANGE("orange", GameColor.ORANGE, 70),
     DARK("dark", GameColor.DARK_GRAY, 80),
     WHITE("white", GameColor.WHITE, 100),
-    BROWNFUR("brownfur", GameColor.TAN, 100),
-    WHITEFUR("whitefur", GameColor.WHITE, 100);
+    BROWNFUR("brownfur", GameColor.TAN, 100, true),
+    WHITEFUR("whitefur", GameColor.WHITE, 100, true);
 
     public String key;
     public Color color;
     private int diamond;
+    private boolean reversible;
 
     Skin(String key, Color color) {
         this.key = key;
@@ -35,6 +37,13 @@ public enum Skin implements Customizer {
         this.key = key;
         this.color = color;
         this.diamond = diamond;
+    }
+
+    Skin(String key, Color color, int diamond, boolean reversible) {
+        this.key = key;
+        this.color = color;
+        this.diamond = diamond;
+        this.reversible = reversible;
     }
 
     @Override
@@ -50,5 +59,9 @@ public enum Skin implements Customizer {
         for (Skin it : values()) if (it.key.equals(key)) return it;
         Logging.info("cannot find skin " + key);
         throw new IllegalArgumentException();
+    }
+
+    public boolean isReversible() {
+        return reversible;
     }
 }

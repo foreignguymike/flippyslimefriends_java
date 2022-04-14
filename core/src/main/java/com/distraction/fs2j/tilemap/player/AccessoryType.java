@@ -5,6 +5,7 @@ import com.distraction.fs2j.Context;
 import com.distraction.fs2j.Logging;
 import com.distraction.fs2j.Utils;
 import com.distraction.fs2j.tilemap.player.accessories.Accessory;
+import com.distraction.fs2j.tilemap.player.accessories.BasicHat;
 import com.distraction.fs2j.tilemap.player.accessories.BunnyEars;
 import com.distraction.fs2j.tilemap.player.accessories.CatEars;
 import com.distraction.fs2j.tilemap.player.accessories.Crown;
@@ -14,7 +15,6 @@ import com.distraction.fs2j.tilemap.player.accessories.HeadBubble;
 import com.distraction.fs2j.tilemap.player.accessories.Headband;
 import com.distraction.fs2j.tilemap.player.accessories.SantaHat;
 import com.distraction.fs2j.tilemap.player.accessories.Sunglasses;
-import com.distraction.fs2j.tilemap.player.accessories.WizardHat;
 import com.distraction.fs2j.tilemap.player.accessories.WoodStaff;
 
 import java.util.ArrayList;
@@ -34,9 +34,11 @@ public enum AccessoryType implements Customizer {
     SUNGLASSES("sunglasses", 40, 22, 7),
     DOG_EARS("dogears", 50, 10, 10),
     HEADBAND_BLACK("headbandblack", 50, 30, 10),
+    BAMBOO_HAT("bamboohat", 50),
     WOOD_STAFF("woodstaff", 65),
     CAT_EARS("catears", 60, 9, 10),
     CROWN("crown", 70, 13, 11),
+    HALO("halo", 75),
     HEADBAND_BLACK_YELLOW_TRIM("headbandblackyellowtrim", 80, 30, 10),
     BUNNY_EARS("bunnyears", 100, 8, 16),
     HEADBAND_COBRA_KAI("headbandcobrakai", 100, 30, 10),
@@ -48,7 +50,10 @@ public enum AccessoryType implements Customizer {
             HEADBAND_BLUE, HEADBAND_WHITE, HEADBAND_GREEN, HEADBAND_RED, HEADBAND_ORANGE, HEADBAND_YELLOW, HEADBAND_BLACK,
             HEADBAND_BLACK_YELLOW_TRIM,
             HEADBAND_COBRA_KAI, HEADBAND_MIYAGI
+    };
 
+    private static final AccessoryType[] basicHats = new AccessoryType[] {
+            WIZARD_HAT, HALO, BAMBOO_HAT
     };
 
     public String key;
@@ -114,11 +119,11 @@ public enum AccessoryType implements Customizer {
             else if (it == SUNGLASSES) accessories.add(new Sunglasses(player));
             else if (it == DOG_EARS) accessories.add(new DogEars(player));
             else if (it == BUNNY_EARS) accessories.add(new BunnyEars(player));
-            else if (it == WIZARD_HAT) accessories.add(new WizardHat(player));
             else if (it == WOOD_STAFF) accessories.add(new WoodStaff(player));
-            else if (Utils.contains(headbands, it)) accessories.add(new Headband(player, it));
             else if (it == CROWN) accessories.add(new Crown(player));
             else if (it == CAT_EARS) accessories.add(new CatEars(player));
+            else if (Utils.contains(headbands, it)) accessories.add(new Headband(player, it));
+            else if (Utils.contains(basicHats, it)) accessories.add(new BasicHat(player, it));
         }
         return accessories;
     }

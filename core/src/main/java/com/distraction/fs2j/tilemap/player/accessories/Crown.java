@@ -13,7 +13,6 @@ public class Crown extends Accessory {
     public Crown(Player player) {
         super(player);
         sprites = AccessoryType.CROWN.getSprites(player.context);
-        offset.x = -6f;
     }
 
     @Override

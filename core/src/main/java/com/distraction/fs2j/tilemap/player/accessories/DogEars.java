@@ -20,15 +20,15 @@ public class DogEars extends Accessory {
         AnimationSet animationSet = player.playerRenderer.animationSet;
         switch (animationSet.currentAnimationKey) {
             case Player.IDLE:
-                offset.x = -15;
+                offset.x = -10;
                 offset.y = animationSet.currentAnimation.currentFrame() == 0 ? 11f : 10f;
                 break;
             case Player.CROUCH:
-                offset.x = -18;
+                offset.x = -13;
                 offset.y = 5f;
                 break;
             case Player.JUMP:
-                offset.x = -13;
+                offset.x = -8;
                 offset.y = 15f;
                 break;
         }
