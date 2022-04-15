@@ -44,7 +44,7 @@ public class ScoreHandler {
     }
 
     public int getNumStars() {
-        if (Utils.UNLOCK_ALL) return 1000;
+        if (Constants.DEBUG_MODE) return 1000;
         int count = 0;
         for (Area area : Area.values()) {
             int[] areaScores = getScores(area);
@@ -54,7 +54,7 @@ public class ScoreHandler {
     }
 
     public int getNumDiamonds() {
-        if (Utils.UNLOCK_ALL) return 1000;
+        if (Constants.DEBUG_MODE) return 1000;
         int count = 0;
         for (Area area : Area.values()) {
             int[] areaScores = getScores(area);

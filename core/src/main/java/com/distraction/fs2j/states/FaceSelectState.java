@@ -32,7 +32,7 @@ public class FaceSelectState extends GameState {
     private ImageButton diamond;
     private NumberFont diamondFont;
 
-    protected FaceSelectState(Context context, CustomizeState customizeState) {
+    protected FaceSelectState(Context context, CustomizeState customizeState, int numDiamonds) {
         super(context);
         this.customizeState = customizeState;
 
@@ -60,7 +60,9 @@ public class FaceSelectState extends GameState {
                 if (i == faceIcons.length) break;
                 faceIcons[i] = new AccessoryIcon(context, faces[i],
                         s + col * (w + p),
-                        sy - row * (w + p)
+                        sy - row * (w + p),
+                        -1,
+                        numDiamonds
                 );
                 faceIcons[i].setOffset(-1, 6);
             }
@@ -69,7 +71,7 @@ public class FaceSelectState extends GameState {
         infoBox = new InfoBox(context, Constants.WIDTH / 2, Constants.HEIGHT / 2, tw + 40, th + 55);
         diamond = new ImageButton(context.getImage("diamondunlock"));
         diamondFont = new NumberFont(context, false, NumberFont.NumberSize.LARGE);
-        diamondFont.setNum(context.scoreHandler.getNumDiamonds());
+        diamondFont.setNum(numDiamonds);
         diamond.setPosition((Constants.WIDTH - diamondFont.getTotalWidth()) / 2f - 3, infoBox.pos.y + infoBox.height / 2 - 20);
     }
 

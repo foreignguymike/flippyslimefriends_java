@@ -12,6 +12,8 @@ public class AccessoryIcon extends ImageButton {
 
     private Context context;
     private Customizer type;
+    private int numStars;
+    private int numDiamonds;
 
     private TextureRegion iconImage;
     private Vector2 offset = new Vector2();
@@ -21,14 +23,16 @@ public class AccessoryIcon extends ImageButton {
     // requirements
     private TextureRegion star;
     private TextureRegion diamond;
-    private int stars;
-    private int diamonds;
+    private int requiredStars;
+    private int requiredDiamonds;
     private NumberFont starFont;
     private NumberFont diamondFont;
 
-    public AccessoryIcon(Context context, Customizer type, float x, float y) {
+    public AccessoryIcon(Context context, Customizer type, float x, float y, int numStars, int numDiamonds) {
         super(context.getImage("accessoryiconbg"), x, y);
         this.context = context;
+        this.numStars = numStars;
+        this.numDiamonds = numDiamonds;
         star = context.getImage("starunlock");
         diamond = context.getImage("diamondunlock");
         starFont = new NumberFont(context, true, NumberFont.NumberSize.MEDIUM);
@@ -36,20 +40,20 @@ public class AccessoryIcon extends ImageButton {
         setType(type);
         if (type != null) {
             diamondFont.setNum(type.getDiamonds());
-            setDiamonds(type.getDiamonds());
+            setRequiredDiamonds(type.getDiamonds());
         }
     }
 
-    public void setStars(int stars) {
-        this.stars = stars;
-        starFont.setNum(stars);
-        locked = context.scoreHandler.getNumStars() < stars || context.scoreHandler.getNumDiamonds() < diamonds;
+    public void setRequiredStars(int requiredStars) {
+        this.requiredStars = requiredStars;
+        starFont.setNum(requiredStars);
+        locked = numStars != -1 && numStars < requiredStars || numDiamonds < requiredDiamonds;
     }
 
-    public void setDiamonds(int diamonds) {
-        this.diamonds = diamonds;
-        diamondFont.setNum(diamonds);
-        locked = context.scoreHandler.getNumStars() < stars || context.scoreHandler.getNumDiamonds() < diamonds;
+    public void setRequiredDiamonds(int requiredDiamonds) {
+        this.requiredDiamonds = requiredDiamonds;
+        diamondFont.setNum(requiredDiamonds);
+        locked = numStars != -1 && numStars < requiredStars || numDiamonds < requiredDiamonds;
     }
 
     public void setType(Customizer type) {
@@ -59,7 +63,7 @@ public class AccessoryIcon extends ImageButton {
             if (type instanceof Skin) iconImage = ((Skin) type).getSprites(context)[0];
             if (type instanceof AccessoryType)
                 iconImage = ((AccessoryType) type).getSprites(context)[0];
-            setDiamonds(type.getDiamonds());
+            setRequiredDiamonds(type.getDiamonds());
         } else {
             iconImage = null;
         }
@@ -77,10 +81,10 @@ public class AccessoryIcon extends ImageButton {
 
         if (locked) {
             sb.setColor(1, 1, 1, 1);
-            if (stars > 0) {
+            if (requiredStars > 0) {
                 Utils.drawCentered(sb, star, pos.x, pos.y + 6);
                 starFont.render(sb, pos.x, pos.y - 7);
-            } else if (diamonds > 0) {
+            } else if (requiredDiamonds > 0) {
                 Utils.drawCentered(sb, diamond, pos.x, pos.y + 6);
                 diamondFont.render(sb, pos.x, pos.y - 6);
             }

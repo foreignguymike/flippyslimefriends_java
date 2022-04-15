@@ -39,7 +39,7 @@ class AccessorySelectState extends GameState {
     private ImageButton diamond;
     private NumberFont diamondFont;
 
-    protected AccessorySelectState(Context context, CustomizeState customizeState, int accessoryIndex, AccessoryType replacing, AccessoryType[] alreadySelected) {
+    protected AccessorySelectState(Context context, CustomizeState customizeState, int numDiamonds, int accessoryIndex, AccessoryType replacing, AccessoryType[] alreadySelected) {
         super(context);
         this.customizeState = customizeState;
         this.accessoryIndex = accessoryIndex;
@@ -73,7 +73,7 @@ class AccessorySelectState extends GameState {
                 if (i == accessoryIcons.length) break;
                 float x = s + col * (w + p);
                 float y = sy - row * (w + p);
-                accessoryIcons[i] = new AccessoryIcon(context, accessoryTypes[i], x, y);
+                accessoryIcons[i] = new AccessoryIcon(context, accessoryTypes[i], x, y, -1, numDiamonds);
                 accessoryIcons[i].setOffset(accessoryTypes[i].xoffset, accessoryTypes[i].yoffset);
                 if (accessoryTypes[i] != replacing && Utils.contains(alreadySelected, accessoryTypes[i])) {
                     accessoryIcons[i].disabled = true;
@@ -88,7 +88,7 @@ class AccessorySelectState extends GameState {
         xbutton = new TextButton(context.getImage("xicon"), context.getImage("iconbuttonbg"), Constants.WIDTH / 2, infoBox.pos.y - infoBox.height / 2 + 30);
         diamond = new ImageButton(context.getImage("diamondunlock"));
         diamondFont = new NumberFont(context, false, NumberFont.NumberSize.LARGE);
-        diamondFont.setNum(context.scoreHandler.getNumDiamonds());
+        diamondFont.setNum(numDiamonds);
         diamond.setPosition((Constants.WIDTH - diamondFont.getTotalWidth()) / 2f - 3, infoBox.pos.y + infoBox.height / 2 - 20);
     }
 

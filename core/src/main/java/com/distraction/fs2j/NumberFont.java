@@ -15,7 +15,9 @@ public class NumberFont {
         NumberSize(String key) {
             this.key = key;
         }
-    };
+    }
+
+    ;
 
     private boolean centerAlign;
 

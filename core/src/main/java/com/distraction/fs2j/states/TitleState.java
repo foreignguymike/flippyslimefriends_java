@@ -53,9 +53,9 @@ public class TitleState extends GameState {
         context.gsm.push(new CheckeredTransitionState(context, new AreaSelectState(context)));
     }
 
-    private void goToCustomize() {
+    private void goToCustomize(boolean preview) {
         ignoreInput = true;
-        context.gsm.push(new CheckeredTransitionState(context, new CustomizeState(context)));
+        context.gsm.push(new CheckeredTransitionState(context, new CustomizeState(context, preview)));
     }
 
     private void handleInput() {
@@ -64,13 +64,12 @@ public class TitleState extends GameState {
             if (title.containsPoint(touchPoint)) {
                 unlockCount++;
                 if (unlockCount == 5) {
-                    Utils.UNLOCK_ALL = true;
-                    goToCustomize();
+                    goToCustomize(true);
                 }
             } else unlockCount = 0;
 
             if (playButton.containsPoint(touchPoint)) goToAreaSelect();
-            if (customizeButton.containsPoint(touchPoint)) goToCustomize();
+            if (customizeButton.containsPoint(touchPoint)) goToCustomize(false);
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) goToAreaSelect();
     }

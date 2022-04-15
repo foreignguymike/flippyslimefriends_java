@@ -10,9 +10,8 @@ import com.badlogic.gdx.math.Vector3;
 
 public class Utils {
 
-    public static boolean UNLOCK_ALL = false;
-
     public static void takeScreenshot() {
+        // GWT doesn't like
 //        String name = "FS2 " + UUID.randomUUID();
 //        byte[] pixels = ScreenUtils.getFrameBufferPixels(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), true);
 //        for (int i = 4; i < pixels.length; i += 4) {
@@ -165,7 +164,7 @@ public class Utils {
     }
 
     public static void drawRotated(SpriteBatch sb, TextureRegion image, float x, float y, float w, float h, float deg) {
-        drawRotated(sb, image, x, y, deg,image.getRegionWidth() / 2f, image.getRegionHeight() / 2f, w, h, 1f);
+        drawRotated(sb, image, x, y, deg, image.getRegionWidth() / 2f, image.getRegionHeight() / 2f, w, h, 1f);
     }
 
     public static void drawRotated(SpriteBatch sb, TextureRegion image, float x, float y, float deg, float originx, float originy, float scale) {

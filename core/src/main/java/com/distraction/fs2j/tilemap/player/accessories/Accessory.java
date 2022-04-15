@@ -48,7 +48,8 @@ public abstract class Accessory {
 
     protected void normalRender(SpriteBatch sb, TextureRegion image, boolean right, float xo, float yo) {
         Vector3 isop = player.isop;
-        if (right) sb.draw(image, isop.x - image.getRegionWidth() / 2f + offset.x + xo, isop.y + player.p.z + offset.y + yo);
+        if (right)
+            sb.draw(image, isop.x - image.getRegionWidth() / 2f + offset.x + xo, isop.y + player.p.z + offset.y + yo);
         else
             Utils.drawHFlip(sb, image, isop.x + image.getRegionWidth() / 2f - offset.x + xo, isop.y + player.p.z + offset.y + yo);
     }

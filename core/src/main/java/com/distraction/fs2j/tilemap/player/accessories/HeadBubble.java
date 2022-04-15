@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import com.distraction.fs2j.AnimationSet;
-import com.distraction.fs2j.Utils;
 import com.distraction.fs2j.tilemap.player.AccessoryType;
 import com.distraction.fs2j.tilemap.player.Player;
 
@@ -45,7 +44,8 @@ public class HeadBubble extends Accessory {
 
         sb.setColor(1, 1, 1, 1);
         Vector3 isop = player.isop;
-        if (player.right()) sb.draw(pixel, isop.x + offset.x - 2, isop.y + player.p.z + offset.y + 11);
+        if (player.right())
+            sb.draw(pixel, isop.x + offset.x - 2, isop.y + player.p.z + offset.y + 11);
         else sb.draw(pixel, isop.x + offset.x + 9, isop.y + player.p.z + offset.y + 11);
         sb.setColor(c);
     }
