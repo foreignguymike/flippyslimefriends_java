@@ -164,6 +164,10 @@ public class Utils {
         drawRotated(sb, image, x, y, deg, image.getRegionWidth() / 2f, image.getRegionHeight() / 2f, 1f);
     }
 
+    public static void drawRotated(SpriteBatch sb, TextureRegion image, float x, float y, float w, float h, float deg) {
+        drawRotated(sb, image, x, y, deg,image.getRegionWidth() / 2f, image.getRegionHeight() / 2f, w, h, 1f);
+    }
+
     public static void drawRotated(SpriteBatch sb, TextureRegion image, float x, float y, float deg, float originx, float originy, float scale) {
         sb.draw(
                 image,
@@ -173,6 +177,21 @@ public class Utils {
                 originy,
                 1f * image.getRegionWidth(),
                 1f * image.getRegionHeight(),
+                scale,
+                scale,
+                deg
+        );
+    }
+
+    public static void drawRotated(SpriteBatch sb, TextureRegion image, float x, float y, float deg, float originx, float originy, float w, float h, float scale) {
+        sb.draw(
+                image,
+                x - image.getRegionWidth() / 2f,
+                y - image.getRegionHeight() / 2f,
+                originx,
+                originy,
+                w,
+                h,
                 scale,
                 scale,
                 deg

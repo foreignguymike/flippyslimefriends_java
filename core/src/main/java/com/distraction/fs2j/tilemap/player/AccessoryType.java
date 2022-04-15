@@ -5,6 +5,7 @@ import com.distraction.fs2j.Context;
 import com.distraction.fs2j.Logging;
 import com.distraction.fs2j.Utils;
 import com.distraction.fs2j.tilemap.player.accessories.Accessory;
+import com.distraction.fs2j.tilemap.player.accessories.AngelWings;
 import com.distraction.fs2j.tilemap.player.accessories.BasicHat;
 import com.distraction.fs2j.tilemap.player.accessories.BunnyEars;
 import com.distraction.fs2j.tilemap.player.accessories.CatEars;
@@ -15,7 +16,7 @@ import com.distraction.fs2j.tilemap.player.accessories.HeadBubble;
 import com.distraction.fs2j.tilemap.player.accessories.Headband;
 import com.distraction.fs2j.tilemap.player.accessories.SantaHat;
 import com.distraction.fs2j.tilemap.player.accessories.Sunglasses;
-import com.distraction.fs2j.tilemap.player.accessories.WoodStaff;
+import com.distraction.fs2j.tilemap.player.accessories.Wieldable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,12 +40,16 @@ public enum AccessoryType implements Customizer {
     CAT_EARS("catears", 60, 9, 10),
     CROWN("crown", 70, 13, 11),
     HALO("halo", 75),
+    BAMBOO_HAT_GREEN("bamboohatgreen", 75),
     HEADBAND_BLACK_YELLOW_TRIM("headbandblackyellowtrim", 80, 30, 10),
     BUNNY_EARS("bunnyears", 100, 8, 16),
     HEADBAND_COBRA_KAI("headbandcobrakai", 100, 30, 10),
+    BAMBOO_HAT_BLUE("bamboohatblue", 110),
     FISH("fish", 120, 14, 7),
     HEADBAND_MIYAGI("headbandmiyagi", 150, 30, 10),
-    ;
+    BAMBOO_HAT_RED("bamboohatred", 175),
+    ANGEL_WINGS("angelwings", 200, 15, 14),
+    WAND("wand", 220);
 
     private static final AccessoryType[] headbands = new AccessoryType[]{
             HEADBAND_BLUE, HEADBAND_WHITE, HEADBAND_GREEN, HEADBAND_RED, HEADBAND_ORANGE, HEADBAND_YELLOW, HEADBAND_BLACK,
@@ -52,8 +57,12 @@ public enum AccessoryType implements Customizer {
             HEADBAND_COBRA_KAI, HEADBAND_MIYAGI
     };
 
-    private static final AccessoryType[] basicHats = new AccessoryType[] {
-            WIZARD_HAT, HALO, BAMBOO_HAT
+    private static final AccessoryType[] basicHats = new AccessoryType[]{
+            WIZARD_HAT, HALO, BAMBOO_HAT, BAMBOO_HAT_GREEN, BAMBOO_HAT_BLUE, BAMBOO_HAT_RED
+    };
+
+    private static final AccessoryType[] wieldable = new AccessoryType[]{
+            WOOD_STAFF, WAND
     };
 
     public String key;
@@ -72,31 +81,11 @@ public enum AccessoryType implements Customizer {
         this.diamond = diamond;
     }
 
-    AccessoryType(String key, int width, int height) {
-        this.key = key;
-        this.width = width;
-        this.height = height;
-    }
-
     AccessoryType(String key, int diamond, int width, int height) {
         this.key = key;
         this.diamond = diamond;
         this.width = width;
         this.height = height;
-    }
-
-    AccessoryType(String key, float xoffset, float yoffset) {
-        this.key = key;
-        this.xoffset = xoffset;
-        this.yoffset = yoffset;
-    }
-
-    AccessoryType(String key, int width, int height, float xoffset, float yoffset) {
-        this.key = key;
-        this.width = width;
-        this.height = height;
-        this.xoffset = xoffset;
-        this.yoffset = yoffset;
     }
 
     @Override
@@ -119,11 +108,12 @@ public enum AccessoryType implements Customizer {
             else if (it == SUNGLASSES) accessories.add(new Sunglasses(player));
             else if (it == DOG_EARS) accessories.add(new DogEars(player));
             else if (it == BUNNY_EARS) accessories.add(new BunnyEars(player));
-            else if (it == WOOD_STAFF) accessories.add(new WoodStaff(player));
             else if (it == CROWN) accessories.add(new Crown(player));
             else if (it == CAT_EARS) accessories.add(new CatEars(player));
+            else if (it == ANGEL_WINGS) accessories.add(new AngelWings(player));
             else if (Utils.contains(headbands, it)) accessories.add(new Headband(player, it));
             else if (Utils.contains(basicHats, it)) accessories.add(new BasicHat(player, it));
+            else if (Utils.contains(wieldable, it)) accessories.add(new Wieldable(player, it));
         }
         return accessories;
     }

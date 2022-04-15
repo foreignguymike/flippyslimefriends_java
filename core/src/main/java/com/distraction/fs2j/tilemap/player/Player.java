@@ -53,7 +53,7 @@ public class Player extends TileObject implements Tile.TileMoveListener {
     public PlayerRenderer playerRenderer = new PlayerRenderer();
 
     private float jumpHeight = 40f;
-    private float totalDist = 0f;
+    public float totalDist = 0f;
     public boolean moving = false;
     private boolean sliding = false;
     private boolean superjump = false;
@@ -193,7 +193,7 @@ public class Player extends TileObject implements Tile.TileMoveListener {
         return players.stream().filter(it -> it.row == row && it.col == col).collect(Collectors.toList());
     }
 
-    private float getRemainingDistance() {
+    public float getRemainingDistance() {
         return Utils.dist(pdest.x, pdest.y, p.x, p.y);
     }
 

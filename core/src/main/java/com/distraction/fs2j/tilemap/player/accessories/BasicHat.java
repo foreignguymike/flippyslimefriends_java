@@ -16,12 +16,16 @@ import java.util.Map;
 public class BasicHat extends Accessory {
 
     private static Map<AccessoryType, int[]> offsetMap;
+    private static final int[] BAMBOO_HAT_OFFSETS_DEFAULT = new int[] { 0, 13, 12, 10, 17 };
 
     static {
         offsetMap = new HashMap<>();
         offsetMap.put(AccessoryType.WIZARD_HAT, new int[] { -1, 14, 13, 10, 18 });
         offsetMap.put(AccessoryType.HALO, new int[] { 0, 25, 25, 21, 27 });
-        offsetMap.put(AccessoryType.BAMBOO_HAT, new int[] { 0, 13, 12, 10, 17 });
+        offsetMap.put(AccessoryType.BAMBOO_HAT, BAMBOO_HAT_OFFSETS_DEFAULT);
+        offsetMap.put(AccessoryType.BAMBOO_HAT_GREEN, BAMBOO_HAT_OFFSETS_DEFAULT);
+        offsetMap.put(AccessoryType.BAMBOO_HAT_BLUE, BAMBOO_HAT_OFFSETS_DEFAULT);
+        offsetMap.put(AccessoryType.BAMBOO_HAT_RED, BAMBOO_HAT_OFFSETS_DEFAULT);
     }
 
     private AccessoryType type;

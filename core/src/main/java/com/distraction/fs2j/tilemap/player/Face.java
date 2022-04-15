@@ -14,7 +14,8 @@ public enum Face implements Customizer {
     INVERTED("inverted", 50),
     BUNNY("bunny", 60),
     STARE("stare", 80),
-    EYE("eye", 150),
+    EYE("eye", 120),
+    PUMPKIN("pumpkin", 150),
     EMIL("emil", 200);
 
     public String key;

@@ -3,7 +3,6 @@ skins
 ======
 
 metal
-pumpkin
 matte colors?
 
 ======
@@ -12,7 +11,6 @@ faces
 
 depressed
 ghost
-pumpkin
 robot
 
 ============
@@ -43,7 +41,6 @@ weather (small weather thing floating over you, eg: little rain cloud)
 
 back:
 backpack (different styles/colors)
-angel wings
 devil wings
 all of the wings
 all of the capes
@@ -52,9 +49,9 @@ turtle shell
 weapons
 
 wield:
-staves
 swords
 pitchfork
 shield
+umbrella
 
 special:

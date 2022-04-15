@@ -23,7 +23,7 @@ public class Crown extends Accessory {
                 offset.y = animationSet.currentAnimation.currentFrame() == 0 ? 16f : 15f;
                 break;
             case Player.CROUCH:
-                offset.y = 10f;
+                offset.y = 13f;
                 break;
             case Player.JUMP:
                 offset.y = 20f;

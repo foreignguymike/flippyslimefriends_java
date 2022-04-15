@@ -43,7 +43,10 @@ public class TitleState extends GameState {
             unprojectTouch();
             if (title.containsPoint(touchPoint)) {
                 unlockCount++;
-                if (unlockCount == 5) Utils.UNLOCK_ALL = true;
+                if (unlockCount == 5) {
+                    Utils.UNLOCK_ALL = true;
+                    goToCustomize();
+                }
             } else unlockCount = 0;
 
             if (playButton.containsPoint(touchPoint)) goToAreaSelect();
