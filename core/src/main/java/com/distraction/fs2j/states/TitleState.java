@@ -41,7 +41,6 @@ public class TitleState extends GameState {
 
         String[] v = Constants.VERSION.split("\\.");
         v[0] = v[0].substring(1);
-        Arrays.stream(v).map(Integer::parseInt).forEach(System.out::println);
         major = new NumberFont(context, false, NumberFont.NumberSize.SMALL, Integer.parseInt(v[0]));
         minor = new NumberFont(context, false, NumberFont.NumberSize.SMALL, Integer.parseInt(v[1]));
         build = new NumberFont(context, false, NumberFont.NumberSize.SMALL, Integer.parseInt(v[2]));
