@@ -5,7 +5,17 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class NumberFont {
 
-    public enum NumberSize {MEDIUM, LARGE}
+    public enum NumberSize {
+        SMALL("num1"),
+        MEDIUM("num2"),
+        LARGE("num3");
+
+        String key;
+
+        NumberSize(String key) {
+            this.key = key;
+        }
+    };
 
     private boolean centerAlign;
 
@@ -18,11 +28,20 @@ public class NumberFont {
     public NumberFont(Context context, boolean centerAlign, NumberSize size) {
         this.centerAlign = centerAlign;
         images = new TextureRegion[10];
-        String key = size == NumberSize.MEDIUM ? "num2" : "num3";
         for (int i = 0; i < images.length; i++) {
-            images[i] = context.getImage(key, i);
+            images[i] = context.getImage(size.key, i);
         }
         nan = context.getImage("-");
+    }
+
+    public NumberFont(Context context, boolean centerAlign, NumberSize size, int num) {
+        this.centerAlign = centerAlign;
+        images = new TextureRegion[10];
+        for (int i = 0; i < images.length; i++) {
+            images[i] = context.getImage(size.key, i);
+        }
+        nan = context.getImage("-");
+        setNum(num);
     }
 
     private int charToInt(char c) {

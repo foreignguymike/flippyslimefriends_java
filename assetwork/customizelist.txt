@@ -47,6 +47,7 @@ all of the capes
 rocket boosters
 turtle shell
 weapons
+CAPES
 
 wield:
 swords
