@@ -13,8 +13,6 @@ import java.util.Map;
 
 public class HUD {
 
-    public static final float HEIGHT = 48f;
-
     private ButtonListener buttonListener;
     private List<Player> players;
 
@@ -27,8 +25,8 @@ public class HUD {
     private OrthographicCamera bottomCam;
 
     // for arrow button placement
-    private Vector2 a = new Vector2(60, 60);
-    private float dist = 22f;
+    private Vector2 a = new Vector2(60 * Constants.SCALE, 60 * Constants.SCALE);
+    private float dist = 22f * Constants.SCALE;
     private Map<ButtonListener.ButtonType, ImageButton> bottomButtons;
     private Map<ButtonListener.ButtonType, TextButton> topButtons;
     private TextButton switchButton;
@@ -51,33 +49,33 @@ public class HUD {
         bottomButtons.put(ButtonListener.ButtonType.DOWN, new ImageButton(context.getImage("downleftarrow"), a.x - dist, a.y - dist, 5f));
         topButtons = new HashMap<>();
         topButtons.put(ButtonListener.ButtonType.BACK,
-                new TextButton(context.getImage("backicon"), context.getImage("iconbuttonbg"), 25f, Constants.HEIGHT - HEIGHT / 2f, 5f));
+                new TextButton(context.getImage("backicon"), context.getImage("iconbuttonbg"), 25f * Constants.SCALE, Constants.HEIGHT - 25f * Constants.SCALE, 5f * Constants.SCALE));
         topButtons.put(ButtonListener.ButtonType.RESTART,
-                new TextButton(context.getImage("restarticon"), context.getImage("iconbuttonbg"), 65f, Constants.HEIGHT - HEIGHT / 2f, 5f));
-        switchButton = new TextButton(context.getImage("switch"), context.getImage("buttonbg"), Constants.WIDTH / 2f, 30f, 5f);
-        bubbleDropButton = new TextButton(context.getImage("bubbledropicon"), context.getImage("iconbuttonbg"), Constants.WIDTH - 25f, 25f, 5f);
+                new TextButton(context.getImage("restarticon"), context.getImage("iconbuttonbg"), 65f * Constants.SCALE, Constants.HEIGHT - 25f * Constants.SCALE, 5f * Constants.SCALE));
+        switchButton = new TextButton(context.getImage("switch"), context.getImage("buttonbg"), Constants.WIDTH / 2f, 30f * Constants.SCALE, 5f * Constants.SCALE);
+        bubbleDropButton = new TextButton(context.getImage("bubbledropicon"), context.getImage("iconbuttonbg"), Constants.WIDTH - 25f * Constants.SCALE, 25f * Constants.SCALE, 5f * Constants.SCALE);
 
         labels = new NumberLabel[]{
                 new NumberLabel(
                         context,
                         context.getImage("goal"),
-                        new Vector2(Constants.WIDTH - 50f, Constants.HEIGHT - 15f)
+                        new Vector2(Constants.WIDTH - 50f * Constants.SCALE, Constants.HEIGHT - 15f * Constants.SCALE)
                 ),
                 new NumberLabel(
                         context,
                         context.getImage("best"),
-                        new Vector2(Constants.WIDTH - 50f, Constants.HEIGHT - 35f)
+                        new Vector2(Constants.WIDTH - 50f * Constants.SCALE, Constants.HEIGHT - 35f * Constants.SCALE)
                 ),
                 new NumberLabel(
                         context,
                         context.getImage("moves"),
-                        new Vector2(Constants.WIDTH - 130f, Constants.HEIGHT - 35f),
+                        new Vector2(Constants.WIDTH - 130f * Constants.SCALE, Constants.HEIGHT - 35f * Constants.SCALE),
                         0
                 ),
                 new NumberLabel(
                         context,
                         context.getImage("leveltitle"),
-                        new Vector2(130f, Constants.HEIGHT - HEIGHT / 2f),
+                        new Vector2(130f * Constants.SCALE, Constants.HEIGHT - 25f * Constants.SCALE),
                         level + 1,
                         NumberFont.NumberSize.LARGE
                 )
@@ -111,7 +109,7 @@ public class HUD {
 
     private void updateVisibility(float dt) {
         if (hideInfo) {
-            Utils.lerp(topCam.position, Constants.WIDTH / 2f, Constants.HEIGHT / 2f - HEIGHT * 2, 0f, 4f * dt);
+            Utils.lerp(topCam.position, Constants.WIDTH / 2f, Constants.HEIGHT / 2f, 0f, 4f * dt);
             Utils.lerp(bottomCam.position, Constants.WIDTH / 2f, 300f, 0f, 4f * dt);
         } else {
             Utils.lerp(topCam.position, Constants.WIDTH / 2f, Constants.HEIGHT / 2f, 0f, 4f * dt);

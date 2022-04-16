@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
+import com.distraction.fs2j.Constants;
 import com.distraction.fs2j.Utils;
 import com.distraction.fs2j.tilemap.player.AccessoryType;
 import com.distraction.fs2j.tilemap.player.Player;
@@ -38,7 +39,7 @@ public class AngelWings extends Accessory {
         Utils.drawRotated(
                 sb,
                 image,
-                isop.x - image.getRegionWidth() / 2f + offset.x - 16 + (player.right() ? 0 : 62),
+                isop.x - image.getRegionWidth() / 2f + offset.x - 16 * Constants.SCALE + (player.right() ? 0 : 62 * Constants.SCALE),
                 isop.y + player.p.z + offset.y,
                 deg * (player.right() ? -1 : 1),
                 image.getRegionWidth() * (player.right() ? 1 : -1),
@@ -50,8 +51,8 @@ public class AngelWings extends Accessory {
         Utils.drawRotated(
                 sb,
                 image,
-                isop.x - image.getRegionWidth() / 2f + offset.x - 16 + (player.right() ? 60 : 2),
-                isop.y + player.p.z + offset.y + (player.forward() ? 2 : -2),
+                isop.x - image.getRegionWidth() / 2f + offset.x - 16 * Constants.SCALE + (player.right() ? 60 * Constants.SCALE : 2 * Constants.SCALE),
+                isop.y + player.p.z + offset.y + (player.forward() ? 2 * Constants.SCALE : -2 * Constants.SCALE),
                 deg * (player.right() ? 1 : -1),
                 image.getRegionWidth() * (player.right() ? -1 : 1),
                 image.getRegionHeight() / 2f,

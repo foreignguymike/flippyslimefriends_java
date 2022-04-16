@@ -2,10 +2,13 @@ package com.distraction.fs2j.states;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.distraction.fs2j.Constants;
 import com.distraction.fs2j.Context;
 import com.distraction.fs2j.tilemap.data.GameColor;
 
 class CheckeredTransitionState extends TransitionState {
+
+    private float s = Constants.WIDTH / 16;
 
     public CheckeredTransitionState(Context context, GameState nextState) {
         super(context, nextState);
@@ -29,10 +32,10 @@ class CheckeredTransitionState extends TransitionState {
                 for (int col = 0; col < 16; col++) {
                     float size;
                     float ttime = time - ((9 - row + col) / 40f) * (duration / 2);
-                    if (time < duration / 2) size = 30 * (ttime / (duration / 6));
-                    else size = 30 - 30 * ((ttime - duration / 2) / (duration / 6));
-                    size = MathUtils.clamp(size, 0, 30);
-                    sb.draw(pixel, 15 + 30 * col - size / 2, 15 + 30 * row - size / 2, size, size);
+                    if (time < duration / 2) size = s * (ttime / (duration / 6));
+                    else size = s - s * ((ttime - duration / 2) / (duration / 6));
+                    size = MathUtils.clamp(size, 0, s);
+                    sb.draw(pixel, s / 2 + s * col - size / 2, s / 2 + s * row - size / 2, size, size);
                 }
             }
         }

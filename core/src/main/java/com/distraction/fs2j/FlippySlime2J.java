@@ -20,6 +20,7 @@ public class FlippySlime2J extends ApplicationAdapter {
 
     @Override
     public void create() {
+        
         context = new Context();
         gsm = context.gsm;
         sb = new SpriteBatch();

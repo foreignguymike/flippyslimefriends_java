@@ -3,6 +3,7 @@ package com.distraction.fs2j.tilemap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
+import com.distraction.fs2j.Constants;
 import com.distraction.fs2j.Context;
 import com.distraction.fs2j.tilemap.data.Area;
 import com.distraction.fs2j.tilemap.data.ArrowData;
@@ -37,9 +38,9 @@ public class TileMap implements Tile.TileMoveListener {
         void onTileToggled(TileMap tileMap);
     }
 
-    public static final float TILE_SIZE = 30f;
-    public static final float TILE_IWIDTH = 60f;
-    public static final float TILE_IHEIGHT = 30f;
+    public static final float TILE_SIZE = 30f * Constants.SCALE;
+    public static final float TILE_IWIDTH = 60f * Constants.SCALE;
+    public static final float TILE_IHEIGHT = 30f * Constants.SCALE;
 
     private Context context;
     private TileListener tileListener;

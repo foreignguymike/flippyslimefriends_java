@@ -63,7 +63,7 @@ public class NumberFont {
             char c = s.charAt(i);
             if (c != '-') {
                 int n = charToInt(c);
-                length += images[n].getRegionWidth() + 1;
+                length += images[n].getRegionWidth() + Constants.SCALE;
             }
         }
         this.num = num;
@@ -86,14 +86,14 @@ public class NumberFont {
                 char c = s.charAt(i);
                 int n = charToInt(c);
                 sb.draw(images[n], x + offset - length / 2f, y - images[n].getRegionHeight() / 2f);
-                offset += images[n].getRegionWidth() + 1;
+                offset += images[n].getRegionWidth() + Constants.SCALE;
             }
         } else {
             for (int i = 0; i < s.length(); i++) {
                 char c = s.charAt(i);
                 int n = charToInt(c);
                 sb.draw(images[n], x + offset, y - images[n].getRegionHeight() / 2f);
-                offset += images[n].getRegionWidth() + 1;
+                offset += images[n].getRegionWidth() + Constants.SCALE;
             }
         }
     }

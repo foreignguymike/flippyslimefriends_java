@@ -28,6 +28,6 @@ public class NumberLabel {
 
     public void render(SpriteBatch sb) {
         sb.draw(image, pos.x - image.getRegionWidth() / 2f, pos.y - image.getRegionHeight() / 2f);
-        font.render(sb, pos.x + image.getRegionWidth() / 2f + 5f, pos.y);
+        font.render(sb, pos.x + image.getRegionWidth() / 2f + 5f * Constants.SCALE, pos.y);
     }
 }

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.distraction.fs2j.Constants;
 import com.distraction.fs2j.Utils;
 import com.distraction.fs2j.tilemap.player.Player;
 
@@ -11,7 +12,7 @@ public abstract class Accessory {
 
     public Player player;
 
-    protected Vector2 offset = new Vector2(0f, 15f);
+    protected Vector2 offset = new Vector2(0f, 15f * Constants.SCALE);
     private TextureRegion pixel;
 
     public Accessory(Player player) {
@@ -49,8 +50,8 @@ public abstract class Accessory {
     protected void normalRender(SpriteBatch sb, TextureRegion image, boolean right, float xo, float yo) {
         Vector3 isop = player.isop;
         if (right)
-            sb.draw(image, isop.x - image.getRegionWidth() / 2f + offset.x + xo, isop.y + player.p.z + offset.y + yo);
+            sb.draw(image, isop.x - image.getRegionWidth() / 2f + offset.x * Constants.SCALE + xo, isop.y + player.p.z + offset.y * Constants.SCALE + yo);
         else
-            Utils.drawHFlip(sb, image, isop.x + image.getRegionWidth() / 2f - offset.x + xo, isop.y + player.p.z + offset.y + yo);
+            Utils.drawHFlip(sb, image, isop.x + image.getRegionWidth() / 2f - offset.x * Constants.SCALE + xo, isop.y + player.p.z + offset.y * Constants.SCALE + yo);
     }
 }

@@ -82,11 +82,11 @@ public class AccessoryIcon extends ImageButton {
         if (locked) {
             sb.setColor(1, 1, 1, 1);
             if (requiredStars > 0) {
-                Utils.drawCentered(sb, star, pos.x, pos.y + 6);
-                starFont.render(sb, pos.x, pos.y - 7);
+                Utils.drawCentered(sb, star, pos.x, pos.y + 6 * Constants.SCALE);
+                starFont.render(sb, pos.x, pos.y - 7 * Constants.SCALE);
             } else if (requiredDiamonds > 0) {
-                Utils.drawCentered(sb, diamond, pos.x, pos.y + 6);
-                diamondFont.render(sb, pos.x, pos.y - 6);
+                Utils.drawCentered(sb, diamond, pos.x, pos.y + 6 * Constants.SCALE);
+                diamondFont.render(sb, pos.x, pos.y - 6 * Constants.SCALE);
             }
         } else if (iconImage != null) {
             sb.draw(iconImage, pos.x - iconImage.getRegionWidth() / 2f + offset.x, pos.y - iconImage.getRegionHeight() / 2f + offset.y);

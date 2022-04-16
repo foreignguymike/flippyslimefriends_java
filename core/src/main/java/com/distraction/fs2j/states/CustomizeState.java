@@ -105,29 +105,29 @@ public class CustomizeState extends GameState {
 
         bg = new Background(context, context.getImage("slimebg"), GameColor.PEACH, GameColor.WHITE);
         pixel = context.getImage("pixel");
-        backButton = new TextButton(context.getImage("backicon"), context.getImage("iconbuttonbg"), 25f, Constants.HEIGHT - 25, 5f);
-        skinText = new ImageButton(context.getImage("skin"), Constants.WIDTH / 6, 245);
-        faceText = new ImageButton(context.getImage("face"), 2 * Constants.WIDTH / 6, 245);
-        accessoriesText = new ImageButton(context.getImage("accessories"), Constants.WIDTH / 4 - 20, 165);
+        backButton = new TextButton(context.getImage("backicon"), context.getImage("iconbuttonbg"), 25f * Constants.SCALE, Constants.HEIGHT - 25 * Constants.SCALE, 5f * Constants.SCALE);
+        skinText = new ImageButton(context.getImage("skin"), 4 * Constants.WIDTH / 6, 245 * Constants.SCALE);
+        faceText = new ImageButton(context.getImage("face"), 5 * Constants.WIDTH / 6, 245 * Constants.SCALE);
+        accessoriesText = new ImageButton(context.getImage("accessories"), 3 * Constants.WIDTH / 4 - 20 * Constants.SCALE, 165 * Constants.SCALE);
 
-        skinIcon = new AccessoryIcon(context, null, skinText.pos.x, skinText.pos.y - 33, numStars, numDiamonds);
-        skinIcon.setOffset(0, 4);
-        faceIcon = new AccessoryIcon(context, null, faceText.pos.x, faceText.pos.y - 33, numStars, numDiamonds);
-        faceIcon.setOffset(-1, 6);
+        skinIcon = new AccessoryIcon(context, null, skinText.pos.x, skinText.pos.y - 33 * Constants.SCALE, numStars, numDiamonds);
+        skinIcon.setOffset(0, 4 * Constants.SCALE);
+        faceIcon = new AccessoryIcon(context, null, faceText.pos.x, faceText.pos.y - 33 * Constants.SCALE, numStars, numDiamonds);
+        faceIcon.setOffset(-1 * Constants.SCALE, 6 * Constants.SCALE);
         accessoryTypes = new AccessoryType[10];
         accessoryIcons = new AccessoryIcon[10];
         int r = 2;
         int c = 5;
         int p = 5;
-        int w = 30;
+        int w = 30 * Constants.SCALE;
         int tw = w * c + p * (c - 1);
-        float s = Constants.WIDTH / 4 - tw / 2f + w / 2f;
+        float s = 3 * Constants.WIDTH / 4 - tw / 2f + w / 2f;
         for (int row = 0; row < r; row++) {
             for (int col = 0; col < c; col++) {
                 int i = row * c + col;
                 accessoryIcons[i] = new AccessoryIcon(context, null,
                         s + col * (w + p),
-                        accessoriesText.pos.y - 33 - row * (w + p),
+                        accessoriesText.pos.y - 33 * Constants.SCALE - row * (w + p),
                         numStars,
                         numDiamonds
                 );
@@ -147,30 +147,30 @@ public class CustomizeState extends GameState {
         accessoryIcons[9].setRequiredStars(200);
 
         selectedBorder = new BreathingImage(context.getImage("levelselectedborder"), -100, -100, 0, 1f, 0.03f);
-        shiftLeft = new ImageButton(context.getImage("shiftleft"), Constants.WIDTH / 4 - 15, accessoryIcons[accessoryIcons.length - 1].pos.y - 35, 10);
-        shiftRight = new ImageButton(context.getImage("shiftright"), Constants.WIDTH / 4 + 15, accessoryIcons[accessoryIcons.length - 1].pos.y - 35, 10);
+        shiftLeft = new ImageButton(context.getImage("shiftleft"), 3 * Constants.WIDTH / 4 - 15 * Constants.SCALE, accessoryIcons[accessoryIcons.length - 1].pos.y - 35 * Constants.SCALE, 10 * Constants.SCALE);
+        shiftRight = new ImageButton(context.getImage("shiftright"), 3 * Constants.WIDTH / 4 + 15 * Constants.SCALE, accessoryIcons[accessoryIcons.length - 1].pos.y - 35 * Constants.SCALE, 10 * Constants.SCALE);
 
         saveButton = new TextButton(
                 context.getImage("save"),
                 context.getImage("buttonbg"),
-                Constants.WIDTH / 4f,
-                30,
-                5f
+                3 * Constants.WIDTH / 4f,
+                30 * Constants.SCALE,
+                5f * Constants.SCALE
         );
 
-        camera.position.set(-100f, player.isop.y, 0f);
+        camera.position.set(-100f * Constants.SCALE, player.isop.y, 0f);
         camera.update();
 
         staticCam = new OrthographicCamera();
         staticCam.setToOrtho(false, Constants.WIDTH, Constants.HEIGHT);
 
-        int ax = 420;
-        int ay = 60;
-        int dist = 22;
-        left = new ImageButton(context.getImage("upleftarrow"), ax - dist, ay + dist, 5f);
-        up = new ImageButton(context.getImage("uprightarrow"), ax + dist, ay + dist, 5f);
-        right = new ImageButton(context.getImage("downrightarrow"), ax + dist, ay - dist, 5f);
-        down = new ImageButton(context.getImage("downleftarrow"), ax - dist, ay - dist, 5f);
+        int ax = 60 * Constants.SCALE;
+        int ay = 60 * Constants.SCALE;
+        int dist = 22 * Constants.SCALE;
+        left = new ImageButton(context.getImage("upleftarrow"), ax - dist, ay + dist, 5f * Constants.SCALE);
+        up = new ImageButton(context.getImage("uprightarrow"), ax + dist, ay + dist, 5f * Constants.SCALE);
+        right = new ImageButton(context.getImage("downrightarrow"), ax + dist, ay - dist, 5f * Constants.SCALE);
+        down = new ImageButton(context.getImage("downleftarrow"), ax - dist, ay - dist, 5f * Constants.SCALE);
 
         setSkin(context.playerDataHandler.skin);
         setFace(context.playerDataHandler.face);
@@ -178,7 +178,7 @@ public class CustomizeState extends GameState {
         star = context.getImage("starunlock");
         starFont = new NumberFont(context, false, NumberFont.NumberSize.LARGE);
         starFont.setNum(numStars);
-        accessoriesText.setPosition(Constants.WIDTH / 4 - (19 + star.getRegionWidth() + starFont.getTotalWidth()) / 2f, accessoriesText.pos.y);
+        accessoriesText.setPosition(3 * Constants.WIDTH / 4 - (19 * Constants.SCALE + star.getRegionWidth() + starFont.getTotalWidth()) / 2f, accessoriesText.pos.y);
     }
 
     private void openSkinSelect() {
@@ -202,7 +202,7 @@ public class CustomizeState extends GameState {
 
     private void setSelectedIndex(int index) {
         selectedAccessoryIndex = index;
-        if (index == -1) selectedBorder.setPosition(-100f, -100f);
+        if (index == -1) selectedBorder.setPosition(-100f * Constants.SCALE, -100f * Constants.SCALE);
         else selectedBorder.setPosition(accessoryIcons[index].pos.x, accessoryIcons[index].pos.y);
     }
 
@@ -316,7 +316,7 @@ public class CustomizeState extends GameState {
         bg.update(dt);
         player.update(dt);
         tileMap.update(dt);
-        camera.position.set(Utils.lerp(camera.position, player.isop.x - 120, player.isop.y, 0f, 4f * dt));
+        camera.position.set(Utils.lerp(camera.position, player.isop.x + 120 * Constants.SCALE, player.isop.y, 0f, 4f * dt));
         camera.update();
         selectedBorder.update(dt);
     }
@@ -337,14 +337,14 @@ public class CustomizeState extends GameState {
             sb.setProjectionMatrix(staticCam.combined);
             sb.setColor(GameColor.BLACK);
             Utils.setAlpha(sb, 0.4f);
-            sb.draw(pixel, 0, 0, Constants.WIDTH / 2, Constants.HEIGHT);
+            sb.draw(pixel, Constants.WIDTH / 2, 0, Constants.WIDTH / 2, Constants.HEIGHT);
             Utils.setAlpha(sb, 1f);
             sb.setColor(GameColor.BLACK);
             sb.draw(pixel, Constants.WIDTH / 2, 0, 1, Constants.HEIGHT);
 
             sb.setColor(1, 1, 1, 1);
-            Utils.drawCentered(sb, star, accessoriesText.pos.x + 80, accessoriesText.pos.y);
-            starFont.render(sb, accessoriesText.pos.x + 95, accessoriesText.pos.y);
+            Utils.drawCentered(sb, star, accessoriesText.pos.x + 80 * Constants.SCALE, accessoriesText.pos.y);
+            starFont.render(sb, accessoriesText.pos.x + 95 * Constants.SCALE, accessoriesText.pos.y);
 
             backButton.render(sb);
             skinText.render(sb);

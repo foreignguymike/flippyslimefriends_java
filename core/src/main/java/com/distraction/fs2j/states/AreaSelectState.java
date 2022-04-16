@@ -33,7 +33,7 @@ public class AreaSelectState extends GameState {
     public AreaSelectState(Context context, int currentIndex) {
         super(context);
         this.currentIndex = currentIndex;
-        backButton = new TextButton(context.getImage("backicon"), context.getImage("iconbuttonbg"), 25f, Constants.HEIGHT - 25f, 5f);
+        backButton = new TextButton(context.getImage("backicon"), context.getImage("iconbuttonbg"), 25f * Constants.SCALE, Constants.HEIGHT - 25f * Constants.SCALE, 5f * Constants.SCALE);
 
         areaButtons = new ArrayList<>();
         for (int i = 0; i < Area.values().length; i++) {
@@ -43,8 +43,8 @@ public class AreaSelectState extends GameState {
             areaButtons.add(button);
         }
 
-        rightArrow = new BreathingImage(context.getImage("areaselectarrow"), Constants.WIDTH - 50, Constants.HEIGHT / 2, 20);
-        leftArrow = new BreathingImage(context.getImage("areaselectarrow"), 50, Constants.HEIGHT / 2, 20);
+        rightArrow = new BreathingImage(context.getImage("areaselectarrow"), Constants.WIDTH - 50 * Constants.SCALE, Constants.HEIGHT / 2, 20 * Constants.SCALE);
+        leftArrow = new BreathingImage(context.getImage("areaselectarrow"), 50 * Constants.SCALE, Constants.HEIGHT / 2, 20 * Constants.SCALE);
         leftArrow.flipped = true;
 
         color = Area.values()[currentIndex].colorCopy();
@@ -106,8 +106,8 @@ public class AreaSelectState extends GameState {
             handleInput();
         }
         for (ImageButton it : areaButtons) {
-            it.scale = 1f / (1f + Math.abs(Constants.WIDTH / 2 - it.pos.x) / 100f);
-            it.alpha = Math.max(0f, (1f - Math.abs(Constants.WIDTH / 2 - it.pos.x) / 300f));
+            it.scale = 1f / (1f + Math.abs(Constants.WIDTH / 2 - it.pos.x) / 100f / Constants.SCALE);
+            it.alpha = Math.max(0f, (1f - Math.abs(Constants.WIDTH / 2 - it.pos.x) / 300f / Constants.SCALE));
             it.update(dt);
         }
         leftArrow.update(dt);
@@ -124,11 +124,11 @@ public class AreaSelectState extends GameState {
             sb.setProjectionMatrix(camera.combined);
 
             sb.setColor(GameColor.MIDNIGHT_BLUE);
-            sb.draw(pixel, 0f, 0f, Constants.WIDTH, 60f);
-            sb.draw(pixel, 0f, Constants.HEIGHT - 60f, Constants.WIDTH, 60f);
+            sb.draw(pixel, 0, 0, Constants.WIDTH, 60 * Constants.SCALE);
+            sb.draw(pixel, 0, Constants.HEIGHT - 60 * Constants.SCALE, Constants.WIDTH, 60 * Constants.SCALE);
             sb.setColor(1, 1, 1, 1);
-            sb.draw(pixel, 0f, 56f, Constants.WIDTH, 1f);
-            sb.draw(pixel, 0f, Constants.HEIGHT - 58f, Constants.WIDTH, 1f);
+            sb.draw(pixel, 0, 56 * Constants.SCALE, Constants.WIDTH, Constants.SCALE);
+            sb.draw(pixel, 0, Constants.HEIGHT - 57 * Constants.SCALE, Constants.WIDTH, Constants.SCALE);
 
             backButton.render(sb);
 

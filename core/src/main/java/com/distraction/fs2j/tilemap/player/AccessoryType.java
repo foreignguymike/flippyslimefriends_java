@@ -1,6 +1,7 @@
 package com.distraction.fs2j.tilemap.player;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.distraction.fs2j.Constants;
 import com.distraction.fs2j.Context;
 import com.distraction.fs2j.Logging;
 import com.distraction.fs2j.Utils;
@@ -120,6 +121,6 @@ public enum AccessoryType implements Customizer {
 
     public TextureRegion[] getSprites(Context context) {
         if (width == -1 || height == -1) return new TextureRegion[]{context.getImage("acc" + key)};
-        else return context.getImage("acc" + key).split(width, height)[0];
+        else return context.getImage("acc" + key).split(width * Constants.SCALE, height * Constants.SCALE)[0];
     }
 }

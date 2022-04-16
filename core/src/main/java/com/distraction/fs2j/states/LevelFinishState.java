@@ -67,18 +67,18 @@ class LevelFinishState extends GameState {
                 Constants.WIDTH / 2f,
                 Constants.HEIGHT / 2f,
                 2f * Constants.WIDTH / 4f,
-                4f * Constants.HEIGHT / 5f + 10
+                4f * Constants.HEIGHT / 5f + 10 * Constants.SCALE
         );
 
-        completeImage = new ImageButton(context.getImage("complete"), Constants.WIDTH / 2f, Constants.HEIGHT - 50f);
-        diamondEmpty = new ImageButton(context.getImage("diamondfinishempty"), Constants.WIDTH / 2f + 80f, Constants.HEIGHT / 2 - infoBox.height / 2 + 64f);
+        completeImage = new ImageButton(context.getImage("complete"), Constants.WIDTH / 2f, Constants.HEIGHT - 50f * Constants.SCALE);
+        diamondEmpty = new ImageButton(context.getImage("diamondfinishempty"), Constants.WIDTH / 2f + 80f * Constants.SCALE, Constants.HEIGHT / 2 - infoBox.height / 2 + 64f * Constants.SCALE);
         diamond = new ImageButton(context.getImage("diamondfinish"), diamondEmpty.pos.x, diamondEmpty.pos.y);
-        star = new ImageButton(context.getImage("starfinish"), Constants.WIDTH / 2f, Constants.HEIGHT / 2f + 30f);
+        star = new ImageButton(context.getImage("starfinish"), Constants.WIDTH / 2f, Constants.HEIGHT / 2f + 30f * Constants.SCALE);
 
         diamond.alpha = 0f;
-        diamond.scale = 20f;
+        diamond.scale = 20f * Constants.SCALE;
         star.alpha = 0f;
-        star.scale = 20f;
+        star.scale = 20f * Constants.SCALE;
 
         lights = new SpinningLights(context, star.pos.x, star.pos.y, 5);
         diamondLights = new SpinningLights(context, diamond.pos.x, diamond.pos.y, 5, 0.5f);
@@ -86,40 +86,40 @@ class LevelFinishState extends GameState {
         bestLabel = new NumberLabel(
                 context,
                 context.getImage("best"),
-                new Vector2(Constants.WIDTH / 2f - 60f, Constants.HEIGHT / 2 - infoBox.height / 2 + 64f),
+                new Vector2(Constants.WIDTH / 2f - 60f * Constants.SCALE, Constants.HEIGHT / 2 - infoBox.height / 2 + 64f * Constants.SCALE),
                 best
         );
         goalLabel = new NumberLabel(
                 context,
                 context.getImage("goal"),
-                new Vector2(Constants.WIDTH / 2f + 10, Constants.HEIGHT / 2 - infoBox.height / 2 + 54f),
+                new Vector2(Constants.WIDTH / 2f + 10 * Constants.SCALE, Constants.HEIGHT / 2 - infoBox.height / 2 + 54f * Constants.SCALE),
                 goal
         );
         movesLabel = new NumberLabel(
                 context,
                 context.getImage("moves"),
-                new Vector2(Constants.WIDTH / 2f + 10f, Constants.HEIGHT / 2 - infoBox.height / 2 + 74f),
+                new Vector2(Constants.WIDTH / 2f + 10f * Constants.SCALE, Constants.HEIGHT / 2 - infoBox.height / 2 + 74f * Constants.SCALE),
                 moves
         );
         backButton = new TextButton(
                 context.getImage("backicon"),
                 context.getImage("iconbuttonbg"),
-                Constants.WIDTH / 2 - 80f,
-                Constants.HEIGHT / 2 - infoBox.height / 2 + 26f,
+                Constants.WIDTH / 2 - 80f * Constants.SCALE,
+                Constants.HEIGHT / 2 - infoBox.height / 2 + 26f * Constants.SCALE,
                 5f
         );
         restartButton = new TextButton(
                 context.getImage("restarticon"),
                 context.getImage("iconbuttonbg"),
-                Constants.WIDTH / 2 - 40f,
-                Constants.HEIGHT / 2 - infoBox.height / 2 + 26f,
+                Constants.WIDTH / 2 - 40f * Constants.SCALE,
+                Constants.HEIGHT / 2 - infoBox.height / 2 + 26f * Constants.SCALE,
                 5f
         );
         nextButton = new TextButton(
                 context.getImage("next"),
                 context.getImage("buttonbg"),
-                Constants.WIDTH / 2f + 50f,
-                Constants.HEIGHT / 2 - infoBox.height / 2 + 26f,
+                Constants.WIDTH / 2f + 50f * Constants.SCALE,
+                Constants.HEIGHT / 2 - infoBox.height / 2 + 26f * Constants.SCALE,
                 5f
         );
 
@@ -131,7 +131,7 @@ class LevelFinishState extends GameState {
     private void goToNextLevel() {
         if (level < context.gameData.getMapData(area).size() - 1) {
             // hide secret level
-            if (area != Area.TUTORIAL && level != 4) {
+            if (area != Area.TUTORIAL || level != 3) {
                 ignoreInput = true;
                 context.gsm.push(new CheckeredTransitionState(context, new PlayState(context, area, level + 1), 2));
             }
@@ -225,7 +225,7 @@ class LevelFinishState extends GameState {
             backButton.render(sb);
             if (level < context.gameData.getMapData(area).size() - 1) {
                 // hide secret level
-                if (area != Area.TUTORIAL && level != 4) {
+                if (area != Area.TUTORIAL || level != 3) {
                     nextButton.render(sb);
                 }
             }

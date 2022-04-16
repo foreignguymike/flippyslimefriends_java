@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.distraction.fs2j.Animation;
 import com.distraction.fs2j.AnimationSet;
 import com.distraction.fs2j.BreathingImage;
+import com.distraction.fs2j.Constants;
 import com.distraction.fs2j.Context;
 import com.distraction.fs2j.Utils;
 import com.distraction.fs2j.tilemap.Tile;
@@ -25,13 +26,14 @@ import java.util.stream.Collectors;
 
 public class Player extends TileObject implements Tile.TileMoveListener {
 
-    public static final int SPRITE_WIDTH = 30;
-    public static final int SPRITE_HEIGHT = 30;
-    public static final float BASELINE = -3f;
-    public static final float BUBBLE_HEIGHT = 40f;
-    public static final float BUBBLE_HEIGHT_SPEED = 50f;
-    public static final float BUBBLE_DROP_SPEED = 300f;
-    public static final float TELEPORT_TIME_LIMIT = 0.75f;
+    public static final int SPRITE_WIDTH = 30 * Constants.SCALE;
+    public static final int SPRITE_HEIGHT = 30 * Constants.SCALE;
+    public static final float BASELINE = -3f * Constants.SCALE;
+    private static final float JUMP_HEIGHT = 40f * Constants.SCALE;
+    public static final float BUBBLE_HEIGHT = 40f * Constants.SCALE;
+    public static final float BUBBLE_HEIGHT_SPEED = 50f * Constants.SCALE;
+    public static final float BUBBLE_DROP_SPEED = 300f * Constants.SCALE;
+    public static final float TELEPORT_TIME_LIMIT = 0.75f * Constants.SCALE;
 
     public static final float SUPER_JUMP_MULTIPLIER = 2f;
     public static final float SLIDING_MULTIPLIER = 2.5f;
@@ -52,7 +54,6 @@ public class Player extends TileObject implements Tile.TileMoveListener {
 
     public PlayerRenderer playerRenderer = new PlayerRenderer();
 
-    private float jumpHeight = 40f;
     public float totalDist = 0f;
     public boolean moving = false;
     private boolean sliding = false;
@@ -277,7 +278,7 @@ public class Player extends TileObject implements Tile.TileMoveListener {
     }
 
     private void updateBounceHeight(float dt) {
-        if (superjump) p.z = BASELINE + jumpHeight * 1.5f * getArc();
+        if (superjump) p.z = BASELINE + JUMP_HEIGHT * 1.5f * getArc();
         else if (sliding) p.z = BASELINE;
         else if (dropping) p.z = Math.max(p.z - dt * BUBBLE_DROP_SPEED, BASELINE);
         else if (bubbling) {
@@ -288,7 +289,7 @@ public class Player extends TileObject implements Tile.TileMoveListener {
                     updateCanDrop();
                 }
             }
-        } else p.z = BASELINE + jumpHeight * getArc();
+        } else p.z = BASELINE + JUMP_HEIGHT * getArc();
     }
 
     private float getArc() {

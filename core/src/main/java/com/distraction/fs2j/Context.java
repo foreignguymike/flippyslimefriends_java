@@ -13,6 +13,8 @@ import java.util.Map;
 
 public class Context {
 
+    private static final String ATLAS_NAME = "fs2" + (Constants.SCALE == 1 ? "" : "_" + Constants.SCALE + "x") + ".atlas";
+
     public AssetManager assets;
     public GSM gsm;
     public GameData gameData;
@@ -21,7 +23,7 @@ public class Context {
 
     public Context() {
         assets = new AssetManager();
-        assets.load("fs2.atlas", TextureAtlas.class);
+        assets.load(ATLAS_NAME, TextureAtlas.class);
         assets.finishLoading();
 
         gsm = new GSM();
@@ -43,20 +45,16 @@ public class Context {
     }
 
     public TextureRegion getImage(String key) {
-        TextureRegion region = assets.get("fs2.atlas", TextureAtlas.class).findRegion(key);
+        TextureRegion region = assets.get(ATLAS_NAME, TextureAtlas.class).findRegion(key);
         if (region == null) throw new IllegalStateException("image " + key + " not found");
         return region;
     }
 
     public TextureRegion getImage(String key, int index) {
-        TextureRegion region = assets.get("fs2.atlas", TextureAtlas.class).findRegion(key, index);
+        TextureRegion region = assets.get(ATLAS_NAME, TextureAtlas.class).findRegion(key, index);
         if (region == null)
             throw new IllegalStateException("image " + key + "_" + index + " not found");
         return region;
-    }
-
-    public TextureAtlas getAtlas() {
-        return assets.get("fs2.atlas", TextureAtlas.class);
     }
 
 }

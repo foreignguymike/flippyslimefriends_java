@@ -46,7 +46,7 @@ class AccessorySelectState extends GameState {
         this.replacing = replacing;
         this.alreadySelected = alreadySelected;
         this.accessoryTypes = AccessoryType.values();
-        selectedBorder = new BreathingImage(context.getImage("levelselectedborder"), -100, -100, 0, 1f, 0.03f);
+        selectedBorder = new BreathingImage(context.getImage("levelselectedborder"), -100 * Constants.SCALE, -100 * Constants.SCALE, 0, 1f, 0.03f);
 
         pixel = context.getImage("pixel");
 
@@ -61,11 +61,11 @@ class AccessorySelectState extends GameState {
         while (r * c < accessoryIcons.length) c++;
         while ((r - 1) * c > accessoryIcons.length) r--;
         int p = 5;
-        int w = 30;
+        int w = 30 * Constants.SCALE;
         int tw = w * c + p * (c - 1);
         int th = w * r + p * (r - 1);
         float s = Constants.WIDTH / 2 - tw / 2f + w / 2f;
-        float sy = Constants.HEIGHT / 2 + th / 2f - w / 2f + 8;
+        float sy = Constants.HEIGHT / 2 + th / 2f - w / 2f + 8 * Constants.SCALE;
         for (int row = 0; row < r; row++) {
             if (row * c >= accessoryIcons.length) break;
             for (int col = 0; col < c; col++) {
@@ -84,12 +84,12 @@ class AccessorySelectState extends GameState {
             }
         }
 
-        infoBox = new InfoBox(context, Constants.WIDTH / 2, Constants.HEIGHT / 2, tw + 40, th + 90);
-        xbutton = new TextButton(context.getImage("xicon"), context.getImage("iconbuttonbg"), Constants.WIDTH / 2, infoBox.pos.y - infoBox.height / 2 + 30);
+        infoBox = new InfoBox(context, Constants.WIDTH / 2, Constants.HEIGHT / 2, tw + 40 * Constants.SCALE, th + 90 * Constants.SCALE);
+        xbutton = new TextButton(context.getImage("xicon"), context.getImage("iconbuttonbg"), Constants.WIDTH / 2, infoBox.pos.y - infoBox.height / 2 + 30 * Constants.SCALE);
         diamond = new ImageButton(context.getImage("diamondunlock"));
         diamondFont = new NumberFont(context, false, NumberFont.NumberSize.LARGE);
         diamondFont.setNum(numDiamonds);
-        diamond.setPosition((Constants.WIDTH - diamondFont.getTotalWidth()) / 2f - 3, infoBox.pos.y + infoBox.height / 2 - 20);
+        diamond.setPosition((Constants.WIDTH - diamondFont.getTotalWidth()) / 2f - 3 * Constants.SCALE, infoBox.pos.y + infoBox.height / 2 - 20 * Constants.SCALE);
     }
 
     private void goBack() {

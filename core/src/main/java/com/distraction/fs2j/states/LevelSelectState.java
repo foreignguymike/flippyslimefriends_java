@@ -30,11 +30,11 @@ class LevelSelectState extends GameState {
     private int numRows = 3;
     private int numCols = 5;
     private int pageSize = numRows * numCols;
-    private float widthPadding = 120f;
-    private float heightPadding = 60f;
+    private float widthPadding = 120f * Constants.SCALE;
+    private float heightPadding = 60f * Constants.SCALE;
     private float cellWidth = (Constants.WIDTH - 2 * widthPadding) / numCols;
     private float cellHeight = (Constants.HEIGHT - 2 * heightPadding) / numRows;
-    private int page = level / pageSize;
+    private int page;
 
     private List<MapData> levelData;
     private int numLevels;
@@ -88,12 +88,14 @@ class LevelSelectState extends GameState {
                 0, 1f, 0.03f
         );
         levelSelectImage = context.getImage("levelselect");
-        backButton = new TextButton(context.getImage("backicon"), context.getImage("iconbuttonbg"), 25f, Constants.HEIGHT - 25, 5f);
+        backButton = new TextButton(context.getImage("backicon"), context.getImage("iconbuttonbg"), 25f * Constants.SCALE, Constants.HEIGHT - 25 * Constants.SCALE, 5f * Constants.SCALE);
+
         staticCam = new OrthographicCamera();
         staticCam.setToOrtho(false, Constants.WIDTH, Constants.HEIGHT);
-        leftButton = new BreathingImage(context.getImage("areaselectarrow"), 50f, Constants.HEIGHT / 2f, 10f);
+
+        leftButton = new BreathingImage(context.getImage("areaselectarrow"), 50f * Constants.SCALE, Constants.HEIGHT / 2f, 10f * Constants.SCALE);
         leftButton.flipped = true;
-        rightButton = new BreathingImage(context.getImage("areaselectarrow"), Constants.WIDTH - 50f, Constants.HEIGHT / 2f - 5f, 10f);
+        rightButton = new BreathingImage(context.getImage("areaselectarrow"), Constants.WIDTH - 50f * Constants.SCALE, Constants.HEIGHT / 2f, 10f * Constants.SCALE);
         color = area.colorCopy();
 
         camera.position.set(Constants.WIDTH * page + Constants.WIDTH / 2, Constants.HEIGHT / 2, 0f);
@@ -223,16 +225,16 @@ class LevelSelectState extends GameState {
         {
             sb.setProjectionMatrix(staticCam.combined);
             sb.setColor(GameColor.MIDNIGHT_BLUE);
-            sb.draw(pixel, 0f, 0f, Constants.WIDTH, 60f);
-            sb.draw(pixel, 0f, Constants.HEIGHT - 60f, Constants.WIDTH, 60f);
+            sb.draw(pixel, 0, 0, Constants.WIDTH, 60 * Constants.SCALE);
+            sb.draw(pixel, 0, Constants.HEIGHT - 60 * Constants.SCALE, Constants.WIDTH, 60 * Constants.SCALE);
             sb.setColor(1, 1, 1, 1);
-            sb.draw(pixel, 0f, 56f, Constants.WIDTH, 1f);
-            sb.draw(pixel, 0f, Constants.HEIGHT - 58f, Constants.WIDTH, 1f);
+            sb.draw(pixel, 0, 56 * Constants.SCALE, Constants.WIDTH, Constants.SCALE);
+            sb.draw(pixel, 0, Constants.HEIGHT - 57 * Constants.SCALE, Constants.WIDTH, Constants.SCALE);
 
             sb.draw(
                     levelSelectImage,
                     (Constants.WIDTH - levelSelectImage.getRegionWidth()) / 2f,
-                    Constants.HEIGHT - levelSelectImage.getRegionHeight() - 8f
+                    Constants.HEIGHT - levelSelectImage.getRegionHeight() - 8f * Constants.SCALE
             );
             backButton.render(sb);
 
@@ -244,12 +246,12 @@ class LevelSelectState extends GameState {
                 if (best == 0) sb.setColor(disableColor);
                 it.render(sb);
                 numberFont.setNum(i + 1);
-                numberFont.render(sb, it.pos.x, it.pos.y - 5);
+                numberFont.render(sb, it.pos.x, it.pos.y - 5 * Constants.SCALE);
                 sb.setColor(1, 1, 1, 1);
                 sb.draw(
                         best > 0 && best <= levelData.get(i).goal ? diamond : diamondEmpty,
                         it.pos.x - diamond.getRegionWidth() / 2f,
-                        it.pos.y - diamond.getRegionHeight() / 2f + 13
+                        it.pos.y - diamond.getRegionHeight() / 2f + 13 * Constants.SCALE
                 );
                 if (level == i) levelSelectedBorder.render(sb);
             }

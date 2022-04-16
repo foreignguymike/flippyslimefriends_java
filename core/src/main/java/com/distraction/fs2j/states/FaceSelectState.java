@@ -48,11 +48,11 @@ public class FaceSelectState extends GameState {
         while (r * c < faceIcons.length) c++;
         while ((r - 1) * c > faceIcons.length) r--;
         int p = 5;
-        int w = 30;
+        int w = 30 * Constants.SCALE;
         int tw = w * c + p * (c - 1);
         int th = w * r + p * (r - 1);
         float s = Constants.WIDTH / 2 - tw / 2f + w / 2f;
-        float sy = Constants.HEIGHT / 2 + th / 2f - w / 2f - 10;
+        float sy = Constants.HEIGHT / 2 + th / 2f - w / 2f - 10 * Constants.SCALE;
         for (int row = 0; row < r; row++) {
             if (row * c >= faceIcons.length) break;
             for (int col = 0; col < c; col++) {
@@ -64,15 +64,15 @@ public class FaceSelectState extends GameState {
                         -1,
                         numDiamonds
                 );
-                faceIcons[i].setOffset(-1, 6);
+                faceIcons[i].setOffset(-1 * Constants.SCALE, 6 * Constants.SCALE);
             }
         }
 
-        infoBox = new InfoBox(context, Constants.WIDTH / 2, Constants.HEIGHT / 2, tw + 40, th + 55);
+        infoBox = new InfoBox(context, Constants.WIDTH / 2, Constants.HEIGHT / 2, tw + 40 * Constants.SCALE, th + 55 * Constants.SCALE);
         diamond = new ImageButton(context.getImage("diamondunlock"));
         diamondFont = new NumberFont(context, false, NumberFont.NumberSize.LARGE);
         diamondFont.setNum(numDiamonds);
-        diamond.setPosition((Constants.WIDTH - diamondFont.getTotalWidth()) / 2f - 3, infoBox.pos.y + infoBox.height / 2 - 20);
+        diamond.setPosition((Constants.WIDTH - diamondFont.getTotalWidth()) / 2f - 3 * Constants.SCALE, infoBox.pos.y + infoBox.height / 2 - 20 * Constants.SCALE);
     }
 
     private void goBack() {
@@ -127,7 +127,7 @@ public class FaceSelectState extends GameState {
 
             for (AccessoryIcon it : faceIcons) it.render(sb);
             diamond.render(sb);
-            diamondFont.render(sb, diamond.pos.x + diamond.width / 2 + 6, diamond.pos.y);
+            diamondFont.render(sb, diamond.pos.x + diamond.width / 2 + 6 * Constants.SCALE, diamond.pos.y);
         }
         sb.end();
     }

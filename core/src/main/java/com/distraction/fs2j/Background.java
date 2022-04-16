@@ -17,7 +17,7 @@ public class Background {
     private Color bgIconColor;
 
     private List<Vector3> bgs = new ArrayList<>();
-    private float speed = 5f;
+    private float speed = 5f * Constants.SCALE;
     private float interval = 5f * 2;
     private float time = interval;
     private float time2 = 0f;

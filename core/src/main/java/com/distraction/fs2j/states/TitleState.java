@@ -12,8 +12,6 @@ import com.distraction.fs2j.TextButton;
 import com.distraction.fs2j.Utils;
 import com.distraction.fs2j.tilemap.data.GameColor;
 
-import java.util.Arrays;
-
 public class TitleState extends GameState {
 
     private TextureRegion pixel;
@@ -33,9 +31,9 @@ public class TitleState extends GameState {
 
         pixel = context.getImage("pixel");
 
-        title = new ImageButton(context.getImage("title"), Constants.WIDTH / 2, Constants.HEIGHT + 100f, 0);
-        playButton = new TextButton(context.getImage("play"), context.getImage("buttonbg"), Constants.WIDTH / 3, 30, 0);
-        customizeButton = new TextButton(context.getImage("avatar"), context.getImage("buttonbg"), 2 * Constants.WIDTH / 3, 30, 0);
+        title = new ImageButton(context.getImage("title"), Constants.WIDTH / 2, Constants.HEIGHT + 100f * Constants.SCALE, 0);
+        playButton = new TextButton(context.getImage("play"), context.getImage("buttonbg"), Constants.WIDTH / 3, 30 * Constants.SCALE, 0);
+        customizeButton = new TextButton(context.getImage("avatar"), context.getImage("buttonbg"), 2 * Constants.WIDTH / 3, 30 * Constants.SCALE, 0);
 
         title.lerpTo(Constants.WIDTH / 2, Constants.HEIGHT / 2);
 
@@ -89,11 +87,11 @@ public class TitleState extends GameState {
         {
             sb.setProjectionMatrix(camera.combined);
             sb.setColor(GameColor.MIDNIGHT_BLUE);
-            sb.draw(pixel, 0, 0, Constants.WIDTH, 60);
-            sb.draw(pixel, 0, Constants.HEIGHT - 60, Constants.WIDTH, 60);
+            sb.draw(pixel, 0, 0, Constants.WIDTH, 60 * Constants.SCALE);
+            sb.draw(pixel, 0, Constants.HEIGHT - 60 * Constants.SCALE, Constants.WIDTH, 60 * Constants.SCALE);
             sb.setColor(1, 1, 1, 1);
-            sb.draw(pixel, 0, 56, Constants.WIDTH, 1);
-            sb.draw(pixel, 0, Constants.HEIGHT - 57, Constants.WIDTH, 1);
+            sb.draw(pixel, 0, 56 * Constants.SCALE, Constants.WIDTH, Constants.SCALE);
+            sb.draw(pixel, 0, Constants.HEIGHT - 57 * Constants.SCALE, Constants.WIDTH, Constants.SCALE);
 
             title.render(sb);
             playButton.render(sb);
