@@ -20,6 +20,7 @@ public class TitleState extends GameState {
     private ImageButton title;
     private TextButton playButton;
     private TextButton customizeButton;
+    private TextButton challengeButton;
 
     private NumberFont major;
     private NumberFont minor;
@@ -34,8 +35,9 @@ public class TitleState extends GameState {
         pixel = context.getImage("pixel");
 
         title = new ImageButton(context.getImage("title"), Constants.WIDTH / 2, Constants.HEIGHT + 100f, 0);
-        playButton = new TextButton(context.getImage("play"), context.getImage("buttonbg"), Constants.WIDTH / 3, 30, 0);
-        customizeButton = new TextButton(context.getImage("avatar"), context.getImage("buttonbg"), 2 * Constants.WIDTH / 3, 30, 0);
+        playButton = new TextButton(context.getImage("play"), context.getImage("buttonbg"), 2 * Constants.WIDTH / 10, 30, 0);
+        customizeButton = new TextButton(context.getImage("slimetext"), context.getImage("buttonbg"), 5 * Constants.WIDTH / 10, 30, 0);
+        challengeButton = new TextButton(context.getImage("challenge"), context.getImage("buttonbg"), 8 * Constants.WIDTH / 10, 30, 0);
 
         title.lerpTo(Constants.WIDTH / 2, Constants.HEIGHT / 2);
 
@@ -98,6 +100,7 @@ public class TitleState extends GameState {
             title.render(sb);
             playButton.render(sb);
             customizeButton.render(sb);
+            challengeButton.render(sb);
 
             sb.setColor(1, 1, 1, 1);
             major.render(sb, Constants.WIDTH - total, 12);
