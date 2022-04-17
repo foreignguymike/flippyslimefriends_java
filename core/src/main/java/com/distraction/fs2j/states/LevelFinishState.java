@@ -131,7 +131,7 @@ class LevelFinishState extends GameState {
     private void goToNextLevel() {
         if (level < context.gameData.getMapData(area).size() - 1) {
             // hide secret level
-            if (area != Area.TUTORIAL && level != 4) {
+            if (area != Area.TUTORIAL || level != 3) {
                 ignoreInput = true;
                 context.gsm.push(new CheckeredTransitionState(context, new PlayState(context, area, level + 1), 2));
             }
@@ -225,7 +225,7 @@ class LevelFinishState extends GameState {
             backButton.render(sb);
             if (level < context.gameData.getMapData(area).size() - 1) {
                 // hide secret level
-                if (area != Area.TUTORIAL && level != 4) {
+                if (area != Area.TUTORIAL || level != 3) {
                     nextButton.render(sb);
                 }
             }

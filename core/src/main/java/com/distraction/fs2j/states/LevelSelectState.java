@@ -34,7 +34,7 @@ class LevelSelectState extends GameState {
     private float heightPadding = 60f;
     private float cellWidth = (Constants.WIDTH - 2 * widthPadding) / numCols;
     private float cellHeight = (Constants.HEIGHT - 2 * heightPadding) / numRows;
-    private int page = level / pageSize;
+    private int page;
 
     private List<MapData> levelData;
     private int numLevels;
