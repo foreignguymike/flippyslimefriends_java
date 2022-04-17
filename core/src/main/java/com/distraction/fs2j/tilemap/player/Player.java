@@ -72,6 +72,7 @@ public class Player extends TileObject implements Tile.TileMoveListener {
 
     public Player(Context context, TileMap tileMap, MoveListener moveListener, int row, int col, boolean bubbling) {
         super(context, tileMap);
+        if (tileMap == null) return;
 
         this.moveListener = moveListener;
         this.bubbling = bubbling;
@@ -337,6 +338,10 @@ public class Player extends TileObject implements Tile.TileMoveListener {
 
     @Override
     public void update(float dt) {
+        if (tileMap == null) {
+            playerRenderer.update(dt);
+            return;
+        }
         selectedTimer += dt;
 
         // handle dropping
@@ -412,6 +417,7 @@ public class Player extends TileObject implements Tile.TileMoveListener {
 
         public Skin skin;
         public Face face;
+        public List<AccessoryType> accessoryTypes = new ArrayList<>();
         public List<Accessory> accessories = new ArrayList<>();
 
         public PlayerRenderer() {
@@ -420,6 +426,35 @@ public class Player extends TileObject implements Tile.TileMoveListener {
             setAccessories(context.playerDataHandler.accessories);
 
             setAnimation(IDLE);
+        }
+
+        /**
+         * Need an easy way to apply complete customization to a slime.
+         * Use an int array:
+         * custom[0] = skin ordinal
+         * custom[1] = face ordinal
+         * custom[2+] = accessories ordinal
+         */
+        public void setCustomization(int[] custom) {
+            setSkin(Skin.values()[custom[0]]);
+            setFace(Face.values()[custom[1]]);
+            if (custom.length > 2) {
+                List<AccessoryType> types = new ArrayList<>();
+                for (int i = 2; i < custom.length; i++) {
+                    types.add(AccessoryType.values()[custom[i]]);
+                }
+                setAccessories(types);
+            }
+        }
+
+        public int[] getCustomization() {
+            int[] custom = new int[2 + accessoryTypes.size()];
+            custom[0] = skin.ordinal();
+            custom[1] = face.ordinal();
+            for (int i = 0; i < accessoryTypes.size(); i++) {
+                custom[i + 2] = accessoryTypes.get(i).ordinal();
+            }
+            return custom;
         }
 
         public void setSkin(Skin skin) {
@@ -445,6 +480,7 @@ public class Player extends TileObject implements Tile.TileMoveListener {
         }
 
         public void setAccessories(List<AccessoryType> accessoryTypes) {
+            this.accessoryTypes = accessoryTypes;
             accessories = AccessoryType.loadAccessories(Player.this, accessoryTypes);
         }
 
@@ -479,7 +515,7 @@ public class Player extends TileObject implements Tile.TileMoveListener {
         }
 
         public void render(SpriteBatch sb) {
-            tileMap.toIsometric(p.x, p.y, isop);
+            if (tileMap != null) tileMap.toIsometric(p.x, p.y, isop);
             if (!teleporting) {
                 if (bubbling) {
                     sb.setColor(1, 1, 1, 1);

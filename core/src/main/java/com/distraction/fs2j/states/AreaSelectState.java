@@ -36,10 +36,11 @@ public class AreaSelectState extends GameState {
         backButton = new TextButton(context.getImage("backicon"), context.getImage("iconbuttonbg"), 25f, Constants.HEIGHT - 25f, 5f);
 
         areaButtons = new ArrayList<>();
-        for (int i = 0; i < Area.values().length; i++) {
-            Area area = Area.values()[i];
+        List<Area> areaList = Area.getNormalAreas();
+        for (int i = 0; i < areaList.size(); i++) {
+            Area area = areaList.get(i);
             ImageButton button = new ImageButton(context.getImage(area.text));
-            button.setPosition(Constants.WIDTH / 2 + i * width, Constants.HEIGHT / 2);
+            button.setPosition(Constants.WIDTH / 2f + i * width, Constants.HEIGHT / 2f);
             areaButtons.add(button);
         }
 

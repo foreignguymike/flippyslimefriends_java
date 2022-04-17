@@ -34,7 +34,7 @@ public class Context {
             Area area = entry.getKey();
             List<MapData> levels = entry.getValue();
             for (int index = 0; index < levels.size(); index++) {
-                if (levels.get(index).goal == 0) {
+                if (levels.get(index).goal == 0 && area != Area.CHALLENGE) {
                     throw new IllegalStateException("level " + area + "-" + (index + 1) + "has no goal");
                 }
             }

@@ -229,16 +229,19 @@ public class TileMap implements Tile.TileMoveListener {
         for (int i = 0; i < orderedMap.size() - 1; i++) {
             Tile item = orderedMap.get(i);
             Tile item2 = orderedMap.get(i + 1);
-            if (i < orderedMap.size() - 1 && playerIndex < sortedPlayers.size()) {
-                float playery = -sortedPlayers.get(playerIndex).isop.y;
-                if (playery >= -item.isop.y && playery <= -item2.isop.y) {
-                    sortedPlayers.get(playerIndex).render(sb);
-                    playerIndex++;
+            if (sortedPlayers != null) {
+                if (i < orderedMap.size() - 1 && playerIndex < sortedPlayers.size()) {
+                    float playery = -sortedPlayers.get(playerIndex).isop.y;
+                    if (playery >= -item.isop.y && playery <= -item2.isop.y) {
+                        sortedPlayers.get(playerIndex).render(sb);
+                        playerIndex++;
+                    }
                 }
             }
             item.renderTop(sb);
         }
-        for (int i = playerIndex; i < sortedPlayers.size(); i++) sortedPlayers.get(i).render(sb);
+        if (sortedPlayers != null) for (int i = playerIndex; i < sortedPlayers.size(); i++)
+            sortedPlayers.get(i).render(sb);
         orderedMap.get(orderedMap.size() - 1).renderTop(sb);
     }
 }
