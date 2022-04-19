@@ -101,19 +101,6 @@ public class ChallengeState extends GameState {
         context.gsm.push(new CheckeredTransitionState(context, new TitleState(context)));
     }
 
-    // todo test method
-    private Player randomPlayer() {
-        Player player = new Player(context, null, null, 0, 0, false);
-        int numAcc = MathUtils.random(1, 3);
-        int[] custom = new int[2 + numAcc];
-        custom[0] = MathUtils.random(Skin.values().length - 1);
-        custom[1] = MathUtils.random(Face.values().length - 1);
-        for (int i = 2; i < custom.length; i++)
-            custom[i] = MathUtils.random(AccessoryType.values().length - 1);
-        player.playerRenderer.setCustomization(custom);
-        return player;
-    }
-
     private void changeLevel(int amount) {
         if (level + amount < 0 || level + amount >= tileMaps.length) return;
         level += amount;
