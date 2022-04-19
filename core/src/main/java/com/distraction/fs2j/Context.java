@@ -11,6 +11,8 @@ import com.distraction.fs2j.tilemap.data.MapData;
 import java.util.List;
 import java.util.Map;
 
+import de.golfgl.gdxgamesvcs.IGameServiceClient;
+
 public class Context {
 
     private static final String ATLAS_NAME = "fs2.atlas";
@@ -20,6 +22,7 @@ public class Context {
     public GameData gameData;
     public ScoreHandler scoreHandler;
     public PlayerDataHandler playerDataHandler;
+    public IGameServiceClient client;
 
     public Context() {
         assets = new AssetManager();

@@ -4,6 +4,7 @@
     <source path="" />
 	<inherits name="com.badlogic.gdx.backends.gdx_backends_gwt" />
 	<inherits name="com.distraction.fs2j.FlippySlime2J" />
+    <inherits name="de.golfgl.gdxgamesvcs.gdx_gamesvcs_gwt" />
     <entry-point class="com.distraction.fs2j.gwt.GwtLauncher" />
     <set-configuration-property name="gdx.assetpath" value="../assets" />
     <set-configuration-property name="xsiframe.failIfScriptTag" value="FALSE"/>

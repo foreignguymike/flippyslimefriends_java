@@ -29,6 +29,8 @@ public class Placement {
 
     private NumberFont scoreFont;
 
+    private boolean enabled;
+
     public Placement(Context context, int rank) {
         // sanity check
         if (rank < 1 || rank > 7)
@@ -83,6 +85,10 @@ public class Placement {
         hiding = true;
     }
 
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
     public void update(float dt) {
         x = MathUtils.lerp(x, xdest, 8 * dt);
 
@@ -101,13 +107,15 @@ public class Placement {
 
     public void render(SpriteBatch sb) {
         // draw layout first
+        if (enabled) sb.setColor(1, 1, 1, 1);
+        else sb.setColor(0.5f, 0.5f, 0.5f, 1);
         sb.draw(end, xmin, y);
         sb.draw(bg, xmin + end.getRegionWidth(), y, Constants.WIDTH - xmin, bg.getRegionHeight());
         sb.draw(icon, xmin + end.getRegionWidth() + 10, y + 2);
 
         // draw player
         if (rank <= 3) {
-            if (player != null) {
+            if (player != null && enabled) {
                 player.isop.x = x + totalOffset + Player.SPRITE_WIDTH / 2f;
                 player.isop.y = y + 2;
                 player.render(sb);

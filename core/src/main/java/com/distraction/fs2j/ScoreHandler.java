@@ -13,6 +13,8 @@ public class ScoreHandler {
 
     public Map<Area, int[]> scores;
 
+    public boolean authenticated;
+
     public ScoreHandler(Context context) {
         this.context = context;
         scores = new HashMap<>();

@@ -69,7 +69,7 @@ public class ChallengeState extends GameState {
         for (int i = 0; i < tileMaps.length; i++) {
             tileMaps[i] = new TileMap(context, null, Area.CHALLENGE, i);
             infoBoxes[i] = new InfoBox(context, 36, -Constants.HEIGHT + Constants.HEIGHT / 8f + 10, Constants.WIDTH / 2f, Constants.HEIGHT / 4f);
-            levelTitles[i] = new NumberLabel(context, context.getImage("leveltitle"),new Vector2(-30, -Constants.HEIGHT + Constants.HEIGHT / 8f + 20), i + 1, NumberFont.NumberSize.LARGE);
+            levelTitles[i] = new NumberLabel(context, context.getImage("leveltitle"), new Vector2(-30, -Constants.HEIGHT + Constants.HEIGHT / 8f + 20), i + 1, NumberFont.NumberSize.LARGE);
             bestMoves[i] = new NumberLabel(context, context.getImage("best"), new Vector2(-30, -Constants.HEIGHT + Constants.HEIGHT / 8f));
             playButtons[i] = new TextButton(context.getImage("play"), context.getImage("buttonbgsmall"), 90, -Constants.HEIGHT + Constants.HEIGHT / 8f + 13, 5);
             cameras[i] = new OrthographicCamera();
@@ -78,6 +78,7 @@ public class ChallengeState extends GameState {
             cameras[i].position.y = -Constants.HEIGHT / 2f;
             cameras[i].update();
         }
+        setLeaderboardsEnabled(true);
         changeLevel(0);
     }
 
@@ -111,12 +112,23 @@ public class ChallengeState extends GameState {
         placements[6].setScore(0);
     }
 
+    private void setLeaderboardsEnabled(boolean enabled) {
+        for (Placement it : placements) it.setEnabled(enabled);
+    }
+
     private void handleInput() {
         if (Gdx.input.justTouched()) {
             unprojectTouch(staticCam);
             if (backButton.containsPoint(touchPoint)) goBack();
             if (leftButton.containsPoint(touchPoint)) changeLevel(-1);
             if (rightButton.containsPoint(touchPoint)) changeLevel(1);
+            for (int i = 0; i < playButtons.length; i++) {
+                ImageButton button = playButtons[i];
+                unprojectTouch(cameras[i]);
+                if (button.containsPoint(touchPoint)) {
+                    context.client.submitToLeaderboard("BETA_" + (level + 1), 20, "NOT FOR YOU");
+                }
+            }
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) goBack();
