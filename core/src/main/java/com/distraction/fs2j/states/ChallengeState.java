@@ -14,6 +14,7 @@ import com.distraction.fs2j.InfoBox;
 import com.distraction.fs2j.NumberFont;
 import com.distraction.fs2j.NumberLabel;
 import com.distraction.fs2j.Placement;
+import com.distraction.fs2j.SimpleCallback;
 import com.distraction.fs2j.TextButton;
 import com.distraction.fs2j.Utils;
 import com.distraction.fs2j.tilemap.TileMap;
@@ -24,11 +25,17 @@ import com.distraction.fs2j.tilemap.player.Face;
 import com.distraction.fs2j.tilemap.player.Player;
 import com.distraction.fs2j.tilemap.player.Skin;
 
+import java.util.Arrays;
+import java.util.List;
+
+import de.golfgl.gdxgamesvcs.leaderboard.ILeaderBoardEntry;
+
 public class ChallengeState extends GameState {
 
     private static final int PAGE_WIDTH = Constants.WIDTH * 2;
 
     private TextButton backButton;
+    private TextButton refreshButton;
 
     private OrthographicCamera staticCam;
 
@@ -53,6 +60,7 @@ public class ChallengeState extends GameState {
         super(context);
 
         backButton = new TextButton(context.getImage("backicon"), context.getImage("iconbuttonbg"), 25f, Constants.HEIGHT - 25, 5f);
+        refreshButton = new TextButton(context.getImage("restarticon"), context.getImage("iconbuttonbg"), 65f, Constants.HEIGHT - 25, 5f);
 
         staticCam = new OrthographicCamera();
         staticCam.setToOrtho(false, Constants.WIDTH, Constants.HEIGHT);
@@ -109,13 +117,25 @@ public class ChallengeState extends GameState {
     private void changeLevel(int amount) {
         if (level + amount < 0 || level + amount >= tileMaps.length) return;
         level += amount;
-        placements[0].setScore(randomPlayer(), MathUtils.random(20, 25));
-        placements[1].setScore(randomPlayer(), MathUtils.random(26, 30));
-        placements[2].setScore(randomPlayer(), MathUtils.random(31, 35));
-        placements[3].setScore(MathUtils.random(36, 45));
-        placements[4].setScore(MathUtils.random(46, 55));
-        placements[5].setScore(0);
-        placements[6].setScore(0);
+        if (level >= context.playerDataHandler.leaderboards.size()) {
+            for (Placement it : placements) it.setScore(0, "");
+            return;
+        }
+        List<ILeaderBoardEntry> entries = context.playerDataHandler.leaderboards.get(level);
+        for (int i = 0; i < 7; i++) {
+            if (i >= entries.size()) {
+                for (int j = i; j < 7; j++) placements[j].setScore(0, "");
+                break;
+            }
+            ILeaderBoardEntry entry = entries.get(i);
+            int score = Integer.parseInt(entry.getFormattedValue());
+            String name = entry.getUserDisplayName();
+            String tag = entry.getScoreTag();
+            int[] custom = context.playerDataHandler.deserialize(tag);
+            Player player = new Player(context, null, null, 0, 0, false);
+            player.playerRenderer.setCustomization(custom);
+            placements[i].setScore(score, player, name);
+        }
     }
 
     private void setLeaderboardsEnabled(boolean enabled) {
@@ -129,19 +149,21 @@ public class ChallengeState extends GameState {
         }
     }
 
+    private void refresh() {
+        context.fetchLeaderboards(() -> changeLevel(0));
+    }
+
     private void handleInput() {
         if (Gdx.input.justTouched()) {
             unprojectTouch(staticCam);
             if (backButton.containsPoint(touchPoint)) goBack();
+            if (refreshButton.containsPoint(touchPoint)) refresh();
             if (leftButton.containsPoint(touchPoint)) changeLevel(-1);
             if (rightButton.containsPoint(touchPoint)) changeLevel(1);
             for (int i = 0; i < playButtons.length; i++) {
                 ImageButton button = playButtons[i];
                 unprojectTouch(cameras[i]);
-                if (button.containsPoint(touchPoint)) {
-                    goToLevel();
-//                    context.client.submitToLeaderboard("BETA_" + (level + 1), 20, "NOT FOR YOU");
-                }
+                if (button.containsPoint(touchPoint)) goToLevel();
             }
         }
 
@@ -187,6 +209,7 @@ public class ChallengeState extends GameState {
 
             for (int i = placements.length - 1; i >= 0; i--) placements[i].render(sb);
             backButton.render(sb);
+            refreshButton.render(sb);
         }
         sb.end();
     }

@@ -4,16 +4,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.distraction.fs2j.tilemap.data.Area;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import de.golfgl.gdxgamesvcs.leaderboard.ILeaderBoardEntry;
 
 public class ScoreHandler {
 
     private Context context;
 
     public Map<Area, int[]> scores;
-
-    public boolean authenticated;
 
     public ScoreHandler(Context context) {
         this.context = context;

@@ -8,10 +8,13 @@ import com.distraction.fs2j.tilemap.data.Area;
 import com.distraction.fs2j.tilemap.data.GameData;
 import com.distraction.fs2j.tilemap.data.MapData;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import de.golfgl.gdxgamesvcs.GameJoltClient;
 import de.golfgl.gdxgamesvcs.IGameServiceClient;
+import de.golfgl.gdxgamesvcs.leaderboard.ILeaderBoardEntry;
 
 public class Context {
 
@@ -22,7 +25,7 @@ public class Context {
     public GameData gameData;
     public ScoreHandler scoreHandler;
     public PlayerDataHandler playerDataHandler;
-    public IGameServiceClient client;
+    public GameJoltClient client;
 
     public Context() {
         assets = new AssetManager();
@@ -58,6 +61,17 @@ public class Context {
         if (region == null)
             throw new IllegalStateException("image " + key + "_" + index + " not found");
         return region;
+    }
+
+    public void fetchLeaderboards(SimpleCallback callback) {
+        client.fetchLeaderboardEntries("BETA_1", 7, false, leaderBoard -> {
+            playerDataHandler.leaderboards.clear();
+            List<ILeaderBoardEntry> entries = new ArrayList<>();
+            for (ILeaderBoardEntry it : leaderBoard) entries.add(it);
+            playerDataHandler.leaderboards.add(entries);
+            System.out.println("added leaderboard entries for beta 1");
+            callback.callback();
+        });
     }
 
 }

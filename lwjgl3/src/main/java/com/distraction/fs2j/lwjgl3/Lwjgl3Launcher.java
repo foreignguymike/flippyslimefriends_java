@@ -5,6 +5,9 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.distraction.fs2j.Constants;
 import com.distraction.fs2j.FlippySlime2J;
 
+import de.golfgl.gdxgamesvcs.GameJoltClient;
+import de.golfgl.gdxgamesvcs.IGameServiceIdMapper;
+
 /**
  * Launches the desktop (LWJGL3) application.
  */
@@ -20,6 +23,13 @@ public class Lwjgl3Launcher {
             config.setWindowedMode(Constants.DESKTOP_WIDTH, Constants.DESKTOP_HEIGHT);
         }
         config.setWindowIcon("libgdx128.png", "libgdx64.png", "libgdx32.png", "libgdx16.png");
-        new Lwjgl3Application(new FlippySlime2J(), config);
+
+        GameJoltClient client = new GameJoltClient();
+        client.setGjScoreTableMapper(id -> {
+            if (id.equals("BETA_1")) return Constants.BETA_1_ID;
+            return -1;
+        });
+        client.initialize(Constants.APP_ID, Constants.API_KEY);
+        new Lwjgl3Application(new FlippySlime2J(client), config);
     }
 }

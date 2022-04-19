@@ -165,11 +165,10 @@ class PlayState extends GameState implements TileMap.TileListener, Player.MoveLi
         if (Gdx.input.isKeyJustPressed(Input.Keys.D)) player.dropBubble();
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) back();
 
-        // TODO test code, remove this before pushing !!
-//        if (Gdx.input.isKeyJustPressed(Input.Keys.F)) {
-//            hud.setMoves(1000);
-//            finish();
-//        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F)) {
+            hud.setMoves(1000);
+            finish();
+        }
     }
 
     @Override

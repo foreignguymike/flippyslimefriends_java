@@ -77,6 +77,11 @@ public class TitleState extends GameState {
             if (challengeButton.containsPoint(touchPoint)) goToChallenge();
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) goToAreaSelect();
+        if (Gdx.input.isKeyJustPressed(Input.Keys.N)) {
+            ignoreInput = true;
+            context.gsm.push(new NameState(context, this));
+            context.gsm.depth++;
+        }
     }
 
     @Override

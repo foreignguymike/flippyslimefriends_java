@@ -3,6 +3,7 @@ package com.distraction.fs2j;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.distraction.fs2j.tilemap.data.GameColor;
 import com.distraction.fs2j.tilemap.player.Player;
 
 public class Placement {
@@ -26,8 +27,11 @@ public class Placement {
 
     private Player player;
     private Player newPlayer;
-
     private NumberFont scoreFont;
+    private TextFont nameFont;
+
+    private String name;
+    private String newName;
 
     private boolean enabled;
 
@@ -58,29 +62,31 @@ public class Placement {
         else y = Constants.HEIGHT - 150 - (rank - 3) * 30;
 
         scoreFont = new NumberFont(context, false, NumberFont.NumberSize.LARGE);
-        if (rank <= 3) setScore(null, 0);
-        else setScore(0);
+        if (rank <= 3) setScore(0, null, null);
+        else setScore(0, null);
 
         totalOffset += end.getRegionWidth(); // end
         totalOffset += 10; // padding
         totalOffset += icon.getRegionWidth(); // place icon
-        totalOffset += Player.SPRITE_WIDTH;
+        totalOffset += Player.SPRITE_WIDTH / 2f;
+
+        nameFont = new TextFont(context, null, totalOffset + (rank <= 3 ? Player.SPRITE_WIDTH / 2f + 30 : -10), y + end.getRegionHeight() / 2f - 4);
     }
 
-    public void setScore(Player player, int score) {
-        // sanity check
-        if (rank > 3) throw new IllegalArgumentException("use other method instead");
+
+    public void setScore(int score, Player player, String name) {
+        System.out.println("setting placement: " + score + ", " + name);
         newPlayer = player;
         newScore = score;
+        newName = name;
         xdest = Constants.WIDTH;
         hiding = true;
     }
 
-    public void setScore(int score) {
-        // sanity check
-        if (rank <= 3) throw new IllegalArgumentException("use other method instead");
+    public void setScore(int score, String name) {
         newPlayer = null;
         newScore = score;
+        newName = name;
         xdest = Constants.WIDTH;
         hiding = true;
     }
@@ -97,9 +103,12 @@ public class Placement {
             xdest = xmin;
             score = newScore;
             player = newPlayer;
+            name = newName;
 
             if (score > 0) scoreFont.setNum(score);
             else scoreFont.setNum(-1);
+
+            nameFont.setText(name);
         }
 
         if (player != null) player.update(dt);
@@ -125,9 +134,12 @@ public class Placement {
         }
 
         // draw score
-        scoreFont.render(sb, x + totalOffset + (rank <= 3 ? Player.SPRITE_WIDTH / 2f + 40 : -10), y + end.getRegionHeight() / 2f);
+        scoreFont.render(sb, x + totalOffset + (rank <= 3 ? Player.SPRITE_WIDTH / 2f + 30 : -10), y + end.getRegionHeight() / 2f);
 
-        // todo draw name
+        // draw name
+        nameFont.x = x + totalOffset + scoreFont.getTotalWidth() + 10 + (rank <= 3 ? Player.SPRITE_WIDTH / 2f + 30 : -10);
+        sb.setColor(GameColor.BLACK);
+        nameFont.render(sb);
     }
 
 }

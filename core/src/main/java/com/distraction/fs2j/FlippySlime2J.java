@@ -7,14 +7,16 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.distraction.fs2j.states.GSM;
 import com.distraction.fs2j.states.TitleState;
 
-import de.golfgl.gdxgamesvcs.IGameServiceClient;
-import de.golfgl.gdxgamesvcs.IGameServiceListener;
-import de.golfgl.gdxgamesvcs.NoGameServiceClient;
+import java.util.ArrayList;
+import java.util.List;
+
+import de.golfgl.gdxgamesvcs.GameJoltClient;
+import de.golfgl.gdxgamesvcs.leaderboard.ILeaderBoardEntry;
 
 /**
  * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms.
  */
-public class FlippySlime2J extends ApplicationAdapter implements IGameServiceListener {
+public class FlippySlime2J extends ApplicationAdapter {
 
     private static final float DT_THRESHOLD = 0.3f;
 
@@ -22,12 +24,12 @@ public class FlippySlime2J extends ApplicationAdapter implements IGameServiceLis
     private SpriteBatch sb;
     private GSM gsm;
 
-    private IGameServiceClient client;
+    private GameJoltClient client;
 
     public FlippySlime2J() {
     }
 
-    public FlippySlime2J(IGameServiceClient client) {
+    public FlippySlime2J(GameJoltClient client) {
         this.client = client;
     }
 
@@ -38,12 +40,8 @@ public class FlippySlime2J extends ApplicationAdapter implements IGameServiceLis
         sb = new SpriteBatch();
         gsm.push(new TitleState(context));
 
-        if (client == null) {
-            client = new NoGameServiceClient();
-        }
-        client.setListener(this);
-//        client.resumeSession();
         context.client = client;
+        client.setGuestName(context.playerDataHandler.name);
     }
 
     @Override
@@ -60,20 +58,5 @@ public class FlippySlime2J extends ApplicationAdapter implements IGameServiceLis
     public void dispose() {
         sb.dispose();
         context.assets.dispose();
-    }
-
-    @Override
-    public void gsOnSessionActive() {
-        context.scoreHandler.authenticated = true;
-    }
-
-    @Override
-    public void gsOnSessionInactive() {
-        context.scoreHandler.authenticated = false;
-    }
-
-    @Override
-    public void gsShowErrorToUser(GsErrorType et, String msg, Throwable t) {
-
     }
 }

@@ -4,4 +4,5 @@ eclipse.project.name = appName + '-core'
 dependencies {
 	api "com.badlogicgames.gdx:gdx:$gdxVersion"
 	api "de.golfgl.gdxgamesvcs:gdx-gamesvcs-core:1.1.0"
+	implementation "de.golfgl.gdxgamesvcs:gdx-gamesvcs-core-gamejolt:1.1.0"
 }

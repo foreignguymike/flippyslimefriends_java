@@ -22,6 +22,8 @@ public class ImageButton {
 
     public boolean flipped = false;
 
+    public boolean enabled = true;
+
     public ImageButton(TextureRegion image) {
         this(image, 0f, 0f);
     }
@@ -84,7 +86,8 @@ public class ImageButton {
         if (image != null) {
             float scaledWidth = width * scale;
             float scaledHeight = height * scale;
-            Utils.setAlpha(sb, alpha);
+            if (enabled) sb.setColor(1, 1, 1, alpha);
+            else sb.setColor(0.5f, 0.5f, 0.5f, 1f);
             if (flipped) {
                 Utils.drawHFlip(sb, image, pos.x + scaledWidth / 2, pos.y - scaledHeight / 2, scaledWidth, scaledHeight);
             } else {

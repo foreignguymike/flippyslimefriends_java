@@ -6,6 +6,8 @@ import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
 import com.distraction.fs2j.Constants;
 import com.distraction.fs2j.FlippySlime2J;
 
+import de.golfgl.gdxgamesvcs.GameJoltClient;
+
 /** Launches the GWT application. */
 public class GwtLauncher extends GwtApplication {
 		@Override
@@ -22,6 +24,12 @@ public class GwtLauncher extends GwtApplication {
 
 		@Override
 		public ApplicationListener createApplicationListener () {
-			return new FlippySlime2J();
+			GameJoltClient client = new GameJoltClient();
+			client.setGjScoreTableMapper(id -> {
+				if (id.equals("BETA_1")) return Constants.BETA_1_ID;
+				return -1;
+			});
+			client.initialize(Constants.APP_ID, Constants.API_KEY);
+			return new FlippySlime2J(client);
 		}
 }
