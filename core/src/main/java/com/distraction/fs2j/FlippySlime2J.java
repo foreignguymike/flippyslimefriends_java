@@ -42,7 +42,7 @@ public class FlippySlime2J extends ApplicationAdapter implements IGameServiceLis
             client = new NoGameServiceClient();
         }
         client.setListener(this);
-        client.resumeSession();
+//        client.resumeSession();
         context.client = client;
     }
 

@@ -46,6 +46,10 @@ public class ChallengeState extends GameState {
     private ImageButton[] playButtons;
 
     public ChallengeState(Context context) {
+        this(context, 0);
+    }
+
+    public ChallengeState(Context context, int level) {
         super(context);
 
         backButton = new TextButton(context.getImage("backicon"), context.getImage("iconbuttonbg"), 25f, Constants.HEIGHT - 25, 5f);
@@ -70,7 +74,9 @@ public class ChallengeState extends GameState {
             tileMaps[i] = new TileMap(context, null, Area.CHALLENGE, i);
             infoBoxes[i] = new InfoBox(context, 36, -Constants.HEIGHT + Constants.HEIGHT / 8f + 10, Constants.WIDTH / 2f, Constants.HEIGHT / 4f);
             levelTitles[i] = new NumberLabel(context, context.getImage("leveltitle"), new Vector2(-30, -Constants.HEIGHT + Constants.HEIGHT / 8f + 20), i + 1, NumberFont.NumberSize.LARGE);
-            bestMoves[i] = new NumberLabel(context, context.getImage("best"), new Vector2(-30, -Constants.HEIGHT + Constants.HEIGHT / 8f));
+            int score = context.scoreHandler.getScores(Area.CHALLENGE)[i];
+            if (score == 0) score = -1;
+            bestMoves[i] = new NumberLabel(context, context.getImage("best"), new Vector2(-30, -Constants.HEIGHT + Constants.HEIGHT / 8f), score);
             playButtons[i] = new TextButton(context.getImage("play"), context.getImage("buttonbgsmall"), 90, -Constants.HEIGHT + Constants.HEIGHT / 8f + 13, 5);
             cameras[i] = new OrthographicCamera();
             cameras[i].setToOrtho(false, Constants.WIDTH, Constants.HEIGHT);
@@ -79,7 +85,7 @@ public class ChallengeState extends GameState {
             cameras[i].update();
         }
         setLeaderboardsEnabled(true);
-        changeLevel(0);
+        changeLevel(level);
     }
 
     private void goBack() {
@@ -116,6 +122,13 @@ public class ChallengeState extends GameState {
         for (Placement it : placements) it.setEnabled(enabled);
     }
 
+    private void goToLevel() {
+        if (level >= 0 && level < context.gameData.getMapData(Area.CHALLENGE).size()) {
+            ignoreInput = true;
+            context.gsm.push(new CheckeredTransitionState(context, new PlayState(context, Area.CHALLENGE, level)));
+        }
+    }
+
     private void handleInput() {
         if (Gdx.input.justTouched()) {
             unprojectTouch(staticCam);
@@ -126,7 +139,8 @@ public class ChallengeState extends GameState {
                 ImageButton button = playButtons[i];
                 unprojectTouch(cameras[i]);
                 if (button.containsPoint(touchPoint)) {
-                    context.client.submitToLeaderboard("BETA_" + (level + 1), 20, "NOT FOR YOU");
+                    goToLevel();
+//                    context.client.submitToLeaderboard("BETA_" + (level + 1), 20, "NOT FOR YOU");
                 }
             }
         }

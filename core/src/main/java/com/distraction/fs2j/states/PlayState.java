@@ -59,7 +59,7 @@ class PlayState extends GameState implements TileMap.TileListener, Player.MoveLi
         bgCam = new OrthographicCamera();
         bgCam.setToOrtho(false, Constants.WIDTH, Constants.HEIGHT);
 
-        hud = new HUD(context, level, this, players);
+        hud = new HUD(context, level, this, players, area);
 
         camera.position.set(-100f, player.isop.y + cameraOffset.y, 0f);
         camera.update();
@@ -85,22 +85,7 @@ class PlayState extends GameState implements TileMap.TileListener, Player.MoveLi
     @Override
     public void onTileToggled(TileMap tileMap) {
         if (tileMap.isFinished(players) && !ignoreInput) {
-            ignoreInput = true;
-            hud.hideInfo = true;
-            if (hud.getBest() < 0 || hud.getMoves() < hud.getBest()) {
-                context.scoreHandler.saveScore(area, level, hud.getMoves());
-                hud.setBest(hud.getMoves());
-            }
-            context.gsm.push(
-                    new LevelFinishState(
-                            context,
-                            area,
-                            level,
-                            hud.getMoves(),
-                            hud.getBest(),
-                            hud.getGoal()
-                    )
-            );
+            finish();
         }
     }
 
@@ -115,8 +100,34 @@ class PlayState extends GameState implements TileMap.TileListener, Player.MoveLi
     private void back() {
         if (!ignoreInput) {
             ignoreInput = true;
-            context.gsm.push(new CheckeredTransitionState(context, new LevelSelectState(context, area, level)));
+            context.gsm.push(new CheckeredTransitionState(context, area == Area.CHALLENGE ? new ChallengeState(context, level) : new LevelSelectState(context, area, level)));
         }
+    }
+
+    private void finish() {
+        ignoreInput = true;
+        hud.hideInfo = true;
+        if (hud.getBest() < 0 || hud.getMoves() < hud.getBest()) {
+            context.scoreHandler.saveScore(area, level, hud.getMoves());
+            hud.setBest(hud.getMoves());
+        }
+        context.gsm.push(
+                area == Area.CHALLENGE ?
+                        new ChallengeFinishState(
+                                context,
+                                level,
+                                hud.getMoves(),
+                                hud.getBest()
+                        ) :
+                        new LevelFinishState(
+                                context,
+                                area,
+                                level,
+                                hud.getMoves(),
+                                hud.getBest(),
+                                hud.getGoal()
+                        )
+        );
     }
 
     private void switchPlayer() {
@@ -153,6 +164,12 @@ class PlayState extends GameState implements TileMap.TileListener, Player.MoveLi
         if (Gdx.input.isKeyJustPressed(Input.Keys.S)) switchPlayer();
         if (Gdx.input.isKeyJustPressed(Input.Keys.D)) player.dropBubble();
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) back();
+
+        // TODO test code, remove this before pushing !!
+//        if (Gdx.input.isKeyJustPressed(Input.Keys.F)) {
+//            hud.setMoves(1000);
+//            finish();
+//        }
     }
 
     @Override

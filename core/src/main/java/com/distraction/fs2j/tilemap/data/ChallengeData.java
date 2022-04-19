@@ -23,7 +23,7 @@ public class ChallengeData {
                                 e, 0, 0, e, 0, 0
                         },
                         0,
-                        Arrays.asList(new TilePoint(0, 0)),
+                        Arrays.asList(new TilePoint(0, 0), new TilePoint(1, 0)),
                         Arrays.asList(
                                 new ArrowData(3, 4, Direction.RIGHT),
                                 new ArrowData(3, 2, Direction.RIGHT),
@@ -41,7 +41,7 @@ public class ChallengeData {
                                 new TeleportData(0, 5, 5, 1)
                         ),
                         new ArrayList<>(),
-                        false
+                        true
                 ),
                 new MapData(
                         7, 11,

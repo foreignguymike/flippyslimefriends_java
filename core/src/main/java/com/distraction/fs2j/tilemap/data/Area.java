@@ -14,7 +14,7 @@ public enum Area {
     UNDERSEA("undersea", GameColor.DARK_BLUE, "underseabg", GameColor.BLUE, "tilesea", "tilesea"),
     MATRIX("matrix", GameColor.BLACK, "matrixbg", GameColor.NEON_GREEN, "tiledark", "tiledarkoff"),
 
-    CHALLENGE("challenge", GameColor.DARK_GRAY, "challenge", GameColor.LIGHT_GRAY, "tiletutorial", "tiletutorial");
+    CHALLENGE("challenge", GameColor.DARK_GRAY, "challengebg", GameColor.LIGHT_GRAY, "tiletutorial", "tiletutorial");
 
     public String text;
     public Color color;

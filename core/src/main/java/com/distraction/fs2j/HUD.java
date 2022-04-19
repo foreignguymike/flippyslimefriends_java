@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.distraction.fs2j.tilemap.data.Area;
 import com.distraction.fs2j.tilemap.player.Player;
 
 import java.util.HashMap;
@@ -17,6 +18,7 @@ public class HUD {
 
     private ButtonListener buttonListener;
     private List<Player> players;
+    private Area area;
 
     private Vector3 touchPoint = new Vector3();
 
@@ -35,9 +37,10 @@ public class HUD {
     private TextButton bubbleDropButton;
     private NumberLabel[] labels;
 
-    public HUD(Context context, int level, ButtonListener buttonListener, List<Player> players) {
+    public HUD(Context context, int level, ButtonListener buttonListener, List<Player> players, Area area) {
         this.buttonListener = buttonListener;
         this.players = players;
+        this.area = area;
 
         topCam = new OrthographicCamera();
         topCam.setToOrtho(false, Constants.WIDTH, Constants.HEIGHT);
@@ -66,12 +69,12 @@ public class HUD {
                 new NumberLabel(
                         context,
                         context.getImage("best"),
-                        new Vector2(Constants.WIDTH - 50f, Constants.HEIGHT - 35f)
+                        new Vector2(Constants.WIDTH - 50f, Constants.HEIGHT - 35f + (area == Area.CHALLENGE ? 12 : 0))
                 ),
                 new NumberLabel(
                         context,
                         context.getImage("moves"),
-                        new Vector2(Constants.WIDTH - 130f, Constants.HEIGHT - 35f),
+                        new Vector2(Constants.WIDTH - 130f, Constants.HEIGHT - 35f + (area == Area.CHALLENGE ? 12 : 0)),
                         0
                 ),
                 new NumberLabel(
@@ -91,6 +94,10 @@ public class HUD {
     public void setBest(int best) {
         if (best == 0) labels[1].font.setNum(-1);
         else labels[1].font.setNum(best);
+    }
+
+    public void setMoves(int moves) {
+        labels[2].font.setNum(moves);
     }
 
     public int getGoal() {
@@ -170,7 +177,7 @@ public class HUD {
     public void render(SpriteBatch sb) {
         sb.setProjectionMatrix(topCam.combined);
         sb.setColor(1, 1, 1, 1);
-        for (NumberLabel it : labels) it.render(sb);
+        for (int i = area == Area.CHALLENGE ? 1 : 0; i < labels.length; i++) labels[i].render(sb);
         for (ImageButton it : topButtons.values()) it.render(sb);
 
         sb.setProjectionMatrix(bottomCam.combined);

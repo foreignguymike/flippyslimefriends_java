@@ -21,7 +21,6 @@ class LevelFinishState extends GameState {
     private Area area;
     private int level;
     private int moves;
-    private int best;
     private int goal;
 
     private Color dimColor = new Color(0, 0, 0, 0);
@@ -56,7 +55,6 @@ class LevelFinishState extends GameState {
         this.area = area;
         this.level = level;
         this.moves = moves;
-        this.best = best;
         this.goal = goal;
 
         staticCam = new OrthographicCamera();
