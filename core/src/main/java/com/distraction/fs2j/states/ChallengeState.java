@@ -5,9 +5,14 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.distraction.fs2j.BreathingImage;
 import com.distraction.fs2j.Constants;
 import com.distraction.fs2j.Context;
+import com.distraction.fs2j.ImageButton;
+import com.distraction.fs2j.InfoBox;
+import com.distraction.fs2j.NumberFont;
+import com.distraction.fs2j.NumberLabel;
 import com.distraction.fs2j.Placement;
 import com.distraction.fs2j.TextButton;
 import com.distraction.fs2j.Utils;
@@ -35,6 +40,10 @@ public class ChallengeState extends GameState {
     private int level = 0;
     private TileMap[] tileMaps;
     private OrthographicCamera[] cameras;
+    private InfoBox[] infoBoxes;
+    private NumberLabel[] levelTitles;
+    private NumberLabel[] bestMoves;
+    private ImageButton[] playButtons;
 
     public ChallengeState(Context context) {
         super(context);
@@ -52,13 +61,21 @@ public class ChallengeState extends GameState {
         rightButton = new BreathingImage(context.getImage("areaselectarrow"), Constants.WIDTH / 2f - 50f, Constants.HEIGHT / 2f - 5f, 10f);
 
         tileMaps = new TileMap[context.gameData.getMapData(Area.CHALLENGE).size()];
+        infoBoxes = new InfoBox[tileMaps.length];
+        levelTitles = new NumberLabel[tileMaps.length];
+        bestMoves = new NumberLabel[tileMaps.length];
+        playButtons = new ImageButton[tileMaps.length];
         cameras = new OrthographicCamera[tileMaps.length];
         for (int i = 0; i < tileMaps.length; i++) {
             tileMaps[i] = new TileMap(context, null, Area.CHALLENGE, i);
+            infoBoxes[i] = new InfoBox(context, 36, -Constants.HEIGHT + Constants.HEIGHT / 8f + 10, Constants.WIDTH / 2f, Constants.HEIGHT / 4f);
+            levelTitles[i] = new NumberLabel(context, context.getImage("leveltitle"),new Vector2(-30, -Constants.HEIGHT + Constants.HEIGHT / 8f + 20), i + 1, NumberFont.NumberSize.LARGE);
+            bestMoves[i] = new NumberLabel(context, context.getImage("best"), new Vector2(-30, -Constants.HEIGHT + Constants.HEIGHT / 8f));
+            playButtons[i] = new TextButton(context.getImage("play"), context.getImage("buttonbgsmall"), 90, -Constants.HEIGHT + Constants.HEIGHT / 8f + 13, 5);
             cameras[i] = new OrthographicCamera();
             cameras[i].setToOrtho(false, Constants.WIDTH, Constants.HEIGHT);
             cameras[i].position.x = 150 + i * PAGE_WIDTH;
-            cameras[i].position.y = -Math.max(tileMaps[i].numRows / 2, tileMaps[i].numCols / 2) * TileMap.TILE_IHEIGHT;
+            cameras[i].position.y = -Constants.HEIGHT / 2f;
             cameras[i].update();
         }
         changeLevel(0);
@@ -90,6 +107,8 @@ public class ChallengeState extends GameState {
         placements[2].setScore(randomPlayer(), MathUtils.random(31, 35));
         placements[3].setScore(MathUtils.random(36, 45));
         placements[4].setScore(MathUtils.random(46, 55));
+        placements[5].setScore(0);
+        placements[6].setScore(0);
     }
 
     private void handleInput() {
@@ -129,6 +148,10 @@ public class ChallengeState extends GameState {
                 sb.setProjectionMatrix(cameras[i].combined);
                 tileMaps[i].render(sb);
                 tileMaps[i].renderTop(sb, null);
+                infoBoxes[i].render(sb);
+                levelTitles[i].render(sb);
+                bestMoves[i].render(sb);
+                playButtons[i].render(sb);
             }
 
             sb.setColor(1, 1, 1, 1);
