@@ -4,14 +4,9 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.distraction.fs2j.gj.GameJoltClient;
 import com.distraction.fs2j.states.GSM;
 import com.distraction.fs2j.states.TitleState;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import de.golfgl.gdxgamesvcs.GameJoltClient;
-import de.golfgl.gdxgamesvcs.leaderboard.ILeaderBoardEntry;
 
 /**
  * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms.

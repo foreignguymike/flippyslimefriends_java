@@ -3,6 +3,7 @@ package com.distraction.fs2j;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.distraction.fs2j.gj.GameJoltClient;
 import com.distraction.fs2j.states.GSM;
 import com.distraction.fs2j.tilemap.data.Area;
 import com.distraction.fs2j.tilemap.data.GameData;
@@ -12,8 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import de.golfgl.gdxgamesvcs.GameJoltClient;
-import de.golfgl.gdxgamesvcs.IGameServiceClient;
 import de.golfgl.gdxgamesvcs.leaderboard.ILeaderBoardEntry;
 
 public class Context {

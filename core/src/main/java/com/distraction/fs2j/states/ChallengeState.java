@@ -14,18 +14,13 @@ import com.distraction.fs2j.InfoBox;
 import com.distraction.fs2j.NumberFont;
 import com.distraction.fs2j.NumberLabel;
 import com.distraction.fs2j.Placement;
-import com.distraction.fs2j.SimpleCallback;
 import com.distraction.fs2j.TextButton;
 import com.distraction.fs2j.Utils;
 import com.distraction.fs2j.tilemap.TileMap;
 import com.distraction.fs2j.tilemap.data.Area;
 import com.distraction.fs2j.tilemap.data.GameColor;
-import com.distraction.fs2j.tilemap.player.AccessoryType;
-import com.distraction.fs2j.tilemap.player.Face;
 import com.distraction.fs2j.tilemap.player.Player;
-import com.distraction.fs2j.tilemap.player.Skin;
 
-import java.util.Arrays;
 import java.util.List;
 
 import de.golfgl.gdxgamesvcs.leaderboard.ILeaderBoardEntry;

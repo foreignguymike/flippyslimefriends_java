@@ -33,7 +33,6 @@ dependencies {
 	implementation "com.badlogicgames.gdx:gdx:$gdxVersion:sources"
 	implementation project(':core')
     implementation "de.golfgl.gdxgamesvcs:gdx-gamesvcs-core:1.0.0:sources"
-    implementation "de.golfgl.gdxgamesvcs:gdx-gamesvcs-core-gamejolt:1.1.0"
 
 //// You can use the lines below instead of the "com.badlogicgames.gdx:gdx-backend-gwt" dependencies.
 //// If you do, follow the steps at https://github.com/tommyettinger/gdx-backends#gwt-290-support

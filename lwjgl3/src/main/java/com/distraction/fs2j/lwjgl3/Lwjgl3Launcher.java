@@ -4,9 +4,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.distraction.fs2j.Constants;
 import com.distraction.fs2j.FlippySlime2J;
-
-import de.golfgl.gdxgamesvcs.GameJoltClient;
-import de.golfgl.gdxgamesvcs.IGameServiceIdMapper;
+import com.distraction.fs2j.gj.GameJoltClient;
 
 /**
  * Launches the desktop (LWJGL3) application.

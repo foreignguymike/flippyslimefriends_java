@@ -148,7 +148,8 @@ public class PlayerDataHandler {
         int[] custom = new int[parse.length];
         custom[0] = Skin.valueOf(parse[0]).ordinal();
         custom[1] = Face.valueOf(parse[1]).ordinal();
-        for (int i = 2; i < parse.length; i++) custom[i] = AccessoryType.valueOf(parse[i]).ordinal();
+        for (int i = 2; i < parse.length; i++)
+            custom[i] = AccessoryType.valueOf(parse[i]).ordinal();
         return custom;
     }
 }

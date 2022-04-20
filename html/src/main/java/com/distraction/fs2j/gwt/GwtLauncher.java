@@ -5,8 +5,7 @@ import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
 import com.distraction.fs2j.Constants;
 import com.distraction.fs2j.FlippySlime2J;
-
-import de.golfgl.gdxgamesvcs.GameJoltClient;
+import com.distraction.fs2j.gj.GameJoltClient;
 
 /** Launches the GWT application. */
 public class GwtLauncher extends GwtApplication {

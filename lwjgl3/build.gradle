@@ -9,7 +9,6 @@ dependencies {
 	implementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
 	implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
 	implementation project(':core')
-	implementation "de.golfgl.gdxgamesvcs:gdx-gamesvcs-core-gamejolt:1.1.0"
 }
 
 run {
