@@ -25,6 +25,7 @@ public class Context {
     public ScoreHandler scoreHandler;
     public PlayerDataHandler playerDataHandler;
     public GameJoltClient client;
+    public AudioHandler audioHandler;
 
     public Context() {
         assets = new AssetManager();
@@ -47,6 +48,8 @@ public class Context {
 
         scoreHandler = new ScoreHandler(this);
         playerDataHandler = new PlayerDataHandler(this);
+
+        audioHandler = new AudioHandler();
     }
 
     public TextureRegion getImage(String key) {

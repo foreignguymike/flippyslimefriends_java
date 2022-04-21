@@ -215,7 +215,9 @@ public class Player extends TileObject implements Tile.TileMoveListener {
     private void handleJustMoved(int row, int col) {
         if (!bubbling) {
             moveListener.onMoved();
-            tileMap.toggleTile(row, col);
+            if (tileMap.toggleTile(row, col)) {
+                context.audioHandler.playSound("activate");
+            }
         }
 
         // reset all movement flags

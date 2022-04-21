@@ -138,16 +138,19 @@ public class TileMap implements Tile.TileMoveListener {
         return MathUtils.clamp(row * numCols + col, 0, map.size() - 1);
     }
 
-    public void toggleTile(int row, int col) {
+    public boolean toggleTile(int row, int col) {
+        boolean activated = false;
         Tile tile = getTile(row, col);
         if (tile != null) {
             if (tile.toggle()) {
                 tileListener.onTileToggled(this);
             }
             if (tile.isActive()) {
+                activated = true;
                 tile.addTopObject(new TileLight(context, this, row, col));
             }
         }
+        return activated;
     }
 
     public Tile getTile(int row, int col) {

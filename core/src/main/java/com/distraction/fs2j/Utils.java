@@ -12,15 +12,15 @@ public class Utils {
 
     public static void takeScreenshot() {
         // GWT doesn't like
-//        String name = "FS2 " + UUID.randomUUID();
-//        byte[] pixels = ScreenUtils.getFrameBufferPixels(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), true);
+//        String name = "FS2 " + java.util.UUID.randomUUID();
+//        byte[] pixels = com.badlogic.gdx.utils.ScreenUtils.getFrameBufferPixels(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), true);
 //        for (int i = 4; i < pixels.length; i += 4) {
 //            pixels[i - 1] = (byte) 255;
 //        }
-//        Pixmap pixmap = new Pixmap(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), Pixmap.Format.RGBA8888);
+//        com.badlogic.gdx.graphics.Pixmap pixmap = new com.badlogic.gdx.graphics.Pixmap(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), com.badlogic.gdx.graphics.Pixmap.Format.RGBA8888);
 //        pixmap.getPixels().clear();
 //        pixmap.getPixels().put(pixels);
-//        PixmapIO.writePNG(Gdx.files.external(name + ".png"), pixmap);
+//        com.badlogic.gdx.graphics.PixmapIO.writePNG(Gdx.files.external(name + ".png"), pixmap);
 //        pixmap.dispose();
     }
 
