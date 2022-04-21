@@ -76,7 +76,7 @@ class AccessorySelectState extends GameState {
                 accessoryIcons[i] = new AccessoryIcon(context, accessoryTypes[i], x, y, -1, numDiamonds);
                 accessoryIcons[i].setOffset(accessoryTypes[i].xoffset, accessoryTypes[i].yoffset);
                 if (accessoryTypes[i] != replacing && Utils.contains(alreadySelected, accessoryTypes[i])) {
-                    accessoryIcons[i].disabled = true;
+                    accessoryIcons[i].enabled = false;
                 }
                 if (accessoryTypes[i] == replacing) {
                     selectedBorder.setPosition(x, y);
@@ -107,7 +107,7 @@ class AccessorySelectState extends GameState {
         if (Gdx.input.justTouched()) {
             unprojectTouch();
             for (int i = 0; i < accessoryIcons.length; i++) {
-                if (accessoryIcons[i].containsPoint(touchPoint) && !accessoryIcons[i].disabled && !accessoryIcons[i].locked) {
+                if (accessoryIcons[i].containsPoint(touchPoint) && accessoryIcons[i].enabled && !accessoryIcons[i].locked) {
                     select(accessoryTypes[i]);
                 }
             }

@@ -90,7 +90,7 @@ public class FaceSelectState extends GameState {
         if (Gdx.input.justTouched()) {
             unprojectTouch();
             for (int i = 0; i < faceIcons.length; i++) {
-                if (faceIcons[i].containsPoint(touchPoint) && !faceIcons[i].disabled && !faceIcons[i].locked) {
+                if (faceIcons[i].containsPoint(touchPoint) && faceIcons[i].enabled && !faceIcons[i].locked) {
                     select(faces[i]);
                 }
             }

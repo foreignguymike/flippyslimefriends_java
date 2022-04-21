@@ -90,7 +90,7 @@ public class SkinSelectState extends GameState {
         if (Gdx.input.justTouched()) {
             unprojectTouch();
             for (int i = 0; i < skinIcons.length; i++) {
-                if (skinIcons[i].containsPoint(touchPoint) && !skinIcons[i].disabled && !skinIcons[i].locked) {
+                if (skinIcons[i].containsPoint(touchPoint) && skinIcons[i].enabled && !skinIcons[i].locked) {
                     select(skins[i]);
                 }
             }

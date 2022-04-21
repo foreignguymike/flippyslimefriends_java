@@ -17,7 +17,6 @@ public class AccessoryIcon extends ImageButton {
 
     private TextureRegion iconImage;
     private Vector2 offset = new Vector2();
-    public boolean disabled = false;
     public boolean locked = false;
 
     // requirements
@@ -75,9 +74,9 @@ public class AccessoryIcon extends ImageButton {
 
     @Override
     public void render(SpriteBatch sb) {
-        if (disabled || locked) sb.setColor(0.5f, 0.5f, 0.5f, 1f);
-        else sb.setColor(1, 1, 1, 1);
         super.render(sb);
+        if (!enabled || locked) sb.setColor(0.5f, 0.5f, 0.5f, 1f);
+        else sb.setColor(1, 1, 1, 1);
 
         if (locked) {
             sb.setColor(1, 1, 1, 1);

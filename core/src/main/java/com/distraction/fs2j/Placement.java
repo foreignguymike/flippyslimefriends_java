@@ -75,7 +75,6 @@ public class Placement {
 
 
     public void setScore(int score, Player player, String name) {
-        System.out.println("setting placement: " + score + ", " + name);
         newPlayer = player;
         newScore = score;
         newName = name;

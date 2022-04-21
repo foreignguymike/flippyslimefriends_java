@@ -10,6 +10,7 @@ import com.distraction.fs2j.tilemap.player.accessories.BasicHat;
 import com.distraction.fs2j.tilemap.player.accessories.BunnyEars;
 import com.distraction.fs2j.tilemap.player.accessories.CatEars;
 import com.distraction.fs2j.tilemap.player.accessories.Crown;
+import com.distraction.fs2j.tilemap.player.accessories.DevilWings;
 import com.distraction.fs2j.tilemap.player.accessories.DogEars;
 import com.distraction.fs2j.tilemap.player.accessories.Fish;
 import com.distraction.fs2j.tilemap.player.accessories.HeadBubble;
@@ -48,6 +49,7 @@ public enum AccessoryType implements Customizer {
     FISH("fish", 120, 14, 7),
     HEADBAND_MIYAGI("headbandmiyagi", 150, 30, 10),
     BAMBOO_HAT_RED("bamboohatred", 175),
+    DEVIL_WINGS("devilwings", 175),
     ANGEL_WINGS("angelwings", 200, 15, 14),
     WAND("wand", 220);
 
@@ -111,6 +113,7 @@ public enum AccessoryType implements Customizer {
             else if (it == CROWN) accessories.add(new Crown(player));
             else if (it == CAT_EARS) accessories.add(new CatEars(player));
             else if (it == ANGEL_WINGS) accessories.add(new AngelWings(player));
+            else if (it == DEVIL_WINGS) accessories.add(new DevilWings(player));
             else if (Utils.contains(headbands, it)) accessories.add(new Headband(player, it));
             else if (Utils.contains(basicHats, it)) accessories.add(new BasicHat(player, it));
             else if (Utils.contains(wieldable, it)) accessories.add(new Wieldable(player, it));

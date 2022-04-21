@@ -438,23 +438,13 @@ public class Player extends TileObject implements Tile.TileMoveListener {
         public void setCustomization(int[] custom) {
             setSkin(Skin.values()[custom[0]]);
             setFace(Face.values()[custom[1]]);
+            List<AccessoryType> types = new ArrayList<>();
             if (custom.length > 2) {
-                List<AccessoryType> types = new ArrayList<>();
                 for (int i = 2; i < custom.length; i++) {
                     types.add(AccessoryType.values()[custom[i]]);
                 }
-                setAccessories(types);
             }
-        }
-
-        public int[] getCustomization() {
-            int[] custom = new int[2 + accessoryTypes.size()];
-            custom[0] = skin.ordinal();
-            custom[1] = face.ordinal();
-            for (int i = 0; i < accessoryTypes.size(); i++) {
-                custom[i + 2] = accessoryTypes.get(i).ordinal();
-            }
-            return custom;
+            setAccessories(types);
         }
 
         public void setSkin(Skin skin) {
