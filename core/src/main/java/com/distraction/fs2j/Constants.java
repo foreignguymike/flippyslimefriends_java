@@ -16,10 +16,8 @@ public class Constants {
 
     public static final boolean DEBUG_MODE = false;
 
-    // leaderboards stoof
-    // todo put in file and gitignore
-    public static final String APP_ID = "NOT FOR YOU";
-    public static final String API_KEY = "ALSO NOT FOR YOU";
-    public static final int BETA_1_ID = -1;
+    public static final String APP_ID = APIConstants.APP_ID;
+    public static final String API_KEY = APIConstants.API_KEY;
+    public static final int BETA_1_ID = APIConstants.BETA_1_ID;
 
 }
