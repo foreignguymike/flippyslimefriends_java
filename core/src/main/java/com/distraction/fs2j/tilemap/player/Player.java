@@ -41,7 +41,7 @@ public class Player extends TileObject implements Tile.TileMoveListener {
     public static final String CROUCH = "crouch";
 
     public interface MoveListener {
-        void onMoved();
+        void onMoved(boolean on);
 
         void onIllegal();
     }
@@ -214,10 +214,8 @@ public class Player extends TileObject implements Tile.TileMoveListener {
      */
     private void handleJustMoved(int row, int col) {
         if (!bubbling) {
-            moveListener.onMoved();
-            if (tileMap.toggleTile(row, col)) {
-                context.audioHandler.playSound("activate");
-            }
+            boolean on = tileMap.toggleTile(row, col);
+            moveListener.onMoved(on);
         }
 
         // reset all movement flags

@@ -20,6 +20,7 @@ public class AreaSelectState extends GameState {
 
     private float width = Constants.WIDTH / 5;
     private TextButton backButton;
+    private TextButton audioButton;
     private List<ImageButton> areaButtons;
     private BreathingImage rightArrow;
     private BreathingImage leftArrow;
@@ -34,6 +35,8 @@ public class AreaSelectState extends GameState {
         super(context);
         this.currentIndex = currentIndex;
         backButton = new TextButton(context.getImage("backicon"), context.getImage("iconbuttonbg"), 25f, Constants.HEIGHT - 25f, 5f);
+        audioButton = new TextButton(context.getImage("audioicon"), context.getImage("iconbuttonbg"), 65f, Constants.HEIGHT - 25f, 5f);
+        audioButton.enabled = !context.audioHandler.isMuted();
 
         areaButtons = new ArrayList<>();
         List<Area> areaList = Area.getNormalAreas();
@@ -56,11 +59,13 @@ public class AreaSelectState extends GameState {
     private void goToLevelSelect() {
         ignoreInput = true;
         context.gsm.push(new TransitionState(context, new LevelSelectState(context, Area.values()[currentIndex])));
+        context.audioHandler.playSound("select", 0.3f);
     }
 
     private void goBack() {
         ignoreInput = true;
         context.gsm.push(new TransitionState(context, new TitleState(context)));
+        context.audioHandler.playSound("select", 0.3f);
     }
 
     private void moveAreaButtons() {
@@ -78,13 +83,17 @@ public class AreaSelectState extends GameState {
     }
 
     private void moveLeft() {
-        if (currentIndex > 0) currentIndex--;
-        moveAreaButtons();
+        if (currentIndex > 0) {
+            currentIndex--;
+            moveAreaButtons();
+        }
     }
 
     private void moveRight() {
-        if (currentIndex < areaButtons.size() - 1) currentIndex++;
-        moveAreaButtons();
+        if (currentIndex < areaButtons.size() - 1) {
+            currentIndex++;
+            moveAreaButtons();
+        }
     }
 
     private void handleInput() {
@@ -98,6 +107,9 @@ public class AreaSelectState extends GameState {
             else if (rightArrow.containsPoint(touchPoint)) moveRight();
             else if (areaButtons.get(currentIndex).containsPoint(touchPoint)) goToLevelSelect();
             if (backButton.containsPoint(touchPoint)) goBack();
+            if (audioButton.containsPoint(touchPoint)) {
+                audioButton.enabled = !context.audioHandler.toggleMute();
+            }
         }
     }
 
@@ -107,8 +119,8 @@ public class AreaSelectState extends GameState {
             handleInput();
         }
         for (ImageButton it : areaButtons) {
-            it.scale = 1f / (1f + Math.abs(Constants.WIDTH / 2 - it.pos.x) / 100f);
-            it.alpha = Math.max(0f, (1f - Math.abs(Constants.WIDTH / 2 - it.pos.x) / 300f));
+            it.scale = 1f / (1f + Math.abs(Constants.WIDTH / 2f - it.pos.x) / 100f);
+            it.alpha = Math.max(0f, (1f - Math.abs(Constants.WIDTH / 2f - it.pos.x) / 300f));
             it.update(dt);
         }
         leftArrow.update(dt);
@@ -132,6 +144,7 @@ public class AreaSelectState extends GameState {
             sb.draw(pixel, 0f, Constants.HEIGHT - 58f, Constants.WIDTH, 1f);
 
             backButton.render(sb);
+            audioButton.render(sb);
 
             for (int i = 0; i < currentIndex; i++) {
                 areaButtons.get(i).render(sb);

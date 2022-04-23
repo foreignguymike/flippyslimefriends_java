@@ -16,6 +16,7 @@ public class HUD {
 
     public static final float HEIGHT = 48f;
 
+    private Context context;
     private ButtonListener buttonListener;
     private List<Player> players;
     private Area area;
@@ -35,9 +36,11 @@ public class HUD {
     private Map<ButtonListener.ButtonType, TextButton> topButtons;
     private TextButton switchButton;
     private TextButton bubbleDropButton;
+    private TextButton audioButton;
     private NumberLabel[] labels;
 
     public HUD(Context context, int level, ButtonListener buttonListener, List<Player> players, Area area) {
+        this.context = context;
         this.buttonListener = buttonListener;
         this.players = players;
         this.area = area;
@@ -59,6 +62,8 @@ public class HUD {
                 new TextButton(context.getImage("restarticon"), context.getImage("iconbuttonbg"), 65f, Constants.HEIGHT - HEIGHT / 2f, 5f));
         switchButton = new TextButton(context.getImage("switch"), context.getImage("buttonbg"), Constants.WIDTH / 2f, 30f, 5f);
         bubbleDropButton = new TextButton(context.getImage("bubbledropicon"), context.getImage("iconbuttonbg"), Constants.WIDTH - 25f, 25f, 5f);
+        audioButton = new TextButton(context.getImage("audioicon"), context.getImage("iconbuttonbg"), 105f, Constants.HEIGHT - HEIGHT / 2f, 5f);
+        audioButton.enabled = !context.audioHandler.isMuted();
 
         labels = new NumberLabel[]{
                 new NumberLabel(
@@ -80,7 +85,7 @@ public class HUD {
                 new NumberLabel(
                         context,
                         context.getImage("leveltitle"),
-                        new Vector2(130f, Constants.HEIGHT - HEIGHT / 2f),
+                        new Vector2(170f, Constants.HEIGHT - HEIGHT / 2f),
                         level + 1,
                         NumberFont.NumberSize.LARGE
                 )
@@ -133,6 +138,7 @@ public class HUD {
         for (ImageButton it : bottomButtons.values()) it.scale = 1f;
         switchButton.scale = 1f;
         bubbleDropButton.scale = 1f;
+        audioButton.scale = 1f;
         if (Gdx.input.isTouched()) {
             touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             topCam.unproject(touchPoint);
@@ -160,12 +166,17 @@ public class HUD {
             }
             if (switchButton.containsPoint(touchPoint)) switchButton.scale = 0.75f;
             if (bubbleDropButton.containsPoint(touchPoint)) bubbleDropButton.scale = 0.75f;
+            if (audioButton.containsPoint(touchPoint)) audioButton.scale = 0.75f;
         }
         if (Gdx.input.justTouched()) {
-            if (switchButton.scale < 1f)
+            if (switchButton.scale < 1f) {
                 buttonListener.onButtonPressed(ButtonListener.ButtonType.SWITCH);
+            }
             if (bubbleDropButton.scale < 1f && players.get(currentPlayer).canDrop) {
                 buttonListener.onButtonPressed(ButtonListener.ButtonType.BUBBLE_DROP);
+            }
+            if (audioButton.scale < 1f) {
+                audioButton.enabled = !context.audioHandler.toggleMute();
             }
         }
     }
@@ -179,6 +190,7 @@ public class HUD {
         sb.setColor(1, 1, 1, 1);
         for (int i = area == Area.CHALLENGE ? 1 : 0; i < labels.length; i++) labels[i].render(sb);
         for (ImageButton it : topButtons.values()) it.render(sb);
+        audioButton.render(sb);
 
         sb.setProjectionMatrix(bottomCam.combined);
         for (ImageButton it : bottomButtons.values()) it.render(sb);

@@ -38,6 +38,7 @@ public class CustomizeState extends GameState {
     private TextureRegion pixel;
 
     private TextButton backButton;
+    private TextButton audioButton;
 
     private ImageButton skinText;
     private ImageButton faceText;
@@ -76,8 +77,8 @@ public class CustomizeState extends GameState {
     };
     private Player.MoveListener emptyMoveListener = new Player.MoveListener() {
         @Override
-        public void onMoved() {
-
+        public void onMoved(boolean on) {
+            context.audioHandler.playSound(on ? "activate" : "deactivate");
         }
 
         @Override
@@ -106,6 +107,8 @@ public class CustomizeState extends GameState {
         bg = new Background(context, context.getImage("slimebg"), GameColor.PEACH, GameColor.WHITE);
         pixel = context.getImage("pixel");
         backButton = new TextButton(context.getImage("backicon"), context.getImage("iconbuttonbg"), 25f, Constants.HEIGHT - 25, 5f);
+        audioButton = new TextButton(context.getImage("audioicon"), context.getImage("iconbuttonbg"), 65f, Constants.HEIGHT - 25f, 5f);
+        audioButton.enabled = !context.audioHandler.isMuted();
         skinText = new ImageButton(context.getImage("skin"), 4f * Constants.WIDTH / 6, 245);
         faceText = new ImageButton(context.getImage("face"), 5f * Constants.WIDTH / 6, 245);
         accessoriesText = new ImageButton(context.getImage("accessories"), 3f * Constants.WIDTH / 4 - 20, 165);
@@ -179,6 +182,8 @@ public class CustomizeState extends GameState {
         starFont = new NumberFont(context, false, NumberFont.NumberSize.LARGE);
         starFont.setNum(numStars);
         accessoriesText.setPosition(3f * Constants.WIDTH / 4 - (19 + star.getRegionWidth() + starFont.getTotalWidth()) / 2f, accessoriesText.pos.y);
+
+        context.audioHandler.playMusicLooped("mystery", 0.5f, 10.7f);
     }
 
     private void openSkinSelect() {
@@ -244,6 +249,8 @@ public class CustomizeState extends GameState {
     private void goBack() {
         ignoreInput = true;
         context.gsm.push(new TransitionState(context, new TitleState(context)));
+        context.audioHandler.playSound("select", 0.3f);
+        context.audioHandler.stopAllMusic();
     }
 
     private void save() {
@@ -286,7 +293,8 @@ public class CustomizeState extends GameState {
             else shiftLeft.scale = 1f;
             if (shiftRight.containsPoint(touchPoint)) shiftRight.scale = 0.75f;
             else shiftRight.scale = 1f;
-            if (backButton.containsPoint(touchPoint)) goBack();
+            if (audioButton.containsPoint(touchPoint)) audioButton.scale = 0.75f;
+            else audioButton.scale = 1f;
         } else {
             left.scale = 1f;
             right.scale = 1f;
@@ -294,6 +302,7 @@ public class CustomizeState extends GameState {
             down.scale = 1f;
             shiftLeft.scale = 1f;
             shiftRight.scale = 1f;
+            audioButton.scale = 1f;
         }
 
         if (Gdx.input.justTouched()) {
@@ -303,9 +312,10 @@ public class CustomizeState extends GameState {
                 if (accessoryIcons[i].containsPoint(touchPoint) && !accessoryIcons[i].locked)
                     openAccessorySelect(i);
             }
-            if (shiftLeft.scale == 0.75f) shiftAccessory(-1);
-            if (shiftRight.scale == 0.75f) shiftAccessory(1);
-
+            if (shiftLeft.scale < 1) shiftAccessory(-1);
+            if (shiftRight.scale < 1) shiftAccessory(1);
+            if (audioButton.scale < 1) audioButton.enabled = !context.audioHandler.toggleMute();
+            if (backButton.containsPoint(touchPoint)) goBack();
             if (saveButton.containsPoint(touchPoint)) save();
         }
     }
@@ -347,6 +357,7 @@ public class CustomizeState extends GameState {
             starFont.render(sb, accessoriesText.pos.x + 95, accessoriesText.pos.y);
 
             backButton.render(sb);
+            audioButton.render(sb);
             skinText.render(sb);
             faceText.render(sb);
             accessoriesText.render(sb);

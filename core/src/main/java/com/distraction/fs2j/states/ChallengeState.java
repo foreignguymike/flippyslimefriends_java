@@ -89,11 +89,14 @@ public class ChallengeState extends GameState {
         }
         setLeaderboardsEnabled(true);
         changeLevel(level);
+
+        context.audioHandler.playMusic("mystery", 0.5f, true);
     }
 
     private void goBack() {
         ignoreInput = true;
         context.gsm.push(new CheckeredTransitionState(context, new TitleState(context)));
+        context.audioHandler.playSound("select", 0.3f);
     }
 
     private void changeLevel(int amount) {
@@ -128,6 +131,7 @@ public class ChallengeState extends GameState {
         if (level >= 0 && level < context.gameData.getMapData(Area.CHALLENGE).size()) {
             ignoreInput = true;
             context.gsm.push(new CheckeredTransitionState(context, new PlayState(context, Area.CHALLENGE, level)));
+            context.audioHandler.playSound("select", 0.3f);
         }
     }
 

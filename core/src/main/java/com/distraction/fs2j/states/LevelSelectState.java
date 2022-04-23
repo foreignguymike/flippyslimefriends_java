@@ -46,6 +46,7 @@ class LevelSelectState extends GameState {
     private BreathingImage levelSelectedBorder;
     private TextureRegion levelSelectImage;
     private TextButton backButton;
+    private TextButton audioButton;
     private Color disableColor = new Color(0.3f, 0.3f, 0.3f, 1);
     private OrthographicCamera staticCam;
     private BreathingImage leftButton;
@@ -89,6 +90,8 @@ class LevelSelectState extends GameState {
         );
         levelSelectImage = context.getImage("levelselect");
         backButton = new TextButton(context.getImage("backicon"), context.getImage("iconbuttonbg"), 25f, Constants.HEIGHT - 25, 5f);
+        audioButton = new TextButton(context.getImage("audioicon"), context.getImage("iconbuttonbg"), 65f, Constants.HEIGHT - 25f, 5f);
+        audioButton.enabled = !context.audioHandler.isMuted();
         staticCam = new OrthographicCamera();
         staticCam.setToOrtho(false, Constants.WIDTH, Constants.HEIGHT);
         leftButton = new BreathingImage(context.getImage("areaselectarrow"), 50f, Constants.HEIGHT / 2f, 10f);
@@ -101,6 +104,8 @@ class LevelSelectState extends GameState {
 
         rightButton.setPosition(Constants.WIDTH + (page >= maxPages - 1 ? 50f : -50f), rightButton.pos.y);
         leftButton.setPosition(page == 0 ? -50f : 50f, leftButton.pos.y);
+
+        context.audioHandler.stopAllMusic();
     }
 
     private void incrementPage() {
@@ -164,6 +169,8 @@ class LevelSelectState extends GameState {
     private void back() {
         ignoreInput = true;
         context.gsm.push(new TransitionState(context, new AreaSelectState(context, area.ordinal())));
+        context.audioHandler.playSound("select", 0.3f);
+        context.audioHandler.stopAllMusic();
     }
 
     private void goToLevel(int level) {
@@ -172,6 +179,7 @@ class LevelSelectState extends GameState {
             updateLevelSelectedBorder();
             ignoreInput = true;
             context.gsm.push(new CheckeredTransitionState(context, new PlayState(context, area, level)));
+            context.audioHandler.playSound("select", 0.3f);
         }
     }
 
@@ -188,6 +196,7 @@ class LevelSelectState extends GameState {
             if (backButton.containsPoint(touchPoint)) back();
             if (leftButton.containsPoint(touchPoint)) decrementPage();
             if (rightButton.containsPoint(touchPoint)) incrementPage();
+            if (audioButton.containsPoint(touchPoint)) audioButton.enabled = !context.audioHandler.toggleMute();
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) goToLevel(level);
@@ -235,6 +244,7 @@ class LevelSelectState extends GameState {
                     Constants.HEIGHT - levelSelectImage.getRegionHeight() - 8f
             );
             backButton.render(sb);
+            audioButton.render(sb);
 
             sb.setProjectionMatrix(camera.combined);
             for (int i = 0; i < levels.length; i++) {

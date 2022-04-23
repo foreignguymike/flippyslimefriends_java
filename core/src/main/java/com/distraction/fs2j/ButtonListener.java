@@ -7,6 +7,7 @@ public interface ButtonListener {
         DOWN,
         RIGHT,
         RESTART,
+        AUDIO,
         BACK,
         SWITCH,
         BUBBLE_DROP

@@ -70,6 +70,9 @@ class PlayState extends GameState implements TileMap.TileListener, Player.MoveLi
         if (scores != null) hud.setBest(scores[level]);
 
         if (players.size() > 1) player.showSelected(true);
+
+        if (area == Area.CHALLENGE) context.audioHandler.playMusic("mystery", 0.5f, true);
+        else context.audioHandler.playMusicLooped("calm", 0.5f, 10.7f);
     }
 
     private void setPlayerIndex(int playerIndex) {
@@ -78,8 +81,10 @@ class PlayState extends GameState implements TileMap.TileListener, Player.MoveLi
     }
 
     @Override
-    public void onMoved() {
+    public void onMoved(boolean on) {
         hud.incrementMoves();
+        if (tileMap.isFinished(players)) context.audioHandler.playSound("complete", 0.3f);
+        else context.audioHandler.playSound(on ? "activate" : "deactivate");
     }
 
     @Override
@@ -101,7 +106,13 @@ class PlayState extends GameState implements TileMap.TileListener, Player.MoveLi
         if (!ignoreInput) {
             ignoreInput = true;
             context.gsm.push(new CheckeredTransitionState(context, area == Area.CHALLENGE ? new ChallengeState(context, level) : new LevelSelectState(context, area, level)));
+            context.audioHandler.playSound("select", 0.3f);
         }
+    }
+
+    private void restart() {
+        context.audioHandler.playSound("select", 0.3f);
+        onIllegal();
     }
 
     private void finish() {
@@ -149,7 +160,7 @@ class PlayState extends GameState implements TileMap.TileListener, Player.MoveLi
         if (type == ButtonListener.ButtonType.RIGHT) player.moveTile(0, 1);
         if (type == ButtonListener.ButtonType.BUBBLE_DROP) player.dropBubble();
         if (type == ButtonListener.ButtonType.SWITCH) switchPlayer();
-        if (type == ButtonListener.ButtonType.RESTART) onIllegal();
+        if (type == ButtonListener.ButtonType.RESTART) restart();
         if (type == ButtonListener.ButtonType.BACK) back();
     }
 
@@ -160,7 +171,7 @@ class PlayState extends GameState implements TileMap.TileListener, Player.MoveLi
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) player.moveTile(0, -1);
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) player.moveTile(-1, 0);
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) player.moveTile(1, 0);
-        if (Gdx.input.isKeyJustPressed(Input.Keys.R)) onIllegal();
+        if (Gdx.input.isKeyJustPressed(Input.Keys.R)) restart();
         if (Gdx.input.isKeyJustPressed(Input.Keys.S)) switchPlayer();
         if (Gdx.input.isKeyJustPressed(Input.Keys.D)) player.dropBubble();
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) back();

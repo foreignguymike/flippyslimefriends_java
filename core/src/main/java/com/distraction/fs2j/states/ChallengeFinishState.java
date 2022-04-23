@@ -32,7 +32,6 @@ public class ChallengeFinishState extends GameState {
     private NumberLabel movesLabel;
     private NumberLabel bestLabel;
 
-    private TextFont nameLabel;
     private TextFont nameFont;
     private TextButton changeNameButton;
     private TextButton submitButton;
@@ -90,19 +89,11 @@ public class ChallengeFinishState extends GameState {
                 moves
         );
 
-        nameLabel = new TextFont(
-                context,
-                "name",
-                false,
-                Constants.WIDTH / 2f - 40,
-                Constants.HEIGHT / 2f
-        );
-
         nameFont = new TextFont(
                 context,
                 context.playerDataHandler.name,
-                false,
-                Constants.WIDTH / 2f + 5,
+                true,
+                Constants.WIDTH / 2f,
                 Constants.HEIGHT / 2f
         );
 
@@ -146,6 +137,7 @@ public class ChallengeFinishState extends GameState {
     private void goBack() {
         ignoreInput = true;
         context.gsm.push(new CheckeredTransitionState(context, new ChallengeState(context, level), 2));
+        context.audioHandler.playSound("select", 0.3f);
     }
 
     private void goToEditName() {
@@ -158,6 +150,7 @@ public class ChallengeFinishState extends GameState {
         if (Gdx.input.justTouched()) {
             unprojectTouch();
             if (changeNameButton.containsPoint(touchPoint)) goToEditName();
+            if (backButton.containsPoint(touchPoint)) goBack();
             if (submitButton.enabled && submitButton.containsPoint(touchPoint)) submitScore();
         }
     }
@@ -193,7 +186,6 @@ public class ChallengeFinishState extends GameState {
                 warning.render(sb);
                 warning2.render(sb);
             } else {
-                nameLabel.render(sb);
                 nameFont.render(sb);
                 submitButton.render(sb);
             }

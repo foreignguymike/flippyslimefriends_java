@@ -132,6 +132,7 @@ class LevelFinishState extends GameState {
             if (area != Area.TUTORIAL || level != 3) {
                 ignoreInput = true;
                 context.gsm.push(new CheckeredTransitionState(context, new PlayState(context, area, level + 1), 2));
+                context.audioHandler.playSound("select", 0.3f);
             }
         }
     }
@@ -139,11 +140,13 @@ class LevelFinishState extends GameState {
     private void backToLevelSelect() {
         ignoreInput = true;
         context.gsm.push(new CheckeredTransitionState(context, new LevelSelectState(context, area, level), 2));
+        context.audioHandler.playSound("select", 0.3f);
     }
 
     private void restart() {
         ignoreInput = true;
         context.gsm.push(new TransitionState(context, new PlayState(context, area, level), 2));
+        context.audioHandler.playSound("select", 0.3f);
     }
 
     private void handleInput() {

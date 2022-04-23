@@ -15,6 +15,7 @@ import com.distraction.fs2j.tilemap.data.GameColor;
 public class TitleState extends GameState {
 
     private TextureRegion pixel;
+    private TextButton audioButton;
     private ImageButton title;
     private TextButton playButton;
     private TextButton customizeButton;
@@ -32,6 +33,8 @@ public class TitleState extends GameState {
 
         pixel = context.getImage("pixel");
 
+        audioButton = new TextButton(context.getImage("audioicon"), context.getImage("iconbuttonbg"), 25f, Constants.HEIGHT - 25f, 5f);
+        audioButton.enabled = !context.audioHandler.isMuted();
         title = new ImageButton(context.getImage("title"), Constants.WIDTH / 2f, Constants.HEIGHT + 100f, 0);
         playButton = new TextButton(context.getImage("play"), context.getImage("buttonbg"), Constants.WIDTH / 4f, 30, 0);
         customizeButton = new TextButton(context.getImage("slimetext"), context.getImage("buttonbg"), 2f * Constants.WIDTH / 4f, 30, 0);
@@ -50,16 +53,19 @@ public class TitleState extends GameState {
     private void goToAreaSelect() {
         ignoreInput = true;
         context.gsm.push(new CheckeredTransitionState(context, new AreaSelectState(context)));
+        context.audioHandler.playSound("select", 0.3f);
     }
 
     private void goToCustomize(boolean preview) {
         ignoreInput = true;
         context.gsm.push(new CheckeredTransitionState(context, new CustomizeState(context, preview)));
+        context.audioHandler.playSound("select", 0.3f);
     }
 
     private void goToChallenge() {
         ignoreInput = true;
         context.gsm.push(new CheckeredTransitionState(context, new ChallengeState(context)));
+        context.audioHandler.playSound("select", 0.3f);
     }
 
     private void handleInput() {
@@ -75,6 +81,8 @@ public class TitleState extends GameState {
             if (playButton.containsPoint(touchPoint)) goToAreaSelect();
             if (customizeButton.containsPoint(touchPoint)) goToCustomize(false);
             if (challengeButton.containsPoint(touchPoint)) goToChallenge();
+            if (audioButton.containsPoint(touchPoint))
+                audioButton.enabled = !context.audioHandler.toggleMute();
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) goToAreaSelect();
         if (Gdx.input.isKeyJustPressed(Input.Keys.N)) {
@@ -106,6 +114,7 @@ public class TitleState extends GameState {
             sb.draw(pixel, 0, 56, Constants.WIDTH, 1);
             sb.draw(pixel, 0, Constants.HEIGHT - 57, Constants.WIDTH, 1);
 
+            audioButton.render(sb);
             title.render(sb);
             playButton.render(sb);
             customizeButton.render(sb);
