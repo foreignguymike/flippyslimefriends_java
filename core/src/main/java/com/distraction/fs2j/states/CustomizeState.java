@@ -250,7 +250,6 @@ public class CustomizeState extends GameState {
         ignoreInput = true;
         context.gsm.push(new TransitionState(context, new TitleState(context)));
         context.audioHandler.playSound("select", 0.3f);
-        context.audioHandler.stopAllMusic();
     }
 
     private void save() {

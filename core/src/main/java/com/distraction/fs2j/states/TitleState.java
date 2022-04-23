@@ -48,6 +48,8 @@ public class TitleState extends GameState {
         minor = new NumberFont(context, false, NumberFont.NumberSize.SMALL, Integer.parseInt(v[1]));
         build = new NumberFont(context, false, NumberFont.NumberSize.SMALL, Integer.parseInt(v[2]));
         total = major.getTotalWidth() + minor.getTotalWidth() + build.getTotalWidth() + 6 + 1;
+
+        context.audioHandler.stopAllMusic();
     }
 
     private void goToAreaSelect() {

@@ -8,8 +8,6 @@ import com.distraction.fs2j.gj.GameJoltClient;
 import com.distraction.fs2j.states.GSM;
 import com.distraction.fs2j.states.TitleState;
 
-import io.anuke.gif.GifRecorder;
-
 /**
  * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms.
  */
@@ -22,8 +20,6 @@ public class FlippySlime2J extends ApplicationAdapter {
     private GSM gsm;
 
     private GameJoltClient client;
-
-    private GifRecorder recorder;
 
     public FlippySlime2J() {
     }
@@ -41,8 +37,6 @@ public class FlippySlime2J extends ApplicationAdapter {
 
         context.client = client;
         client.setGuestName(context.playerDataHandler.name);
-
-        recorder = new GifRecorder(sb);
     }
 
     @Override
@@ -53,7 +47,6 @@ public class FlippySlime2J extends ApplicationAdapter {
         if (dt > DT_THRESHOLD) return;
         gsm.update(dt);
         gsm.render(sb);
-        recorder.update();
     }
 
     @Override
