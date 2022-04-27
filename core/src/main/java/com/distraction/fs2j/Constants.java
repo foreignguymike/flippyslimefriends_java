@@ -16,8 +16,13 @@ public class Constants {
 
     public static final boolean DEBUG_MODE = false;
 
-    public static final String APP_ID = APIConstants.APP_ID;
-    public static final String API_KEY = APIConstants.API_KEY;
-    public static final int BETA_1_ID = APIConstants.BETA_1_ID;
+    public static final String APP_ID = "";
+    public static final String API_KEY = "";
+    public static final int BETA_1_ID = 0;
+
+    // not for you
+//    public static final String APP_ID = APIConstants.APP_ID;
+//    public static final String API_KEY = APIConstants.API_KEY;
+//    public static final int BETA_1_ID = APIConstants.BETA_1_ID;
 
 }
