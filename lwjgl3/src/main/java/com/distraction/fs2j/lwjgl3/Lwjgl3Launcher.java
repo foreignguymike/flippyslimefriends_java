@@ -21,13 +21,6 @@ public class Lwjgl3Launcher {
             config.setWindowedMode(Constants.DESKTOP_WIDTH, Constants.DESKTOP_HEIGHT);
         }
         config.setWindowIcon("libgdx128.png", "libgdx64.png", "libgdx32.png", "libgdx16.png");
-
-        GameJoltClient client = new GameJoltClient();
-        client.setGjScoreTableMapper(id -> {
-            if (id.equals("BETA_1")) return Constants.BETA_1_ID;
-            return -1;
-        });
-        client.initialize(Constants.APP_ID, Constants.API_KEY);
-        new Lwjgl3Application(new FlippySlime2J(client), config);
+        new Lwjgl3Application(new FlippySlime2J(), config);
     }
 }

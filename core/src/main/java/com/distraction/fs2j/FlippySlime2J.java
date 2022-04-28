@@ -19,13 +19,7 @@ public class FlippySlime2J extends ApplicationAdapter {
     private SpriteBatch sb;
     private GSM gsm;
 
-    private GameJoltClient client;
-
     public FlippySlime2J() {
-    }
-
-    public FlippySlime2J(GameJoltClient client) {
-        this.client = client;
     }
 
     @Override
@@ -35,8 +29,14 @@ public class FlippySlime2J extends ApplicationAdapter {
         sb = new SpriteBatch();
         gsm.push(new TitleState(context));
 
-        context.client = client;
+        GameJoltClient client = new GameJoltClient();
+        client.setGjScoreTableMapper(id -> {
+            if (id.equals("BETA_1")) return Constants.BETA_1_ID;
+            return -1;
+        });
+        client.initialize(Constants.APP_ID, Constants.API_KEY);
         client.setGuestName(context.playerDataHandler.name);
+        context.client = client;
     }
 
     @Override
