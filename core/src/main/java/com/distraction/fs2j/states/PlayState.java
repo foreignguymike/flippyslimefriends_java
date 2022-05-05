@@ -71,8 +71,11 @@ class PlayState extends GameState implements TileMap.TileListener, Player.MoveLi
 
         if (players.size() > 1) player.showSelected(true);
 
-        if (area == Area.CHALLENGE) context.audioHandler.playMusic("mystery", 0.5f, true);
-        else context.audioHandler.playMusicLooped("calm", 0.5f, 10.7f);
+//        if (area == Area.RUINS) context.audioHandler.playMusic("mystery", 0.5f, true);
+//        else if (area == Area.TUNDRA) context.audioHandler.playMusicLooped("calm", 0.5f, 10.7f);
+
+        // todo music for every area, using tundra music for now
+        context.audioHandler.playMusicLooped("calm", 0.5f, 10.7f);
     }
 
     private void setPlayerIndex(int playerIndex) {
@@ -82,9 +85,12 @@ class PlayState extends GameState implements TileMap.TileListener, Player.MoveLi
 
     @Override
     public void onMoved(boolean on) {
-        hud.incrementMoves();
-        if (tileMap.isFinished(players)) context.audioHandler.playSound("complete", 0.3f);
-        else context.audioHandler.playSound(on ? "activate" : "deactivate");
+        if (tileMap.isFinished(players)) {
+            context.audioHandler.playSound("complete", 0.3f);
+        } else {
+            hud.incrementMoves();
+            context.audioHandler.playSound(on ? "activate" : "deactivate");
+        }
     }
 
     @Override
@@ -118,6 +124,7 @@ class PlayState extends GameState implements TileMap.TileListener, Player.MoveLi
     private void finish() {
         ignoreInput = true;
         hud.hideInfo = true;
+        hud.incrementMoves();
         if (hud.getBest() < 0 || hud.getMoves() < hud.getBest()) {
             context.scoreHandler.saveScore(area, level, hud.getMoves());
             hud.setBest(hud.getMoves());
@@ -175,12 +182,6 @@ class PlayState extends GameState implements TileMap.TileListener, Player.MoveLi
         if (Gdx.input.isKeyJustPressed(Input.Keys.S)) switchPlayer();
         if (Gdx.input.isKeyJustPressed(Input.Keys.D)) player.dropBubble();
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) back();
-
-        // TODO test code do not push to builds
-        if (Gdx.input.isKeyJustPressed(Input.Keys.F)) {
-            hud.setMoves(1000);
-            finish();
-        }
     }
 
     @Override

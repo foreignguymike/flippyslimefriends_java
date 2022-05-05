@@ -90,6 +90,7 @@ public class ChallengeState extends GameState {
         setLeaderboardsEnabled(true);
         changeLevel(level);
 
+        // todo make challenge levels music, using placeholder for now
         context.audioHandler.playMusic("mystery", 0.5f, true);
     }
 

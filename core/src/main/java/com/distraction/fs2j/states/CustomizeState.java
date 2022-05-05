@@ -182,8 +182,6 @@ public class CustomizeState extends GameState {
         starFont = new NumberFont(context, false, NumberFont.NumberSize.LARGE);
         starFont.setNum(numStars);
         accessoriesText.setPosition(3f * Constants.WIDTH / 4 - (19 + star.getRegionWidth() + starFont.getTotalWidth()) / 2f, accessoriesText.pos.y);
-
-        context.audioHandler.playMusicLooped("mystery", 0.5f, 10.7f);
     }
 
     private void openSkinSelect() {
