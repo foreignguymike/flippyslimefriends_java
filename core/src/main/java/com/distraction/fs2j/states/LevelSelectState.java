@@ -47,7 +47,6 @@ class LevelSelectState extends GameState {
     private TextureRegion levelSelectImage;
     private TextButton backButton;
     private TextButton audioButton;
-    private Color disableColor = new Color(0.3f, 0.3f, 0.3f, 1);
     private OrthographicCamera staticCam;
     private BreathingImage leftButton;
     private BreathingImage rightButton;
@@ -251,11 +250,12 @@ class LevelSelectState extends GameState {
                 ImageButton it = levels[i];
                 sb.setColor(1, 1, 1, 1);
                 int best = context.scoreHandler.getScores(area)[i];
-                if (best == 0) sb.setColor(disableColor);
+                it.enabled = best != 0;
                 it.render(sb);
                 numberFont.setNum(i + 1);
                 numberFont.render(sb, it.pos.x, it.pos.y - 5);
-                sb.setColor(1, 1, 1, 1);
+                if (best == 0) sb.setColor(0.3f, 0.3f, 0.3f, 1);
+                else sb.setColor(1, 1, 1, 1);
                 sb.draw(
                         best > 0 && best <= levelData.get(i).goal ? diamond : diamondEmpty,
                         it.pos.x - diamond.getRegionWidth() / 2f,

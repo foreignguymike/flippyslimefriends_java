@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector3;
 public class ImageButton {
 
     protected TextureRegion image;
-    public float padding = 0f;
+    public float padding;
 
     public Vector2 pos = new Vector2();
     public float width;
