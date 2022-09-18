@@ -3,12 +3,8 @@ Isometric puzzle game
 
 Play the game here! https://foreignguymike.github.io/
 
-![meadow](https://i.imgur.com/dG1As3s.png)
+![gameplay](https://i.imgur.com/GgQV1gt.gif)
 
-![tundra](https://i.imgur.com/hiVd6T2.png)
+![game1](https://m.gjcdn.net/content/600/13135763-ll-x5jwnfcp-v4.webp)
 
-![ruins](https://i.imgur.com/205GqfI.png)
-
-![undersea](https://i.imgur.com/pPQOqLZ.png)
-
-![matrix](https://i.imgur.com/5WaNqms.png)
+![game2](https://m.gjcdn.net/content/600/13135762-ll-wmsy9isf-v4.webp)
