@@ -29,68 +29,55 @@ import java.util.List;
 
 public class CustomizeState extends GameState {
 
-    private boolean preview;
-    private int numStars;
-    private int numDiamonds;
+    private final boolean preview;
 
-    private Background bg;
+    private final Background bg;
 
-    private TextureRegion pixel;
+    private final TextureRegion pixel;
 
-    private TextButton backButton;
-    private TextButton audioButton;
+    private final TextButton backButton;
+    private final TextButton audioButton;
 
-    private ImageButton skinText;
-    private ImageButton faceText;
-    private ImageButton accessoriesText;
+    private final ImageButton skinText;
+    private final ImageButton faceText;
+    private final ImageButton accessoriesText;
 
-    private AccessoryIcon faceIcon;
-    private AccessoryIcon skinIcon;
-    private AccessoryIcon[] accessoryIcons;
+    private final AccessoryIcon faceIcon;
+    private final AccessoryIcon skinIcon;
+    private final AccessoryIcon[] accessoryIcons;
 
     private int selectedAccessoryIndex = -1;
-    private BreathingImage selectedBorder;
-    private ImageButton shiftLeft;
-    private ImageButton shiftRight;
+    private final BreathingImage selectedBorder;
+    private final ImageButton shiftLeft;
+    private final ImageButton shiftRight;
 
     private Skin skin;
     private Face face;
-    private AccessoryType[] accessoryTypes;
+    private final AccessoryType[] accessoryTypes;
 
-    private TileMap tileMap;
-    private Player player;
-    private List<Player> players;
+    private final TileMap tileMap;
+    private final Player player;
+    private final List<Player> players;
 
-    private TextButton saveButton;
+    private final TextButton saveButton;
 
-    private OrthographicCamera staticCam;
+    private final OrthographicCamera staticCam;
 
-    private ImageButton right;
-    private ImageButton down;
-    private ImageButton left;
-    private ImageButton up;
+    private final ImageButton right;
+    private final ImageButton down;
+    private final ImageButton left;
+    private final ImageButton up;
 
-    private TextureRegion star;
-    private NumberFont starFont;
-
-    private TileMap.TileListener emptyTileListener = tileMap -> {
-    };
-    private Player.MoveListener emptyMoveListener = new Player.MoveListener() {
-        @Override
-        public void onMoved(boolean on) {
-            context.audioHandler.playSound(on ? "activate" : "deactivate");
-        }
-
-        @Override
-        public void onIllegal() {
-
-        }
-    };
+    private final TextureRegion star;
+    private final NumberFont starFont;
 
     protected CustomizeState(Context context, boolean preview) {
         super(context);
 
         this.preview = preview;
+
+        int numStars;
+        int numDiamonds;
         if (preview) {
             numStars = 1000;
             numDiamonds = 1000;
@@ -99,8 +86,30 @@ public class CustomizeState extends GameState {
             numDiamonds = context.scoreHandler.getNumDiamonds();
         }
 
-        tileMap = new TileMap(context, emptyTileListener, Area.TUTORIAL, 4);
-        player = new Player(context, tileMap, emptyMoveListener, 0, 0, false);
+        tileMap = new TileMap(
+                context,
+                tileMap -> {},
+                Area.TUTORIAL,
+                4
+        );
+        player = new Player(
+                context,
+                tileMap,
+                new Player.MoveListener() {
+                    @Override
+                    public void onMoved(boolean on) {
+                        context.audioHandler.playSound(on ? "activate" : "deactivate");
+                    }
+
+                    @Override
+                    public void onIllegal() {
+
+                    }
+                },
+                0,
+                0,
+                false
+        );
         players = new ArrayList<>();
         players.add(player);
 
@@ -186,20 +195,20 @@ public class CustomizeState extends GameState {
 
     private void openSkinSelect() {
         ignoreInput = true;
-        context.gsm.push(new SkinSelectState(context, this, numDiamonds));
+        context.gsm.push(new SkinSelectState(context, this));
         context.gsm.depth++;
     }
 
     private void openFaceSelect() {
         ignoreInput = true;
-        context.gsm.push(new FaceSelectState(context, this, numDiamonds));
+        context.gsm.push(new FaceSelectState(context, this));
         context.gsm.depth++;
     }
 
     private void openAccessorySelect(int index) {
         setSelectedIndex(index);
         ignoreInput = true;
-        context.gsm.push(new AccessorySelectState(context, this, numDiamonds, index, accessoryTypes[index], accessoryTypes));
+        context.gsm.push(new AccessorySelectState(context, this, index, accessoryTypes[index], accessoryTypes));
         context.gsm.depth++;
     }
 

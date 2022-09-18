@@ -4,17 +4,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Animation {
 
-    private TextureRegion[] sprites;
-    private float delay = 1f / 60f;
-    private int repeatCount = -1;
+    private final TextureRegion[] sprites;
+    private final float delay;
+    private final int repeatCount;
 
     private float time = 0f;
     private int frameIndex = 0;
     private int playCount = 0;
-
-    public Animation(TextureRegion[] sprites) {
-        this(sprites, 1f / 60f);
-    }
 
     public Animation(TextureRegion[] sprites, float delay) {
         this(sprites, delay, -1);

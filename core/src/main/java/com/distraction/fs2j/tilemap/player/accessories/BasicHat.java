@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public class BasicHat extends Accessory {
 
-    private static Map<AccessoryType, int[]> offsetMap;
+    private static final Map<AccessoryType, int[]> offsetMap;
     private static final int[] BAMBOO_HAT_OFFSETS_DEFAULT = new int[]{0, 13, 12, 10, 17};
 
     static {
@@ -27,13 +27,11 @@ public class BasicHat extends Accessory {
         offsetMap.put(AccessoryType.BAMBOO_HAT_RED, BAMBOO_HAT_OFFSETS_DEFAULT);
     }
 
-    private AccessoryType type;
-    private TextureRegion image;
-    private int[] offsets;
+    private final TextureRegion image;
+    private final int[] offsets;
 
     public BasicHat(Player player, AccessoryType type) {
         super(player);
-        this.type = type;
         image = type.getSprites(player.context)[0];
         offsets = offsetMap.get(type);
         offset.x = offsets[0];

@@ -10,8 +10,8 @@ import com.distraction.fs2j.tilemap.player.Player;
 
 public class HeadBubble extends Accessory {
 
-    private TextureRegion image;
-    private TextureRegion pixel;
+    private final TextureRegion image;
+    private final TextureRegion pixel;
 
     public HeadBubble(Player player) {
         super(player);

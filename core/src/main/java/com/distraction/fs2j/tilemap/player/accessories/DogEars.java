@@ -8,7 +8,7 @@ import com.distraction.fs2j.tilemap.player.Player;
 
 public class DogEars extends Accessory {
 
-    private TextureRegion image;
+    private final TextureRegion image;
 
     public DogEars(Player player) {
         super(player);

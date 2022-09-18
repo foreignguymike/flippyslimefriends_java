@@ -7,8 +7,8 @@ import com.distraction.fs2j.Context;
 
 public class TransitionState extends GameState {
 
-    private GameState nextState;
-    private int numPop;
+    private final GameState nextState;
+    private final int numPop;
 
     protected float duration = 0.5f;
     protected float time = 0f;

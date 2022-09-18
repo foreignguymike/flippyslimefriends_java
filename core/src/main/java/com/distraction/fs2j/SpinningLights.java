@@ -8,10 +8,10 @@ import java.util.List;
 
 public class SpinningLights extends ImageButton {
 
-    private float rotationSpeedDeg = -40f;
+    private float rotationSpeedDeg;
 
-    private TextureRegion spotlight;
-    private List<Float> degrees;
+    private final TextureRegion spotlight;
+    private final List<Float> degrees;
 
     public SpinningLights(Context context, float x, float y, float spokes) {
         this(context, x, y, spokes, 1);

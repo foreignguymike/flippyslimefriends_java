@@ -10,7 +10,7 @@ import com.distraction.fs2j.tilemap.player.Player;
 
 public class AngelWings extends Accessory {
 
-    private TextureRegion[] sprites;
+    private final TextureRegion[] sprites;
 
     private float time = 0f;
     private float deg;

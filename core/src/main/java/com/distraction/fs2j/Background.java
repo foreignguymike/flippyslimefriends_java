@@ -11,15 +11,16 @@ import java.util.List;
 
 public class Background {
 
-    private TextureRegion pixel;
-    private TextureRegion image;
-    private Color color;
-    private Color bgIconColor;
+    private static final float SPEED = 5f;
+    private static final float INTERVAL = SPEED * 2f;
 
-    private List<Vector3> bgs = new ArrayList<>();
-    private float speed = 5f;
-    private float interval = 5f * 2;
-    private float time = interval;
+    private final TextureRegion pixel;
+    private final TextureRegion image;
+    private final Color color;
+    private final Color bgIconColor;
+
+    private final List<Vector3> bgs = new ArrayList<>();
+    private float time = INTERVAL;
     private float time2 = 0f;
     private float rot = 0f;
 
@@ -35,7 +36,7 @@ public class Background {
 
         for (int row = 0; row <= 5; row++) {
             for (int col = -4; col <= 4; col++) {
-                bgs.add(new Vector3(1f * col * Constants.WIDTH / 4f + (row + 1) * speed * interval, row * speed * interval, 0f));
+                bgs.add(new Vector3(1f * col * Constants.WIDTH / 4f + (row + 1) * SPEED * INTERVAL, row * SPEED * INTERVAL, 0f));
             }
         }
     }
@@ -43,16 +44,16 @@ public class Background {
     public void update(float dt) {
         time += dt;
         time2 += dt;
-        while (time > interval) {
-            time -= interval;
+        while (time > INTERVAL) {
+            time -= INTERVAL;
             for (int i = -4; i <= 4; i++) {
-                bgs.add(new Vector3(1f * i * Constants.WIDTH / 4f, -speed * interval, 0f));
+                bgs.add(new Vector3(1f * i * Constants.WIDTH / 4f, -SPEED * INTERVAL, 0f));
             }
         }
         rot = time2 * 5;
         for (Vector3 it : bgs) {
-            it.x += speed * dt;
-            it.y += speed * dt;
+            it.x += SPEED * dt;
+            it.y += SPEED * dt;
             it.z = rot;
         }
         bgs.removeIf(it -> it.x > Constants.WIDTH && it.y > Constants.HEIGHT);

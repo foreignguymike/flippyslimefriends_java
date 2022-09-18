@@ -18,37 +18,38 @@ import com.distraction.fs2j.tilemap.data.Area;
 
 class LevelFinishState extends GameState {
 
-    private Area area;
-    private int level;
-    private int moves;
-    private int goal;
+    private static final float MAX_DIM_ALPHA = 0.4f;
+    private static final float ALPHA_TIME = 0.5f;
 
-    private Color dimColor = new Color(0, 0, 0, 0);
-    private float maxDimAlpha = 0.4f;
-    private OrthographicCamera staticCam;
+    private final Area area;
+    private final int level;
+    private final int moves;
+    private final int goal;
+
+    private final Color dimColor = new Color(0, 0, 0, 0);
+    private final OrthographicCamera staticCam;
 
     private float time = 0f;
-    private float time1 = 0.5f;
     public float alpha = 0f;
     public float scale = 0f;
 
-    private InfoBox infoBox;
+    private final InfoBox infoBox;
 
-    private ImageButton completeImage;
-    private ImageButton diamondEmpty;
-    private ImageButton diamond;
-    private ImageButton star;
+    private final ImageButton completeImage;
+    private final ImageButton diamondEmpty;
+    private final ImageButton diamond;
+    private final ImageButton star;
 
-    private SpinningLights lights;
-    private SpinningLights diamondLights;
+    private final SpinningLights lights;
+    private final SpinningLights diamondLights;
 
-    private NumberLabel bestLabel;
-    private NumberLabel goalLabel;
-    private NumberLabel movesLabel;
+    private final NumberLabel bestLabel;
+    private final NumberLabel goalLabel;
+    private final NumberLabel movesLabel;
 
-    private TextButton backButton;
-    private TextButton restartButton;
-    private TextButton nextButton;
+    private final TextButton backButton;
+    private final TextButton restartButton;
+    private final TextButton nextButton;
 
     public LevelFinishState(Context context, Area area, int level, int moves, int best, int goal) {
         super(context);
@@ -69,7 +70,7 @@ class LevelFinishState extends GameState {
         );
 
         completeImage = new ImageButton(context.getImage("complete"), Constants.WIDTH / 2f, Constants.HEIGHT - 50f);
-        diamondEmpty = new ImageButton(context.getImage("diamondfinishempty"), Constants.WIDTH / 2f + 80f, Constants.HEIGHT / 2 - infoBox.height / 2 + 64f);
+        diamondEmpty = new ImageButton(context.getImage("diamondfinishempty"), Constants.WIDTH / 2f + 80f, Constants.HEIGHT / 2f - infoBox.height / 2 + 64f);
         diamond = new ImageButton(context.getImage("diamondfinish"), diamondEmpty.pos.x, diamondEmpty.pos.y);
         star = new ImageButton(context.getImage("starfinish"), Constants.WIDTH / 2f, Constants.HEIGHT / 2f + 30f);
 
@@ -84,40 +85,40 @@ class LevelFinishState extends GameState {
         bestLabel = new NumberLabel(
                 context,
                 context.getImage("best"),
-                new Vector2(Constants.WIDTH / 2f - 60f, Constants.HEIGHT / 2 - infoBox.height / 2 + 64f),
+                new Vector2(Constants.WIDTH / 2f - 60f, Constants.HEIGHT / 2f - infoBox.height / 2 + 64f),
                 best
         );
         goalLabel = new NumberLabel(
                 context,
                 context.getImage("goal"),
-                new Vector2(Constants.WIDTH / 2f + 10, Constants.HEIGHT / 2 - infoBox.height / 2 + 54f),
+                new Vector2(Constants.WIDTH / 2f + 10, Constants.HEIGHT / 2f - infoBox.height / 2 + 54f),
                 goal
         );
         movesLabel = new NumberLabel(
                 context,
                 context.getImage("moves"),
-                new Vector2(Constants.WIDTH / 2f + 10f, Constants.HEIGHT / 2 - infoBox.height / 2 + 74f),
+                new Vector2(Constants.WIDTH / 2f + 10f, Constants.HEIGHT / 2f - infoBox.height / 2 + 74f),
                 moves
         );
         backButton = new TextButton(
                 context.getImage("backicon"),
                 context.getImage("iconbuttonbg"),
-                Constants.WIDTH / 2 - 80f,
-                Constants.HEIGHT / 2 - infoBox.height / 2 + 26f,
+                Constants.WIDTH / 2f - 80f,
+                Constants.HEIGHT / 2f - infoBox.height / 2 + 26f,
                 5f
         );
         restartButton = new TextButton(
                 context.getImage("restarticon"),
                 context.getImage("iconbuttonbg"),
-                Constants.WIDTH / 2 - 40f,
-                Constants.HEIGHT / 2 - infoBox.height / 2 + 26f,
+                Constants.WIDTH / 2f - 40f,
+                Constants.HEIGHT / 2f - infoBox.height / 2 + 26f,
                 5f
         );
         nextButton = new TextButton(
                 context.getImage("next"),
                 context.getImage("buttonbg"),
                 Constants.WIDTH / 2f + 50f,
-                Constants.HEIGHT / 2 - infoBox.height / 2 + 26f,
+                Constants.HEIGHT / 2f - infoBox.height / 2 + 26f,
                 5f
         );
 
@@ -165,19 +166,19 @@ class LevelFinishState extends GameState {
     public void update(float dt) {
         if (!ignoreInput) handleInput();
 
-        if (dimColor.a < maxDimAlpha) {
+        if (dimColor.a < MAX_DIM_ALPHA) {
             dimColor.a += 2f * dt;
-            if (dimColor.a > maxDimAlpha) {
-                dimColor.a = maxDimAlpha;
+            if (dimColor.a > MAX_DIM_ALPHA) {
+                dimColor.a = MAX_DIM_ALPHA;
             }
         }
         time += dt;
-        if (time > time1) {
-            alpha = (time - time1) / (time1 / 2);
+        if (time > ALPHA_TIME) {
+            alpha = (time - ALPHA_TIME) / (ALPHA_TIME / 2);
             if (alpha > 1f) {
                 alpha = 1f;
             }
-            scale = 50f / (49f * (time - time1) / (time1 / 2) + 1f);
+            scale = 50f / (49f * (time - ALPHA_TIME) / (ALPHA_TIME / 2) + 1f);
             if (scale < 1f) {
                 scale = 1f;
             }

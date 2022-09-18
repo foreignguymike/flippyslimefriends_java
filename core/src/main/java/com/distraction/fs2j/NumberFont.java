@@ -17,12 +17,10 @@ public class NumberFont {
         }
     }
 
-    ;
+    private final boolean centerAlign;
 
-    private boolean centerAlign;
-
-    private TextureRegion[] images;
-    private TextureRegion nan;
+    private final TextureRegion[] images;
+    private final TextureRegion nan;
     private int length = 0;
 
     public int num;

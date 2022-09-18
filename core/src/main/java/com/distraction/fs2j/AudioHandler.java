@@ -11,10 +11,10 @@ import java.util.Set;
 
 public class AudioHandler {
 
-    private Map<String, Music> music;
-    private Map<String, Sound> sounds;
+    private final Map<String, Music> music;
+    private final Map<String, Sound> sounds;
 
-    private Set<MusicConfig> currentlyPlaying;
+    private final Set<MusicConfig> currentlyPlaying;
 
     private boolean muted = false;
 

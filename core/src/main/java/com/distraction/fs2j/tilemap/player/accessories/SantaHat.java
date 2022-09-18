@@ -8,7 +8,7 @@ import com.distraction.fs2j.tilemap.player.Player;
 
 public class SantaHat extends Accessory {
 
-    private TextureRegion[] sprites;
+    private final TextureRegion[] sprites;
 
     public SantaHat(Player player) {
         super(player);

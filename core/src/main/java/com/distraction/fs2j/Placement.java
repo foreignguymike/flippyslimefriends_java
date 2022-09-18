@@ -10,27 +10,25 @@ public class Placement {
 
     public int rank;
 
-    private TextureRegion end;
-    private TextureRegion bg;
-    private TextureRegion icon;
-    private TextureRegion emptySlime;
+    private final TextureRegion end;
+    private final TextureRegion bg;
+    private final TextureRegion icon;
+    private final TextureRegion emptySlime;
 
     public float x;
     public float y;
     private float xdest;
-    private float xmin;
+    private final float xmin;
     private int totalOffset;
 
-    private int score;
     private int newScore;
     private boolean hiding;
 
     private Player player;
     private Player newPlayer;
-    private NumberFont scoreFont;
-    private TextFont nameFont;
+    private final NumberFont scoreFont;
+    private final TextFont nameFont;
 
-    private String name;
     private String newName;
 
     private boolean enabled;
@@ -100,14 +98,11 @@ public class Placement {
         if (hiding && Math.abs(x - xdest) < 20) {
             hiding = false;
             xdest = xmin;
-            score = newScore;
             player = newPlayer;
-            name = newName;
 
-            if (score > 0) scoreFont.setNum(score);
+            if (newScore > 0) scoreFont.setNum(newScore);
             else scoreFont.setNum(-1);
-
-            nameFont.setText(name);
+            nameFont.setText(newName);
         }
 
         if (player != null) player.update(dt);

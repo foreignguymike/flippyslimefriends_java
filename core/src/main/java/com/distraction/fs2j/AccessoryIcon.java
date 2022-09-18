@@ -10,22 +10,21 @@ import com.distraction.fs2j.tilemap.player.Skin;
 
 public class AccessoryIcon extends ImageButton {
 
-    private Context context;
-    private Customizer type;
-    private int numStars;
-    private int numDiamonds;
+    private final Context context;
+    private final int numStars;
+    private final int numDiamonds;
 
     private TextureRegion iconImage;
-    private Vector2 offset = new Vector2();
+    private final Vector2 offset = new Vector2();
     public boolean locked = false;
 
     // requirements
-    private TextureRegion star;
-    private TextureRegion diamond;
     private int requiredStars;
     private int requiredDiamonds;
-    private NumberFont starFont;
-    private NumberFont diamondFont;
+    private final TextureRegion star;
+    private final TextureRegion diamond;
+    private final NumberFont starFont;
+    private final NumberFont diamondFont;
 
     public AccessoryIcon(Context context, Customizer type, float x, float y, int numStars, int numDiamonds) {
         super(context.getImage("accessoryiconbg"), x, y);
@@ -56,7 +55,6 @@ public class AccessoryIcon extends ImageButton {
     }
 
     public void setType(Customizer type) {
-        this.type = type;
         if (type != null) {
             if (type instanceof Face) iconImage = ((Face) type).getSprites(context)[0];
             if (type instanceof Skin) iconImage = ((Skin) type).getSprites(context)[0];

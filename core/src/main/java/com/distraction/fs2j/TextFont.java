@@ -6,12 +6,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class TextFont {
 
-    private TextureRegion[] font;
+    private final TextureRegion[] font;
 
     private String text;
     private boolean centered;
     private float width;
-    private Color color;
 
     public float x;
     public float y;
@@ -28,10 +27,6 @@ public class TextFont {
         this.centered = centered;
         this.x = x;
         this.y = y;
-    }
-
-    public void setColor(Color color) {
-        this.color = color;
     }
 
     public void setText(String text) {

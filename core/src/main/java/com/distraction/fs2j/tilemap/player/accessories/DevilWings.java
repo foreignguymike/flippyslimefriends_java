@@ -10,7 +10,7 @@ import com.distraction.fs2j.tilemap.player.Player;
 
 public class DevilWings extends Accessory {
 
-    private TextureRegion sprite;
+    private final TextureRegion sprite;
 
     private float time = 0f;
     private float deg;

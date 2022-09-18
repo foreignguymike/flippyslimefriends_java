@@ -14,27 +14,28 @@ import com.distraction.fs2j.Utils;
 
 public class NameState extends GameState {
 
-    private GameState previousState;
+    private static final float SHIFT_INTERVAL = 0.15f;
+    private static final int SELECTION_PADDING = 20;
 
-    private InfoBox infoBox;
-    private TextFont nameFont;
+    private final GameState previousState;
+
+    private final InfoBox infoBox;
+    private final TextFont nameFont;
     private String name;
 
     private float alpha;
-    private OrthographicCamera staticCam;
+    private final OrthographicCamera staticCam;
 
-    private ImageButton left;
-    private ImageButton right;
+    private final ImageButton left;
+    private final ImageButton right;
     private float shiftTime;
-    private float shiftInterval = 0.15f;
 
     private int selectionIndex = 0;
-    private ImageButton[] selection;
-    private int selectionPadding = 20;
+    private final ImageButton[] selection;
 
-    private TextButton deleteButton;
-    private TextButton addButton;
-    private TextButton saveButton;
+    private final TextButton deleteButton;
+    private final TextButton addButton;
+    private final TextButton saveButton;
 
     private float cameraDest = Constants.HEIGHT / 2f;
 
@@ -58,7 +59,7 @@ public class NameState extends GameState {
 
         selection = new ImageButton[37];
         for (int i = 0; i < selection.length; i++) {
-            selection[i] = new ImageButton(context.getImage("font1", i), Constants.WIDTH / 2f + i * selectionPadding, Constants.HEIGHT / 2f + 10);
+            selection[i] = new ImageButton(context.getImage("font1", i), Constants.WIDTH / 2f + i * SELECTION_PADDING, Constants.HEIGHT / 2f + 10);
         }
         updateSelectionPositions();
 
@@ -68,7 +69,7 @@ public class NameState extends GameState {
     }
 
     private void shiftSelection(int amount) {
-        if (shiftTime < shiftInterval) return;
+        if (shiftTime < SHIFT_INTERVAL) return;
         int targetIndex = selectionIndex + amount;
         if (targetIndex < 0 || targetIndex >= selection.length) return;
         shiftTime = 0;
@@ -77,9 +78,9 @@ public class NameState extends GameState {
     }
 
     private void updateSelectionPositions() {
-        float sx = Constants.WIDTH / 2f - selectionIndex * selectionPadding;
+        float sx = Constants.WIDTH / 2f - selectionIndex * SELECTION_PADDING;
         for (int i = 0; i < selection.length; i++) {
-            selection[i].lerpTo(sx + i * selectionPadding, Constants.HEIGHT / 2f + 10, 10);
+            selection[i].lerpTo(sx + i * SELECTION_PADDING, Constants.HEIGHT / 2f + 10, 10);
         }
     }
 

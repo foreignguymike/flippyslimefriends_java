@@ -52,7 +52,6 @@ public class Player extends TileObject implements Tile.TileMoveListener {
 
     public PlayerRenderer playerRenderer = new PlayerRenderer();
 
-    private float jumpHeight = 40f;
     public float totalDist = 0f;
     public boolean moving = false;
     private boolean sliding = false;
@@ -278,6 +277,7 @@ public class Player extends TileObject implements Tile.TileMoveListener {
     }
 
     private void updateBounceHeight(float dt) {
+        float jumpHeight = 40f;
         if (superjump) p.z = BASELINE + jumpHeight * 1.5f * getArc();
         else if (sliding) p.z = BASELINE;
         else if (dropping) p.z = Math.max(p.z - dt * BUBBLE_DROP_SPEED, BASELINE);
@@ -407,10 +407,10 @@ public class Player extends TileObject implements Tile.TileMoveListener {
 
     public class PlayerRenderer {
 
-        private TextureRegion pointerImage = context.getImage("slimepointer");
-        private BreathingImage bubble = new BreathingImage(context.getImage("bubble"), 0, 0, 0, 2f, 0.03f);
-        private BreathingImage bubblex = new BreathingImage(context.getImage("bubbledropx"));
-        private BreathingImage bubbleo = new BreathingImage(context.getImage("bubbledropo"));
+        private final TextureRegion pointerImage = context.getImage("slimepointer");
+        private final BreathingImage bubble = new BreathingImage(context.getImage("bubble"), 0, 0, 0, 2f, 0.03f);
+        private final BreathingImage bubblex = new BreathingImage(context.getImage("bubbledropx"));
+        private final BreathingImage bubbleo = new BreathingImage(context.getImage("bubbledropo"));
 
         public AnimationSet animationSet = new AnimationSet();
         public AnimationSet faceSet = new AnimationSet();

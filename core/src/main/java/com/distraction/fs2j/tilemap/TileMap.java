@@ -41,22 +41,22 @@ public class TileMap implements Tile.TileMoveListener {
     public static final float TILE_IWIDTH = 60f;
     public static final float TILE_IHEIGHT = 30f;
 
-    private Context context;
-    private TileListener tileListener;
+    private final Context context;
+    private final TileListener tileListener;
     public Area area;
 
     public MapData mapData;
-    public boolean startBubble = false;
+    public boolean startBubble;
 
     // cache finish tiles
-    private List<FinishTile> finishTiles = new ArrayList<>();
+    private final List<FinishTile> finishTiles = new ArrayList<>();
 
     public int numRows;
     public int numCols;
     public ArrayList<Tile> map;
 
     private int numTilesMoving = 0;
-    private ArrayList<Tile> orderedMap;
+    private final ArrayList<Tile> orderedMap;
 
     private TilePathRenderer tilePathRenderer = null;
 

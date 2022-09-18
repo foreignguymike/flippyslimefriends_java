@@ -14,17 +14,17 @@ import com.distraction.fs2j.tilemap.data.GameColor;
 
 public class TitleState extends GameState {
 
-    private TextureRegion pixel;
-    private TextButton audioButton;
-    private ImageButton title;
-    private TextButton playButton;
-    private TextButton customizeButton;
-    private TextButton challengeButton;
+    private final TextureRegion pixel;
+    private final TextButton audioButton;
+    private final ImageButton title;
+    private final TextButton playButton;
+    private final TextButton customizeButton;
+    private final TextButton challengeButton;
 
-    private NumberFont major;
-    private NumberFont minor;
-    private NumberFont build;
-    private int total = 0;
+    private final NumberFont major;
+    private final NumberFont minor;
+    private final NumberFont build;
+    private final int total;
 
     private int unlockCount = 0;
 

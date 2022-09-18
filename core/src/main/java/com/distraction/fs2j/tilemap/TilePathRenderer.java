@@ -17,16 +17,13 @@ import java.util.stream.Collectors;
 
 public class TilePathRenderer {
 
-    private TileMap tileMap;
-    private List<TilePathRenderObject> renderList = new ArrayList<>();
-    private List<TilePathRenderObject> renderCenters = new ArrayList<>();
-    private List<TilePathRenderObject> orderedList;
+    private final List<TilePathRenderObject> renderList = new ArrayList<>();
+    private final List<TilePathRenderObject> renderCenters = new ArrayList<>();
+    private final List<TilePathRenderObject> orderedList;
 
     private float timer = 0f;
 
     public TilePathRenderer(Context context, TileMap tileMap, List<List<PathPointData>> paths) {
-        this.tileMap = tileMap;
-
         for (List<PathPointData> path : paths) {
             int currRow = path.get(0).row;
             int currCol = path.get(0).col;
@@ -88,15 +85,15 @@ public class TilePathRenderer {
         for (TilePathRenderObject it : renderCenters) it.render(sb);
     }
 
-    class TilePathRenderObject extends TileObject {
+    static class TilePathRenderObject extends TileObject {
 
         public Direction direction;
 
-        private TextureRegion center;
-        private TextureRegion left;
-        private TextureRegion up;
-        private TextureRegion right;
-        private TextureRegion down;
+        private final TextureRegion center;
+        private final TextureRegion left;
+        private final TextureRegion up;
+        private final TextureRegion right;
+        private final TextureRegion down;
 
         public float alpha = 1f;
 

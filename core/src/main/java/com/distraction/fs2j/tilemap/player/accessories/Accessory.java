@@ -12,11 +12,9 @@ public abstract class Accessory {
     public Player player;
 
     protected Vector2 offset = new Vector2(0f, 15f);
-    private TextureRegion pixel;
 
     public Accessory(Player player) {
         this.player = player;
-        pixel = player.context.getImage("pixel");
     }
 
     public void update(float dt) {

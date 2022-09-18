@@ -9,8 +9,8 @@ import com.distraction.fs2j.tilemap.player.Player;
 
 public class BunnyEars extends Accessory {
 
-    private TextureRegion[] sprites;
-    private Vector2 offset2 = new Vector2();
+    private final TextureRegion[] sprites;
+    private final Vector2 offset2 = new Vector2();
 
     public BunnyEars(Player player) {
         super(player);

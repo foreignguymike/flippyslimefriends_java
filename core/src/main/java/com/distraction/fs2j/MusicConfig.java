@@ -1,13 +1,11 @@
 package com.distraction.fs2j;
 
-import com.badlogic.gdx.audio.Music;
-
 public class MusicConfig {
 
-    private String key;
-    private float volume;
-    private boolean looping;
-    private float start;
+    private final String key;
+    private final float volume;
+    private final boolean looping;
+    private final float start;
 
     public MusicConfig(String key, float volume, boolean looping, float start) {
         this.key = key;

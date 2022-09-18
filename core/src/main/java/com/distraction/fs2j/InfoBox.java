@@ -7,15 +7,15 @@ import com.distraction.fs2j.tilemap.data.GameColor;
 
 public class InfoBox extends ImageButton {
 
-    private Color color;
+    private final Color color;
 
-    private TextureRegion[] patch;
-    private TextureRegion pixel;
+    private final TextureRegion[] patch;
+    private final TextureRegion pixel;
 
-    private float left;
-    private float right;
-    private float top;
-    private float bottom;
+    private final float left;
+    private final float right;
+    private final float top;
+    private final float bottom;
 
     public InfoBox(Context context, float x, float y, float width, float height) {
         this(context, x, y, width, height, GameColor.DARK_BLUE);

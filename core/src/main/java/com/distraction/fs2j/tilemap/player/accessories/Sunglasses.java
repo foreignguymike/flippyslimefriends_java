@@ -8,7 +8,7 @@ import com.distraction.fs2j.tilemap.player.Player;
 
 public class Sunglasses extends Accessory {
 
-    private TextureRegion[] sprites;
+    private final TextureRegion[] sprites;
 
     public Sunglasses(Player player) {
         super(player);

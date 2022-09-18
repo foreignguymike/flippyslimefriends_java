@@ -9,7 +9,7 @@ import com.distraction.fs2j.tilemap.player.Player;
 
 public class Fish extends Accessory {
 
-    private Animation animation;
+    private final Animation animation;
     private float time = 0f;
     private boolean right = false;
     private float flipping = 0f;

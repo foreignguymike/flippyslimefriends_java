@@ -17,24 +17,26 @@ public class FaceSelectState extends GameState {
 
     private static final float MAX_ALPHA = 0.5f;
 
-    private CustomizeState customizeState;
+    private final CustomizeState customizeState;
 
-    private TextureRegion pixel;
+    private final TextureRegion pixel;
 
     private float alpha = 0f;
-    private InfoBox infoBox;
+    private final InfoBox infoBox;
 
     private float cameraDest;
-    private AccessoryIcon[] faceIcons;
+    private final AccessoryIcon[] faceIcons;
 
-    private Face[] faces = Face.values();
+    private final Face[] faces = Face.values();
 
-    private ImageButton diamond;
-    private NumberFont diamondFont;
+    private final ImageButton diamond;
+    private final NumberFont diamondFont;
 
-    protected FaceSelectState(Context context, CustomizeState customizeState, int numDiamonds) {
+    protected FaceSelectState(Context context, CustomizeState customizeState) {
         super(context);
         this.customizeState = customizeState;
+
+        int numDiamonds = context.scoreHandler.getNumDiamonds();
 
         pixel = context.getImage("pixel");
 
@@ -51,8 +53,8 @@ public class FaceSelectState extends GameState {
         int w = 30;
         int tw = w * c + p * (c - 1);
         int th = w * r + p * (r - 1);
-        float s = Constants.WIDTH / 2 - tw / 2f + w / 2f;
-        float sy = Constants.HEIGHT / 2 + th / 2f - w / 2f - 10;
+        float s = Constants.WIDTH / 2f - tw / 2f + w / 2f;
+        float sy = Constants.HEIGHT / 2f + th / 2f - w / 2f - 10;
         for (int row = 0; row < r; row++) {
             if (row * c >= faceIcons.length) break;
             for (int col = 0; col < c; col++) {
@@ -68,7 +70,7 @@ public class FaceSelectState extends GameState {
             }
         }
 
-        infoBox = new InfoBox(context, Constants.WIDTH / 2, Constants.HEIGHT / 2, tw + 40, th + 55);
+        infoBox = new InfoBox(context, Constants.WIDTH / 2f, Constants.HEIGHT / 2f, tw + 40, th + 55);
         diamond = new ImageButton(context.getImage("diamondunlock"));
         diamondFont = new NumberFont(context, false, NumberFont.NumberSize.LARGE);
         diamondFont.setNum(numDiamonds);

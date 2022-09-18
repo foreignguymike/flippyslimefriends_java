@@ -16,28 +16,25 @@ public class HUD {
 
     public static final float HEIGHT = 48f;
 
-    private Context context;
-    private ButtonListener buttonListener;
-    private List<Player> players;
-    private Area area;
+    private final Context context;
+    private final ButtonListener buttonListener;
+    private final List<Player> players;
+    private final Area area;
 
-    private Vector3 touchPoint = new Vector3();
+    private final Vector3 touchPoint = new Vector3();
 
     public boolean hideInfo = false;
     public int currentPlayer = 0;
 
-    private OrthographicCamera topCam;
-    private OrthographicCamera bottomCam;
+    private final OrthographicCamera topCam;
+    private final OrthographicCamera bottomCam;
 
-    // for arrow button placement
-    private Vector2 a = new Vector2(60, 60);
-    private float dist = 22f;
-    private Map<ButtonListener.ButtonType, ImageButton> bottomButtons;
-    private Map<ButtonListener.ButtonType, TextButton> topButtons;
-    private TextButton switchButton;
-    private TextButton bubbleDropButton;
-    private TextButton audioButton;
-    private NumberLabel[] labels;
+    private final Map<ButtonListener.ButtonType, ImageButton> bottomButtons;
+    private final Map<ButtonListener.ButtonType, TextButton> topButtons;
+    private final TextButton switchButton;
+    private final TextButton bubbleDropButton;
+    private final TextButton audioButton;
+    private final NumberLabel[] labels;
 
     public HUD(Context context, int level, ButtonListener buttonListener, List<Player> players, Area area) {
         this.context = context;
@@ -51,6 +48,9 @@ public class HUD {
         bottomCam.setToOrtho(false, Constants.WIDTH, Constants.HEIGHT);
 
         bottomButtons = new HashMap<>();
+        // for arrow button placement
+        Vector2 a = new Vector2(60, 60);
+        float dist = 22f;
         bottomButtons.put(ButtonListener.ButtonType.LEFT, new ImageButton(context.getImage("upleftarrow"), a.x - dist, a.y + dist, 5f));
         bottomButtons.put(ButtonListener.ButtonType.UP, new ImageButton(context.getImage("uprightarrow"), a.x + dist, a.y + dist, 5f));
         bottomButtons.put(ButtonListener.ButtonType.RIGHT, new ImageButton(context.getImage("downrightarrow"), a.x + dist, a.y - dist, 5f));
@@ -99,10 +99,6 @@ public class HUD {
     public void setBest(int best) {
         if (best == 0) labels[1].font.setNum(-1);
         else labels[1].font.setNum(best);
-    }
-
-    public void setMoves(int moves) {
-        labels[2].font.setNum(moves);
     }
 
     public int getGoal() {

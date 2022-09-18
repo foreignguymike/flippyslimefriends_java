@@ -29,23 +29,23 @@ public class ChallengeState extends GameState {
 
     private static final int PAGE_WIDTH = Constants.WIDTH * 2;
 
-    private TextButton backButton;
-    private TextButton refreshButton;
+    private final TextButton backButton;
+    private final TextButton refreshButton;
 
-    private OrthographicCamera staticCam;
+    private final OrthographicCamera staticCam;
 
-    private Placement[] placements;
+    private final Placement[] placements;
 
-    private BreathingImage leftButton;
-    private BreathingImage rightButton;
+    private final BreathingImage leftButton;
+    private final BreathingImage rightButton;
 
     private int level = 0;
-    private TileMap[] tileMaps;
-    private OrthographicCamera[] cameras;
-    private InfoBox[] infoBoxes;
-    private NumberLabel[] levelTitles;
-    private NumberLabel[] bestMoves;
-    private ImageButton[] playButtons;
+    private final TileMap[] tileMaps;
+    private final OrthographicCamera[] cameras;
+    private final InfoBox[] infoBoxes;
+    private final NumberLabel[] levelTitles;
+    private final NumberLabel[] bestMoves;
+    private final ImageButton[] playButtons;
 
     public ChallengeState(Context context) {
         this(context, 0);

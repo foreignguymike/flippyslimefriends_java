@@ -16,35 +16,32 @@ import com.distraction.fs2j.Utils;
 
 public class ChallengeFinishState extends GameState {
 
-    private TextureRegion pixel;
+    private final TextureRegion pixel;
 
-    private int level;
-    private int moves;
-    private int best;
+    private final int level;
+    private final int moves;
 
     private float alpha;
-    private OrthographicCamera staticCam;
+    private final OrthographicCamera staticCam;
 
-    private InfoBox infoBox;
-    private InfoBox border;
+    private final InfoBox infoBox;
 
-    private NumberLabel title;
-    private NumberLabel movesLabel;
-    private NumberLabel bestLabel;
+    private final NumberLabel title;
+    private final NumberLabel movesLabel;
+    private final NumberLabel bestLabel;
 
-    private TextFont nameFont;
-    private TextButton changeNameButton;
-    private TextButton submitButton;
-    private TextButton backButton;
+    private final TextFont nameFont;
+    private final TextButton changeNameButton;
+    private final TextButton submitButton;
+    private final TextButton backButton;
 
-    private TextFont warning;
-    private TextFont warning2;
+    private final TextFont warning;
+    private final TextFont warning2;
 
     public ChallengeFinishState(Context context, int level, int moves, int best) {
         super(context);
         this.level = level;
         this.moves = moves;
-        this.best = best;
 
         pixel = context.getImage("pixel");
 
@@ -57,13 +54,6 @@ public class ChallengeFinishState extends GameState {
                 Constants.HEIGHT / 2f,
                 2f * Constants.WIDTH / 4f,
                 4f * Constants.HEIGHT / 5f + 10
-        );
-        border = new InfoBox(
-                context,
-                Constants.WIDTH / 2f,
-                Constants.HEIGHT / 2f,
-                2f * Constants.WIDTH / 4f,
-                0
         );
 
         camera.position.y = Constants.HEIGHT * 2;

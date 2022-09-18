@@ -8,7 +8,7 @@ import com.distraction.fs2j.tilemap.player.Player;
 
 public class Crown extends Accessory {
 
-    private TextureRegion[] sprites;
+    private final TextureRegion[] sprites;
 
     public Crown(Player player) {
         super(player);

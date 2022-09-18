@@ -15,7 +15,7 @@ public class ImageButton {
     public float height;
 
     private float lerpAlpha = -1f;
-    private Vector2 destination = new Vector2();
+    private final Vector2 destination = new Vector2();
 
     public float scale = 1f;
     public float alpha = 1f;

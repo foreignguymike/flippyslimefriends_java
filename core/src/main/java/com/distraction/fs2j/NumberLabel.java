@@ -5,8 +5,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 public class NumberLabel {
-    private TextureRegion image;
-    private Vector2 pos;
+    private final TextureRegion image;
+    private final Vector2 pos;
 
     public NumberFont font;
 

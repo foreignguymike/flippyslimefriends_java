@@ -22,35 +22,38 @@ import java.util.List;
 
 class LevelSelectState extends GameState {
 
-    private Area area;
-    private int level = -1;
+    private static final int NUM_ROWS = 3;
+    private static final int NUM_COLS = 5;
+    private static final int PAGE_SIZE = NUM_ROWS * NUM_COLS;
 
-    private TextureRegion diamond;
-    private TextureRegion diamondEmpty;
-    private int numRows = 3;
-    private int numCols = 5;
-    private int pageSize = numRows * numCols;
-    private float widthPadding = 120f;
-    private float heightPadding = 60f;
-    private float cellWidth = (Constants.WIDTH - 2 * widthPadding) / numCols;
-    private float cellHeight = (Constants.HEIGHT - 2 * heightPadding) / numRows;
+    private static final float WIDTH_PADDING = 120f;
+    private static final float HEIGHT_PADDING = 60f;
+    private static final float CELL_WIDTH = (Constants.WIDTH - 2 * WIDTH_PADDING) / NUM_COLS;
+    private static final float CELL_HEIGHT = (Constants.HEIGHT - 2 * HEIGHT_PADDING) / NUM_ROWS;
+
+
+    private final Area area;
+    private int level;
+
+    private final TextureRegion diamond;
+    private final TextureRegion diamondEmpty;
     private int page;
 
-    private List<MapData> levelData;
-    private int numLevels;
-    private int maxPages;
+    private final List<MapData> levelData;
+    private final int numLevels;
+    private final int maxPages;
 
-    private ImageButton[] levels;
+    private final ImageButton[] levels;
 
-    private NumberFont numberFont;
-    private BreathingImage levelSelectedBorder;
-    private TextureRegion levelSelectImage;
-    private TextButton backButton;
-    private TextButton audioButton;
-    private OrthographicCamera staticCam;
-    private BreathingImage leftButton;
-    private BreathingImage rightButton;
-    private Color color;
+    private final NumberFont numberFont;
+    private final BreathingImage levelSelectedBorder;
+    private final TextureRegion levelSelectImage;
+    private final TextButton backButton;
+    private final TextButton audioButton;
+    private final OrthographicCamera staticCam;
+    private final BreathingImage leftButton;
+    private final BreathingImage rightButton;
+    private final Color color;
 
     public LevelSelectState(Context context, Area area) {
         this(context, area, -1);
@@ -60,23 +63,23 @@ class LevelSelectState extends GameState {
         super(context);
         this.area = area;
         this.level = level;
-        page = level / pageSize;
+        page = level / PAGE_SIZE;
 
         levelData = context.gameData.getMapData(area);
         if (area == Area.TUTORIAL) numLevels = 4;
         else numLevels = levelData.size();
-        maxPages = MathUtils.ceil(1f * numLevels / pageSize);
+        maxPages = MathUtils.ceil(1f * numLevels / PAGE_SIZE);
 
         diamond = context.getImage("leveldiamondicon");
         diamondEmpty = context.getImage("leveldiamondemptyicon");
 
         levels = new ImageButton[numLevels];
         for (int i = 0; i < levels.length; i++) {
-            int page = i / pageSize;
-            int row = (i % pageSize) / numCols;
-            int col = i % numCols;
-            float x = widthPadding + col * cellWidth + cellWidth / 2 + Constants.WIDTH * page;
-            float y = Constants.HEIGHT - heightPadding - (row * cellHeight + cellHeight / 2f);
+            int page = i / PAGE_SIZE;
+            int row = (i % PAGE_SIZE) / NUM_COLS;
+            int col = i % NUM_COLS;
+            float x = WIDTH_PADDING + col * CELL_WIDTH + CELL_WIDTH / 2 + Constants.WIDTH * page;
+            float y = Constants.HEIGHT - HEIGHT_PADDING - (row * CELL_HEIGHT + CELL_HEIGHT / 2f);
             levels[i] = new ImageButton(context.getImage("levelbutton"), x, y);
         }
 
@@ -98,7 +101,7 @@ class LevelSelectState extends GameState {
         rightButton = new BreathingImage(context.getImage("areaselectarrow"), Constants.WIDTH - 50f, Constants.HEIGHT / 2f - 5f, 10f);
         color = area.colorCopy();
 
-        camera.position.set(Constants.WIDTH * page + Constants.WIDTH / 2, Constants.HEIGHT / 2, 0f);
+        camera.position.set(Constants.WIDTH * page + Constants.WIDTH / 2f, Constants.HEIGHT / 2f, 0f);
         camera.update();
 
         rightButton.setPosition(Constants.WIDTH + (page >= maxPages - 1 ? 50f : -50f), rightButton.pos.y);
@@ -121,27 +124,19 @@ class LevelSelectState extends GameState {
         }
     }
 
-    private void incrementLevel() {
-        incrementLevel(1);
-    }
-
     private void incrementLevel(int amount) {
         if (level + amount < numLevels) {
             level += amount;
-            page = level / pageSize;
+            page = level / PAGE_SIZE;
             updateNavButtons();
             updateLevelSelectedBorder();
         }
     }
 
-    private void decrementLevel() {
-        decrementLevel(1);
-    }
-
     private void decrementLevel(int amount) {
         if (level - amount >= 0) {
             level -= amount;
-            page = level / pageSize;
+            page = level / PAGE_SIZE;
             updateNavButtons();
             updateLevelSelectedBorder();
         }
@@ -200,16 +195,16 @@ class LevelSelectState extends GameState {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) goToLevel(level);
         if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
-            incrementLevel(level % numCols == numCols - 1 ? pageSize - numCols + 1 : 1);
+            incrementLevel(level % NUM_COLS == NUM_COLS - 1 ? PAGE_SIZE - NUM_COLS + 1 : 1);
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
-            decrementLevel(level % numCols == 0 ? pageSize - numCols + 1 : 1);
+            decrementLevel(level % NUM_COLS == 0 ? PAGE_SIZE - NUM_COLS + 1 : 1);
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
-            if (level % pageSize < pageSize - numCols) incrementLevel(numCols);
+            if (level % PAGE_SIZE < PAGE_SIZE - NUM_COLS) incrementLevel(NUM_COLS);
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-            if (level % pageSize >= numCols) decrementLevel(numCols);
+            if (level % PAGE_SIZE >= NUM_COLS) decrementLevel(NUM_COLS);
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) back();
     }

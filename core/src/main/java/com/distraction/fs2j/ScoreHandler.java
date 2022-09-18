@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class ScoreHandler {
 
-    private Context context;
+    private final Context context;
 
     public Map<Area, int[]> scores;
 

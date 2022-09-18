@@ -22,7 +22,7 @@ public class PlayerDataHandler {
     public static final String FACE_KEY = "face";
     public static final String ACCESSORIES_KEY = "accessories";
 
-    private Context context;
+    private final Context context;
 
     public Skin skin = Skin.GREEN;
     public Face face = Face.NORMAL;

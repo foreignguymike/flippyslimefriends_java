@@ -8,7 +8,7 @@ import com.distraction.fs2j.tilemap.player.Player;
 
 public class Headband extends Accessory {
 
-    private TextureRegion[] sprites;
+    private final TextureRegion[] sprites;
 
     public Headband(Player player, AccessoryType type) {
         super(player);

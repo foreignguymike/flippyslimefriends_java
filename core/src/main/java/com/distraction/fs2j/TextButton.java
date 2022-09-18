@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class TextButton extends ImageButton {
 
-    private TextureRegion textImage;
+    private final TextureRegion textImage;
 
     public TextButton(TextureRegion textImage, TextureRegion bgImage) {
         this(textImage, bgImage, 0, 0, 0);

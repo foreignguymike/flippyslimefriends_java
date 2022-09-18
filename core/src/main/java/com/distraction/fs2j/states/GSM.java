@@ -6,7 +6,7 @@ import java.util.Stack;
 
 public class GSM {
 
-    private Stack<GameState> states;
+    private final Stack<GameState> states;
     public int depth = 1;
 
     public GSM() {
@@ -17,14 +17,13 @@ public class GSM {
         states.push(state);
     }
 
-    public GameState pop() {
-        return states.pop();
+    public void pop() {
+        states.pop();
     }
 
-    public GameState replace(GameState state) {
-        GameState s = states.pop();
+    public void replace(GameState state) {
+        states.pop();
         states.push(state);
-        return s;
     }
 
     public void update(float dt) {

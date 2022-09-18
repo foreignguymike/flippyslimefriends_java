@@ -5,8 +5,8 @@ import com.badlogic.gdx.math.MathUtils;
 
 public class BreathingImage extends ImageButton {
 
-    private float interval;
-    private float offset;
+    private final float interval;
+    private final float offset;
 
     private float time = 0;
 

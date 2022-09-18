@@ -11,11 +11,10 @@ public class Wieldable extends Accessory {
 
     private static final float MAX_DEG = 30f;
 
-    private TextureRegion image;
+    private final TextureRegion image;
 
     private float time;
     private float deg;
-    private float idleDeg;
 
     public Wieldable(Player player, AccessoryType type) {
         super(player);
@@ -25,7 +24,7 @@ public class Wieldable extends Accessory {
     @Override
     public void update(float dt) {
         time += dt;
-        idleDeg = MathUtils.sin(time * 3) * 4 - 2;
+        float idleDeg = MathUtils.sin(time * 3) * 4 - 2;
         deg = MathUtils.lerp(deg, player.moving ? player.right() ? MAX_DEG : -MAX_DEG : idleDeg, 8f * dt);
         if (player.forward()) offset.x = player.right() ? -15f : 0f;
         else offset.x = player.right() ? 15f : 20f;

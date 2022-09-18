@@ -23,22 +23,22 @@ import java.util.List;
 
 class PlayState extends GameState implements TileMap.TileListener, Player.MoveListener, ButtonListener {
 
-    private Area area;
-    private int level;
+    private final Area area;
+    private final int level;
 
-    private TileMap tileMap;
-    private List<Player> players;
+    private final TileMap tileMap;
+    private final List<Player> players;
     private int playerIndex;
     private Player player;
-    private List<Player> sortedPlayers;
+    private final List<Player> sortedPlayers;
 
-    private Background bg;
-    private OrthographicCamera bgCam;
+    private final Background bg;
+    private final OrthographicCamera bgCam;
 
-    private HUD hud;
-    private Vector2 cameraOffset = new Vector2(0, 0);
+    private final HUD hud;
+    private final Vector2 cameraOffset = new Vector2(0, 0);
 
-    private Comparator<Player> playerComp = (Comparator<Player>) (p1, p2) -> (int) p2.isop.y - (int) p1.isop.y;
+    private final Comparator<Player> playerComp = (p1, p2) -> (int) p2.isop.y - (int) p1.isop.y;
 
     public PlayState(Context context, Area area, int level) {
         super(context);

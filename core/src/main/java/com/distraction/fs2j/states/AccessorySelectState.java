@@ -19,34 +19,32 @@ class AccessorySelectState extends GameState {
 
     private static final float MAX_ALPHA = 0.5f;
 
-    private CustomizeState customizeState;
-    private int accessoryIndex;
-    private AccessoryType replacing;
-    private AccessoryType[] alreadySelected;
+    private final CustomizeState customizeState;
+    private final int accessoryIndex;
 
-    private TextureRegion pixel;
-    private BreathingImage selectedBorder;
+    private final TextureRegion pixel;
+    private final BreathingImage selectedBorder;
 
     private float alpha = 0f;
-    private InfoBox infoBox;
+    private final InfoBox infoBox;
 
     private float cameraDest;
-    private AccessoryIcon[] accessoryIcons;
-    private AccessoryType[] accessoryTypes;
+    private final AccessoryIcon[] accessoryIcons;
+    private final AccessoryType[] accessoryTypes;
 
-    private TextButton xbutton;
+    private final TextButton xbutton;
 
-    private ImageButton diamond;
-    private NumberFont diamondFont;
+    private final ImageButton diamond;
+    private final NumberFont diamondFont;
 
-    protected AccessorySelectState(Context context, CustomizeState customizeState, int numDiamonds, int accessoryIndex, AccessoryType replacing, AccessoryType[] alreadySelected) {
+    protected AccessorySelectState(Context context, CustomizeState customizeState, int accessoryIndex, AccessoryType replacing, AccessoryType[] alreadySelected) {
         super(context);
         this.customizeState = customizeState;
         this.accessoryIndex = accessoryIndex;
-        this.replacing = replacing;
-        this.alreadySelected = alreadySelected;
         this.accessoryTypes = AccessoryType.values();
         selectedBorder = new BreathingImage(context.getImage("levelselectedborder"), -100, -100, 0, 1f, 0.03f);
+
+        int numDiamonds = context.scoreHandler.getNumDiamonds();
 
         pixel = context.getImage("pixel");
 
@@ -64,8 +62,8 @@ class AccessorySelectState extends GameState {
         int w = 30;
         int tw = w * c + p * (c - 1);
         int th = w * r + p * (r - 1);
-        float s = Constants.WIDTH / 2 - tw / 2f + w / 2f;
-        float sy = Constants.HEIGHT / 2 + th / 2f - w / 2f + 8;
+        float s = Constants.WIDTH / 2f - tw / 2f + w / 2f;
+        float sy = Constants.HEIGHT / 2f + th / 2f - w / 2f + 8;
         for (int row = 0; row < r; row++) {
             if (row * c >= accessoryIcons.length) break;
             for (int col = 0; col < c; col++) {
@@ -84,8 +82,8 @@ class AccessorySelectState extends GameState {
             }
         }
 
-        infoBox = new InfoBox(context, Constants.WIDTH / 2, Constants.HEIGHT / 2, tw + 40, th + 90);
-        xbutton = new TextButton(context.getImage("xicon"), context.getImage("iconbuttonbg"), Constants.WIDTH / 2, infoBox.pos.y - infoBox.height / 2 + 30);
+        infoBox = new InfoBox(context, Constants.WIDTH / 2f, Constants.HEIGHT / 2f, tw + 40, th + 90);
+        xbutton = new TextButton(context.getImage("xicon"), context.getImage("iconbuttonbg"), Constants.WIDTH / 2f, infoBox.pos.y - infoBox.height / 2 + 30);
         diamond = new ImageButton(context.getImage("diamondunlock"));
         diamondFont = new NumberFont(context, false, NumberFont.NumberSize.LARGE);
         diamondFont.setNum(numDiamonds);

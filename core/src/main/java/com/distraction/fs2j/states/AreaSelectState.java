@@ -18,14 +18,14 @@ import java.util.List;
 
 public class AreaSelectState extends GameState {
 
-    private float width = Constants.WIDTH / 5;
-    private TextButton backButton;
-    private TextButton audioButton;
-    private List<ImageButton> areaButtons;
-    private BreathingImage rightArrow;
-    private BreathingImage leftArrow;
-    private Color color;
-    private int currentIndex = 0;
+    private final float width = Constants.WIDTH / 5f;
+    private final TextButton backButton;
+    private final TextButton audioButton;
+    private final List<ImageButton> areaButtons;
+    private final BreathingImage rightArrow;
+    private final BreathingImage leftArrow;
+    private final Color color;
+    private int currentIndex;
 
     public AreaSelectState(Context context) {
         this(context, 0);
@@ -47,8 +47,8 @@ public class AreaSelectState extends GameState {
             areaButtons.add(button);
         }
 
-        rightArrow = new BreathingImage(context.getImage("areaselectarrow"), Constants.WIDTH - 50, Constants.HEIGHT / 2, 20);
-        leftArrow = new BreathingImage(context.getImage("areaselectarrow"), 50, Constants.HEIGHT / 2, 20);
+        rightArrow = new BreathingImage(context.getImage("areaselectarrow"), Constants.WIDTH - 50, Constants.HEIGHT / 2f, 20);
+        leftArrow = new BreathingImage(context.getImage("areaselectarrow"), 50, Constants.HEIGHT / 2f, 20);
         leftArrow.flipped = true;
 
         color = Area.values()[currentIndex].colorCopy();
@@ -75,9 +75,9 @@ public class AreaSelectState extends GameState {
     private void moveAreaButtons(boolean lerp) {
         for (int i = 0; i < areaButtons.size(); i++) {
             if (lerp) {
-                areaButtons.get(i).lerpTo(Constants.WIDTH / 2 + i * width - currentIndex * width, Constants.HEIGHT / 2);
+                areaButtons.get(i).lerpTo(Constants.WIDTH / 2f + i * width - currentIndex * width, Constants.HEIGHT / 2f);
             } else {
-                areaButtons.get(i).setPosition(Constants.WIDTH / 2 + i * width - currentIndex * width, Constants.HEIGHT / 2);
+                areaButtons.get(i).setPosition(Constants.WIDTH / 2f + i * width - currentIndex * width, Constants.HEIGHT / 2f);
             }
         }
     }
