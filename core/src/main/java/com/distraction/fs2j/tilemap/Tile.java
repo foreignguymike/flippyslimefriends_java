@@ -28,25 +28,25 @@ public class Tile {
         void onTileEndMove(Tile tile, int oldRow, int oldCol, int newRow, int newCol);
     }
 
+    private static final float TILE_SPEED = 100f;
     private static final int TILE_OFF = 0;
     private static final int TILE_ON = 1;
     private static final List<Class<? extends TileObject>> tileObjectRenderOrder = Arrays.asList(Ice.class, Arrow.class, SuperJumpLight.class, TeleportLight.class);
     private static final Comparator<TileObject> sorter = Comparator.comparingInt(t -> tileObjectRenderOrder.indexOf(t.getClass()));
 
-    private Context context;
-    private TileMap tileMap;
+    private final Context context;
+    private final TileMap tileMap;
     int row;
     int col;
     int index;
-    private Area area;
+    private final Area area;
 
     public List<TileObject> objects;
-    private List<TileObject> topObjects;
-    private List<TileObject> topObjectsToAdd;
+    private final List<TileObject> topObjects;
+    private final List<TileObject> topObjectsToAdd;
 
     public List<PathPointData> path;
     private int pathIndex = 0;
-    private float speed = 100f;
     private float stayTimer = 0f;
     public boolean lock = false;
     public boolean moving = false;
@@ -57,7 +57,7 @@ public class Tile {
 
     public Vector3 p = new Vector3();
     public Vector3 isop = new Vector3();
-    private Vector3 pdest = new Vector3();
+    private final Vector3 pdest = new Vector3();
 
     private TextureRegion image;
     private TextureRegion bottomImage;
@@ -164,7 +164,7 @@ public class Tile {
                 }
             } else {
                 // travel to next destination
-                Utils.moveTo(p, pdest, speed * dt);
+                Utils.moveTo(p, pdest, TILE_SPEED * dt);
 
                 // move tile objects also
                 for (TileObject tileObject : objects) tileObject.setPosition(p.x, p.y);
