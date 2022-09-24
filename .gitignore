@@ -69,3 +69,6 @@ nb-configuration.xml
 *~
 *.*#
 *#*#
+
+##api stuffs
+core/src/main/java/com/distraction/fs2j/APIConstants.java
