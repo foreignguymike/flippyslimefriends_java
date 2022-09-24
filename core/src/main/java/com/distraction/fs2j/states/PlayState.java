@@ -125,9 +125,11 @@ class PlayState extends GameState implements TileMap.TileListener, Player.MoveLi
         ignoreInput = true;
         hud.hideInfo = true;
         hud.incrementMoves();
-        if (hud.getBest() < 0 || hud.getMoves() < hud.getBest()) {
+        boolean newRecord = false;
+        if (hud.getBest() == 0 || hud.getMoves() < hud.getBest()) {
             context.scoreHandler.saveScore(area, level, hud.getMoves());
             hud.setBest(hud.getMoves());
+            newRecord = true;
         }
         context.gsm.push(
                 area == Area.CHALLENGE ?
@@ -135,7 +137,8 @@ class PlayState extends GameState implements TileMap.TileListener, Player.MoveLi
                                 context,
                                 level,
                                 hud.getMoves(),
-                                hud.getBest()
+                                hud.getBest(),
+                                newRecord
                         ) :
                         new LevelFinishState(
                                 context,
@@ -143,7 +146,8 @@ class PlayState extends GameState implements TileMap.TileListener, Player.MoveLi
                                 level,
                                 hud.getMoves(),
                                 hud.getBest(),
-                                hud.getGoal()
+                                hud.getGoal(),
+                                newRecord
                         )
         );
     }
@@ -182,6 +186,12 @@ class PlayState extends GameState implements TileMap.TileListener, Player.MoveLi
         if (Gdx.input.isKeyJustPressed(Input.Keys.S)) switchPlayer();
         if (Gdx.input.isKeyJustPressed(Input.Keys.D)) player.dropBubble();
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) back();
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F)) {
+            while (hud.getMoves() < 1000) {
+                hud.incrementMoves();
+            }
+            finish();
+        }
     }
 
     @Override

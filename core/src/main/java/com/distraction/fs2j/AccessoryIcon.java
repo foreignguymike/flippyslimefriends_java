@@ -23,8 +23,8 @@ public class AccessoryIcon extends ImageButton {
     private int requiredDiamonds;
     private final TextureRegion star;
     private final TextureRegion diamond;
-    private final NumberFont starFont;
-    private final NumberFont diamondFont;
+    private final TextFont starFont;
+    private final TextFont diamondFont;
 
     public AccessoryIcon(Context context, Customizer type, float x, float y, int numStars, int numDiamonds) {
         super(context.getImage("accessoryiconbg"), x, y);
@@ -33,24 +33,24 @@ public class AccessoryIcon extends ImageButton {
         this.numDiamonds = numDiamonds;
         star = context.getImage("starunlock");
         diamond = context.getImage("diamondunlock");
-        starFont = new NumberFont(context, true, NumberFont.NumberSize.MEDIUM);
-        diamondFont = new NumberFont(context, true, NumberFont.NumberSize.MEDIUM);
+        starFont = new TextFont(context, TextFont.FontType.FONT1, "", true, pos.x, pos.y - 12);
+        diamondFont = new TextFont(context, TextFont.FontType.FONT1, "", true, pos.x, pos.y - 11);
         setType(type);
         if (type != null) {
-            diamondFont.setNum(type.getDiamonds());
+            diamondFont.setText(Integer.toString(type.getDiamonds()));
             setRequiredDiamonds(type.getDiamonds());
         }
     }
 
     public void setRequiredStars(int requiredStars) {
         this.requiredStars = requiredStars;
-        starFont.setNum(requiredStars);
+        starFont.setText(Integer.toString(requiredStars));
         locked = numStars != -1 && numStars < requiredStars || numDiamonds < requiredDiamonds;
     }
 
     public void setRequiredDiamonds(int requiredDiamonds) {
         this.requiredDiamonds = requiredDiamonds;
-        diamondFont.setNum(requiredDiamonds);
+        diamondFont.setText(Integer.toString(requiredDiamonds));
         locked = numStars != -1 && numStars < requiredStars || numDiamonds < requiredDiamonds;
     }
 
@@ -80,10 +80,10 @@ public class AccessoryIcon extends ImageButton {
             sb.setColor(1, 1, 1, 1);
             if (requiredStars > 0) {
                 Utils.drawCentered(sb, star, pos.x, pos.y + 6);
-                starFont.render(sb, pos.x, pos.y - 7);
+                starFont.render(sb);
             } else if (requiredDiamonds > 0) {
                 Utils.drawCentered(sb, diamond, pos.x, pos.y + 6);
-                diamondFont.render(sb, pos.x, pos.y - 6);
+                diamondFont.render(sb);
             }
         } else if (iconImage != null) {
             sb.draw(iconImage, pos.x - iconImage.getRegionWidth() / 2f + offset.x, pos.y - iconImage.getRegionHeight() / 2f + offset.y);

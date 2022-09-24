@@ -25,6 +25,7 @@ public class BasicHat extends Accessory {
         offsetMap.put(AccessoryType.BAMBOO_HAT_GREEN, BAMBOO_HAT_OFFSETS_DEFAULT);
         offsetMap.put(AccessoryType.BAMBOO_HAT_BLUE, BAMBOO_HAT_OFFSETS_DEFAULT);
         offsetMap.put(AccessoryType.BAMBOO_HAT_RED, BAMBOO_HAT_OFFSETS_DEFAULT);
+        offsetMap.put(AccessoryType.BAMBOO_HAT_BLACK, BAMBOO_HAT_OFFSETS_DEFAULT);
     }
 
     private final TextureRegion image;

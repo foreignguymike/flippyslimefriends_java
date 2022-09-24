@@ -43,6 +43,7 @@ public enum AccessoryType implements Customizer {
     HALO("halo", 75),
     BAMBOO_HAT_GREEN("bamboohatgreen", 75),
     HEADBAND_BLACK_YELLOW_TRIM("headbandblackyellowtrim", 80, 30, 10),
+    CANDY_CANE("candycane", 90),
     BUNNY_EARS("bunnyears", 100, 8, 16),
     HEADBAND_COBRA_KAI("headbandcobrakai", 100, 30, 10),
     BAMBOO_HAT_BLUE("bamboohatblue", 110),
@@ -50,6 +51,7 @@ public enum AccessoryType implements Customizer {
     HEADBAND_MIYAGI("headbandmiyagi", 150, 30, 10),
     BAMBOO_HAT_RED("bamboohatred", 175),
     DEVIL_WINGS("devilwings", 175),
+    BAMBOO_HAT_BLACK("bamboohatblack", 190),
     ANGEL_WINGS("angelwings", 200, 15, 14),
     WAND("wand", 220);
 
@@ -60,11 +62,13 @@ public enum AccessoryType implements Customizer {
     };
 
     private static final AccessoryType[] basicHats = new AccessoryType[]{
-            WIZARD_HAT, HALO, BAMBOO_HAT, BAMBOO_HAT_GREEN, BAMBOO_HAT_BLUE, BAMBOO_HAT_RED
+            WIZARD_HAT,
+            HALO,
+            BAMBOO_HAT, BAMBOO_HAT_GREEN, BAMBOO_HAT_BLUE, BAMBOO_HAT_RED, BAMBOO_HAT_BLACK
     };
 
     private static final AccessoryType[] wieldable = new AccessoryType[]{
-            WOOD_STAFF, WAND
+            WOOD_STAFF, CANDY_CANE, WAND
     };
 
     public String key;

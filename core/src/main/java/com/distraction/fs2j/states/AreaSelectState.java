@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.distraction.fs2j.BreathingImage;
 import com.distraction.fs2j.Constants;
 import com.distraction.fs2j.Context;
+import com.distraction.fs2j.IconButton;
 import com.distraction.fs2j.ImageButton;
 import com.distraction.fs2j.TextButton;
 import com.distraction.fs2j.Utils;
@@ -19,8 +20,8 @@ import java.util.List;
 public class AreaSelectState extends GameState {
 
     private final float width = Constants.WIDTH / 5f;
-    private final TextButton backButton;
-    private final TextButton audioButton;
+    private final IconButton backButton;
+    private final IconButton audioButton;
     private final List<ImageButton> areaButtons;
     private final BreathingImage rightArrow;
     private final BreathingImage leftArrow;
@@ -34,8 +35,8 @@ public class AreaSelectState extends GameState {
     public AreaSelectState(Context context, int currentIndex) {
         super(context);
         this.currentIndex = currentIndex;
-        backButton = new TextButton(context.getImage("backicon"), context.getImage("iconbuttonbg"), 25f, Constants.HEIGHT - 25f, 5f);
-        audioButton = new TextButton(context.getImage("audioicon"), context.getImage("iconbuttonbg"), 65f, Constants.HEIGHT - 25f, 5f);
+        backButton = new IconButton(context.getImage("backicon"), context.getImage("iconbuttonbg"), 25f, Constants.HEIGHT - 25f, 5f);
+        audioButton = new IconButton(context.getImage("audioicon"), context.getImage("iconbuttonbg"), 65f, Constants.HEIGHT - 25f, 5f);
         audioButton.enabled = !context.audioHandler.isMuted();
 
         areaButtons = new ArrayList<>();

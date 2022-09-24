@@ -4,12 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.distraction.fs2j.Constants;
 import com.distraction.fs2j.Context;
+import com.distraction.fs2j.IconButton;
 import com.distraction.fs2j.InfoBox;
-import com.distraction.fs2j.NumberFont;
-import com.distraction.fs2j.NumberLabel;
 import com.distraction.fs2j.TextButton;
 import com.distraction.fs2j.TextFont;
 import com.distraction.fs2j.Utils;
@@ -20,28 +18,31 @@ public class ChallengeFinishState extends GameState {
 
     private final int level;
     private final int moves;
+    private final boolean newRecord;
 
     private float alpha;
     private final OrthographicCamera staticCam;
 
     private final InfoBox infoBox;
 
-    private final NumberLabel title;
-    private final NumberLabel movesLabel;
-    private final NumberLabel bestLabel;
+    private final TextFont title;
+    private final TextFont newRecordText;
+    private final TextFont movesLabel;
+    private final TextFont bestLabel;
 
     private final TextFont nameFont;
-    private final TextButton changeNameButton;
+    private final TextButton editNameButton;
     private final TextButton submitButton;
-    private final TextButton backButton;
+    private final IconButton backButton;
 
     private final TextFont warning;
     private final TextFont warning2;
 
-    public ChallengeFinishState(Context context, int level, int moves, int best) {
+    public ChallengeFinishState(Context context, int level, int moves, int best, boolean newRecord) {
         super(context);
         this.level = level;
         this.moves = moves;
+        this.newRecord = newRecord;
 
         pixel = context.getImage("pixel");
 
@@ -59,25 +60,10 @@ public class ChallengeFinishState extends GameState {
         camera.position.y = Constants.HEIGHT * 2;
         camera.update();
 
-        title = new NumberLabel(
-                context,
-                context.getImage("leveltitle"),
-                new Vector2(Constants.WIDTH / 2f, Constants.HEIGHT / 2f + infoBox.height / 2f - 20),
-                level + 1,
-                NumberFont.NumberSize.LARGE
-        );
-        bestLabel = new NumberLabel(
-                context,
-                context.getImage("best"),
-                new Vector2(Constants.WIDTH / 2f + 40f, Constants.HEIGHT / 2f + infoBox.height / 2 - 64f),
-                best
-        );
-        movesLabel = new NumberLabel(
-                context,
-                context.getImage("moves"),
-                new Vector2(Constants.WIDTH / 2f - 60f, Constants.HEIGHT / 2f + infoBox.height / 2 - 64f),
-                moves
-        );
+        title = new TextFont(context, TextFont.FontType.FONT3, "level " + (level + 1), true, Constants.WIDTH / 2f, Constants.HEIGHT / 2f + infoBox.height / 2f - 28);
+        newRecordText = new TextFont(context, TextFont.FontType.FONT2, "new record!", true, Constants.WIDTH / 2f, Constants.HEIGHT / 2f + infoBox.height / 2f - 48f);
+        bestLabel = new TextFont(context, TextFont.FontType.FONT2, "best " + best, true, Constants.WIDTH / 2f + 50, Constants.HEIGHT / 2f + infoBox.height / 2 - 72f);
+        movesLabel = new TextFont(context, TextFont.FontType.FONT2, "moves " + moves, true, Constants.WIDTH / 2f - 50, Constants.HEIGHT / 2f + infoBox.height / 2 - 72f);
 
         nameFont = new TextFont(
                 context,
@@ -87,8 +73,9 @@ public class ChallengeFinishState extends GameState {
                 Constants.HEIGHT / 2f
         );
 
-        changeNameButton = new TextButton(
-                context.getImage("editname"),
+        editNameButton = new TextButton(
+                context,
+                "edit name",
                 context.getImage("buttonbg"),
                 Constants.WIDTH / 2f,
                 Constants.HEIGHT / 2f - 30,
@@ -98,7 +85,7 @@ public class ChallengeFinishState extends GameState {
         warning = new TextFont(context, "you must have a name", true, Constants.WIDTH / 2f, Constants.HEIGHT / 2f + 20);
         warning2 = new TextFont(context, "to submit a score", true, Constants.WIDTH / 2f, Constants.HEIGHT / 2f);
 
-        backButton = new TextButton(
+        backButton = new IconButton(
                 context.getImage("backicon"),
                 context.getImage("iconbuttonbg"),
                 Constants.WIDTH / 2f - infoBox.width / 2 + 30,
@@ -106,7 +93,8 @@ public class ChallengeFinishState extends GameState {
                 5f
         );
         submitButton = new TextButton(
-                context.getImage("submit"),
+                context,
+                "submit",
                 context.getImage("buttonbg"),
                 Constants.WIDTH / 2f + 20,
                 Constants.HEIGHT / 2f - infoBox.height / 2 + 26f,
@@ -139,7 +127,7 @@ public class ChallengeFinishState extends GameState {
     private void handleInput() {
         if (Gdx.input.justTouched()) {
             unprojectTouch();
-            if (changeNameButton.containsPoint(touchPoint)) goToEditName();
+            if (editNameButton.containsPoint(touchPoint)) goToEditName();
             if (backButton.containsPoint(touchPoint)) goBack();
             if (submitButton.enabled && submitButton.containsPoint(touchPoint)) submitScore();
         }
@@ -169,6 +157,9 @@ public class ChallengeFinishState extends GameState {
             sb.setColor(1, 1, 1, 1);
             infoBox.render(sb);
             title.render(sb);
+            if (newRecord) {
+                newRecordText.render(sb);
+            }
             movesLabel.render(sb);
             bestLabel.render(sb);
 
@@ -179,7 +170,7 @@ public class ChallengeFinishState extends GameState {
                 nameFont.render(sb);
                 submitButton.render(sb);
             }
-            changeNameButton.render(sb);
+            editNameButton.render(sb);
             backButton.render(sb);
         }
         sb.end();

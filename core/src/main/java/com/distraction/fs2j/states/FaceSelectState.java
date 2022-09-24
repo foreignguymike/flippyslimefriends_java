@@ -5,11 +5,12 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.distraction.fs2j.AccessoryIcon;
+import com.distraction.fs2j.BreathingImage;
 import com.distraction.fs2j.Constants;
 import com.distraction.fs2j.Context;
 import com.distraction.fs2j.ImageButton;
 import com.distraction.fs2j.InfoBox;
-import com.distraction.fs2j.NumberFont;
+import com.distraction.fs2j.TextFont;
 import com.distraction.fs2j.Utils;
 import com.distraction.fs2j.tilemap.player.Face;
 
@@ -20,6 +21,7 @@ public class FaceSelectState extends GameState {
     private final CustomizeState customizeState;
 
     private final TextureRegion pixel;
+    private final BreathingImage selectedBorder;
 
     private float alpha = 0f;
     private final InfoBox infoBox;
@@ -30,11 +32,12 @@ public class FaceSelectState extends GameState {
     private final Face[] faces = Face.values();
 
     private final ImageButton diamond;
-    private final NumberFont diamondFont;
+    private final TextFont diamondFont;
 
-    protected FaceSelectState(Context context, CustomizeState customizeState) {
+    protected FaceSelectState(Context context, CustomizeState customizeState, Face replacing) {
         super(context);
         this.customizeState = customizeState;
+        selectedBorder = new BreathingImage(context.getImage("levelselectedborder"), -100, -100, 0, 1f, 0.03f);
 
         int numDiamonds = context.scoreHandler.getNumDiamonds();
 
@@ -60,21 +63,26 @@ public class FaceSelectState extends GameState {
             for (int col = 0; col < c; col++) {
                 int i = row * c + col;
                 if (i == faceIcons.length) break;
+                float x = s + col * (w + p);
+                float y = sy - row * (w + p);
                 faceIcons[i] = new AccessoryIcon(context, faces[i],
-                        s + col * (w + p),
-                        sy - row * (w + p),
+                        x,
+                        y,
                         -1,
                         numDiamonds
                 );
                 faceIcons[i].setOffset(-1, 6);
+                if (faces[i] == replacing) {
+                    selectedBorder.setPosition(x, y);
+                }
             }
         }
 
         infoBox = new InfoBox(context, Constants.WIDTH / 2f, Constants.HEIGHT / 2f, tw + 40, th + 55);
         diamond = new ImageButton(context.getImage("diamondunlock"));
-        diamondFont = new NumberFont(context, false, NumberFont.NumberSize.LARGE);
-        diamondFont.setNum(numDiamonds);
+        diamondFont = new TextFont(context, TextFont.FontType.FONT3, Integer.toString(numDiamonds), false, 0, 0);
         diamond.setPosition((Constants.WIDTH - diamondFont.getTotalWidth()) / 2f - 3, infoBox.pos.y + infoBox.height / 2 - 20);
+        diamondFont.setPosition(diamond.pos.x + diamond.width / 2 + 6, diamond.pos.y - 8);
     }
 
     private void goBack() {
@@ -114,6 +122,7 @@ public class FaceSelectState extends GameState {
         else alpha += 2 * dt;
         if (alpha < 0) alpha = 0;
         if (alpha > MAX_ALPHA) alpha = MAX_ALPHA;
+        selectedBorder.update(dt);
     }
 
     @Override
@@ -128,8 +137,9 @@ public class FaceSelectState extends GameState {
             infoBox.render(sb);
 
             for (AccessoryIcon it : faceIcons) it.render(sb);
+            selectedBorder.render(sb);
             diamond.render(sb);
-            diamondFont.render(sb, diamond.pos.x + diamond.width / 2 + 6, diamond.pos.y);
+            diamondFont.render(sb);
         }
         sb.end();
     }

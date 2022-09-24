@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.distraction.fs2j.BreathingImage;
 import com.distraction.fs2j.Constants;
 import com.distraction.fs2j.Context;
+import com.distraction.fs2j.IconButton;
 import com.distraction.fs2j.ImageButton;
 import com.distraction.fs2j.InfoBox;
 import com.distraction.fs2j.TextButton;
@@ -33,8 +34,8 @@ public class NameState extends GameState {
     private int selectionIndex = 0;
     private final ImageButton[] selection;
 
-    private final TextButton deleteButton;
-    private final TextButton addButton;
+    private final IconButton deleteButton;
+    private final IconButton addButton;
     private final TextButton saveButton;
 
     private float cameraDest = Constants.HEIGHT / 2f;
@@ -63,9 +64,9 @@ public class NameState extends GameState {
         }
         updateSelectionPositions();
 
-        deleteButton = new TextButton(context.getImage("backicon"), context.getImage("iconbuttonbg"), Constants.WIDTH / 2f - 60, Constants.HEIGHT / 2f - 50, 0);
-        addButton = new TextButton(context.getImage("addicon"), context.getImage("iconbuttonbg"), Constants.WIDTH / 2f - 20, Constants.HEIGHT / 2f - 50, 0);
-        saveButton = new TextButton(context.getImage("save"), context.getImage("buttonbgsmall"), Constants.WIDTH / 2f + 50, Constants.HEIGHT / 2f - 50, 0);
+        deleteButton = new IconButton(context.getImage("backicon"), context.getImage("iconbuttonbg"), Constants.WIDTH / 2f - 60, Constants.HEIGHT / 2f - 50, 0);
+        addButton = new IconButton(context.getImage("addicon"), context.getImage("iconbuttonbg"), Constants.WIDTH / 2f - 20, Constants.HEIGHT / 2f - 50, 0);
+        saveButton = new TextButton(context, "save", context.getImage("buttonbgsmall"), Constants.WIDTH / 2f + 50, Constants.HEIGHT / 2f - 50, 0);
     }
 
     private void shiftSelection(int amount) {

@@ -72,6 +72,7 @@ public class AudioHandler {
     }
 
     public void playMusic(String key, float volume, boolean looping) {
+        stopAllMusic();
         for (Map.Entry<String, Music> entry : music.entrySet()) {
             if (entry.getKey().equals(key)) {
                 Music music = entry.getValue();
@@ -84,6 +85,7 @@ public class AudioHandler {
     }
 
     public void playMusicLooped(String key, float volume, float start) {
+        stopAllMusic();
         for (Map.Entry<String, Music> entry : music.entrySet()) {
             if (entry.getKey().equals(key)) {
                 Music music = entry.getValue();

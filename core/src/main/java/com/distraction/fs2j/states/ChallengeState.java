@@ -5,16 +5,14 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
 import com.distraction.fs2j.BreathingImage;
 import com.distraction.fs2j.Constants;
 import com.distraction.fs2j.Context;
+import com.distraction.fs2j.IconButton;
 import com.distraction.fs2j.ImageButton;
 import com.distraction.fs2j.InfoBox;
-import com.distraction.fs2j.NumberFont;
-import com.distraction.fs2j.NumberLabel;
 import com.distraction.fs2j.Placement;
-import com.distraction.fs2j.TextButton;
+import com.distraction.fs2j.TextFont;
 import com.distraction.fs2j.Utils;
 import com.distraction.fs2j.tilemap.TileMap;
 import com.distraction.fs2j.tilemap.data.Area;
@@ -29,8 +27,9 @@ public class ChallengeState extends GameState {
 
     private static final int PAGE_WIDTH = Constants.WIDTH * 2;
 
-    private final TextButton backButton;
-    private final TextButton refreshButton;
+    private final IconButton backButton;
+    private final IconButton refreshButton;
+    private final IconButton audioButton;
 
     private final OrthographicCamera staticCam;
 
@@ -43,8 +42,8 @@ public class ChallengeState extends GameState {
     private final TileMap[] tileMaps;
     private final OrthographicCamera[] cameras;
     private final InfoBox[] infoBoxes;
-    private final NumberLabel[] levelTitles;
-    private final NumberLabel[] bestMoves;
+    private final TextFont[] levelTitles;
+    private final TextFont[] bestMoves;
     private final ImageButton[] playButtons;
 
     public ChallengeState(Context context) {
@@ -53,9 +52,12 @@ public class ChallengeState extends GameState {
 
     public ChallengeState(Context context, int level) {
         super(context);
+        pixel = context.getImage("pixel");
 
-        backButton = new TextButton(context.getImage("backicon"), context.getImage("iconbuttonbg"), 25f, Constants.HEIGHT - 25, 5f);
-        refreshButton = new TextButton(context.getImage("restarticon"), context.getImage("iconbuttonbg"), 65f, Constants.HEIGHT - 25, 5f);
+        backButton = new IconButton(context.getImage("backicon"), context.getImage("iconbuttonbg"), 25f, Constants.HEIGHT - 25, 5f);
+        refreshButton = new IconButton(context.getImage("restarticon"), context.getImage("iconbuttonbg"), 65f, Constants.HEIGHT - 25, 5f);
+        audioButton = new IconButton(context.getImage("audioicon"), context.getImage("iconbuttonbg"), 105f, Constants.HEIGHT - 25f, 5f);
+        audioButton.enabled = !context.audioHandler.isMuted();
 
         staticCam = new OrthographicCamera();
         staticCam.setToOrtho(false, Constants.WIDTH, Constants.HEIGHT);
@@ -69,18 +71,18 @@ public class ChallengeState extends GameState {
 
         tileMaps = new TileMap[context.gameData.getMapData(Area.CHALLENGE).size()];
         infoBoxes = new InfoBox[tileMaps.length];
-        levelTitles = new NumberLabel[tileMaps.length];
-        bestMoves = new NumberLabel[tileMaps.length];
+        levelTitles = new TextFont[tileMaps.length];
+        bestMoves = new TextFont[tileMaps.length];
         playButtons = new ImageButton[tileMaps.length];
         cameras = new OrthographicCamera[tileMaps.length];
         for (int i = 0; i < tileMaps.length; i++) {
             tileMaps[i] = new TileMap(context, null, Area.CHALLENGE, i);
             infoBoxes[i] = new InfoBox(context, 36, -Constants.HEIGHT + Constants.HEIGHT / 8f + 10, Constants.WIDTH / 2f, Constants.HEIGHT / 4f);
-            levelTitles[i] = new NumberLabel(context, context.getImage("leveltitle"), new Vector2(-30, -Constants.HEIGHT + Constants.HEIGHT / 8f + 20), i + 1, NumberFont.NumberSize.LARGE);
+            levelTitles[i] = new TextFont(context, TextFont.FontType.FONT3, "level " + (i + 1), true, -15, -Constants.HEIGHT + Constants.HEIGHT / 8f + 12);
             int score = context.scoreHandler.getScores(Area.CHALLENGE)[i];
             if (score == 0) score = -1;
-            bestMoves[i] = new NumberLabel(context, context.getImage("best"), new Vector2(-30, -Constants.HEIGHT + Constants.HEIGHT / 8f), score);
-            playButtons[i] = new TextButton(context.getImage("play"), context.getImage("buttonbgsmall"), 90, -Constants.HEIGHT + Constants.HEIGHT / 8f + 13, 5);
+            bestMoves[i] = new TextFont(context, TextFont.FontType.FONT2, "best " + score, true, -15, -Constants.HEIGHT + Constants.HEIGHT / 8f - 9);
+            playButtons[i] = new IconButton(context.getImage("play"), context.getImage("buttonbgsmall"), 90, -Constants.HEIGHT + Constants.HEIGHT / 8f + 13, 5);
             cameras[i] = new OrthographicCamera();
             cameras[i].setToOrtho(false, Constants.WIDTH, Constants.HEIGHT);
             cameras[i].position.x = 150 + i * PAGE_WIDTH;
@@ -145,6 +147,8 @@ public class ChallengeState extends GameState {
             unprojectTouch(staticCam);
             if (backButton.containsPoint(touchPoint)) goBack();
             if (refreshButton.containsPoint(touchPoint)) refresh();
+            if (audioButton.containsPoint(touchPoint))
+                audioButton.enabled = !context.audioHandler.toggleMute();
             if (leftButton.containsPoint(touchPoint)) changeLevel(-1);
             if (rightButton.containsPoint(touchPoint)) changeLevel(1);
             for (int i = 0; i < playButtons.length; i++) {
@@ -197,6 +201,7 @@ public class ChallengeState extends GameState {
             for (int i = placements.length - 1; i >= 0; i--) placements[i].render(sb);
             backButton.render(sb);
             refreshButton.render(sb);
+            audioButton.render(sb);
         }
         sb.end();
     }

@@ -5,26 +5,16 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class TextButton extends ImageButton {
 
-    private final TextureRegion textImage;
+    private final TextFont textFont;
 
-    public TextButton(TextureRegion textImage, TextureRegion bgImage) {
-        this(textImage, bgImage, 0, 0, 0);
-    }
-
-    public TextButton(TextureRegion textImage, TextureRegion bgImage, float x, float y) {
-        this(textImage, bgImage, x, y, 0);
-    }
-
-    public TextButton(TextureRegion textImage, TextureRegion bgImage, float x, float y, float padding) {
+    public TextButton(Context context, String text, TextureRegion bgImage, float x, float y, float padding) {
         super(bgImage, x, y, padding);
-        this.textImage = textImage;
+        textFont = new TextFont(context, TextFont.FontType.FONT2, text, true, x, y - 6);
     }
 
     @Override
     public void render(SpriteBatch sb) {
         super.render(sb);
-        float scaledWidth = textImage.getRegionWidth() * scale;
-        float scaledHeight = textImage.getRegionHeight() * scale;
-        sb.draw(textImage, pos.x - scaledWidth / 2, pos.y - scaledHeight / 2, scaledWidth, scaledHeight);
+        textFont.render(sb);
     }
 }

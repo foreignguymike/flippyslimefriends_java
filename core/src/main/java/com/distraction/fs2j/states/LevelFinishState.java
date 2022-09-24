@@ -5,14 +5,14 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import com.distraction.fs2j.Constants;
 import com.distraction.fs2j.Context;
+import com.distraction.fs2j.IconButton;
 import com.distraction.fs2j.ImageButton;
 import com.distraction.fs2j.InfoBox;
-import com.distraction.fs2j.NumberLabel;
 import com.distraction.fs2j.SpinningLights;
 import com.distraction.fs2j.TextButton;
+import com.distraction.fs2j.TextFont;
 import com.distraction.fs2j.Utils;
 import com.distraction.fs2j.tilemap.data.Area;
 
@@ -25,6 +25,7 @@ class LevelFinishState extends GameState {
     private final int level;
     private final int moves;
     private final int goal;
+    private final boolean newRecord;
 
     private final Color dimColor = new Color(0, 0, 0, 0);
     private final OrthographicCamera staticCam;
@@ -35,7 +36,6 @@ class LevelFinishState extends GameState {
 
     private final InfoBox infoBox;
 
-    private final ImageButton completeImage;
     private final ImageButton diamondEmpty;
     private final ImageButton diamond;
     private final ImageButton star;
@@ -43,20 +43,24 @@ class LevelFinishState extends GameState {
     private final SpinningLights lights;
     private final SpinningLights diamondLights;
 
-    private final NumberLabel bestLabel;
-    private final NumberLabel goalLabel;
-    private final NumberLabel movesLabel;
+    private final TextFont newRecordText;
+    private final TextFont completeText;
+    private final TextFont perfectText;
+    private final TextFont bestLabel;
+    private final TextFont goalLabel;
+    private final TextFont movesLabel;
 
-    private final TextButton backButton;
-    private final TextButton restartButton;
+    private final IconButton backButton;
+    private final IconButton restartButton;
     private final TextButton nextButton;
 
-    public LevelFinishState(Context context, Area area, int level, int moves, int best, int goal) {
+    public LevelFinishState(Context context, Area area, int level, int moves, int best, int goal, boolean newRecord) {
         super(context);
         this.area = area;
         this.level = level;
         this.moves = moves;
         this.goal = goal;
+        this.newRecord = newRecord;
 
         staticCam = new OrthographicCamera();
         staticCam.setToOrtho(false, Constants.WIDTH, Constants.HEIGHT);
@@ -69,7 +73,6 @@ class LevelFinishState extends GameState {
                 4f * Constants.HEIGHT / 5f + 10
         );
 
-        completeImage = new ImageButton(context.getImage("complete"), Constants.WIDTH / 2f, Constants.HEIGHT - 50f);
         diamondEmpty = new ImageButton(context.getImage("diamondfinishempty"), Constants.WIDTH / 2f + 80f, Constants.HEIGHT / 2f - infoBox.height / 2 + 64f);
         diamond = new ImageButton(context.getImage("diamondfinish"), diamondEmpty.pos.x, diamondEmpty.pos.y);
         star = new ImageButton(context.getImage("starfinish"), Constants.WIDTH / 2f, Constants.HEIGHT / 2f + 30f);
@@ -82,32 +85,20 @@ class LevelFinishState extends GameState {
         lights = new SpinningLights(context, star.pos.x, star.pos.y, 5);
         diamondLights = new SpinningLights(context, diamond.pos.x, diamond.pos.y, 5, 0.5f);
 
-        bestLabel = new NumberLabel(
-                context,
-                context.getImage("best"),
-                new Vector2(Constants.WIDTH / 2f - 60f, Constants.HEIGHT / 2f - infoBox.height / 2 + 64f),
-                best
-        );
-        goalLabel = new NumberLabel(
-                context,
-                context.getImage("goal"),
-                new Vector2(Constants.WIDTH / 2f + 10, Constants.HEIGHT / 2f - infoBox.height / 2 + 54f),
-                goal
-        );
-        movesLabel = new NumberLabel(
-                context,
-                context.getImage("moves"),
-                new Vector2(Constants.WIDTH / 2f + 10f, Constants.HEIGHT / 2f - infoBox.height / 2 + 74f),
-                moves
-        );
-        backButton = new TextButton(
+        completeText = new TextFont(context, TextFont.FontType.FONT2, "complete!", true, Constants.WIDTH / 2f, Constants.HEIGHT - 50f);
+        newRecordText = new TextFont(context, TextFont.FontType.FONT2, "new record!", true, Constants.WIDTH / 2f, Constants.HEIGHT - 50f);
+        perfectText = new TextFont(context, TextFont.FontType.FONT2, "perfect!", true, Constants.WIDTH / 2f, Constants.HEIGHT - 50f);
+        bestLabel = new TextFont(context, TextFont.FontType.FONT2, "best " + best, true, Constants.WIDTH / 2f - 60f, Constants.HEIGHT / 2f - infoBox.height / 2 + 64f);
+        goalLabel = new TextFont(context, TextFont.FontType.FONT2, "goal " + goal, true, Constants.WIDTH / 2f + 10, Constants.HEIGHT / 2f - infoBox.height / 2 + 54f);
+        movesLabel = new TextFont(context, TextFont.FontType.FONT2, "moves " + moves, true, Constants.WIDTH / 2f + 10f, Constants.HEIGHT / 2f - infoBox.height / 2 + 74f);
+        backButton = new IconButton(
                 context.getImage("backicon"),
                 context.getImage("iconbuttonbg"),
                 Constants.WIDTH / 2f - 80f,
                 Constants.HEIGHT / 2f - infoBox.height / 2 + 26f,
                 5f
         );
-        restartButton = new TextButton(
+        restartButton = new IconButton(
                 context.getImage("restarticon"),
                 context.getImage("iconbuttonbg"),
                 Constants.WIDTH / 2f - 40f,
@@ -115,7 +106,8 @@ class LevelFinishState extends GameState {
                 5f
         );
         nextButton = new TextButton(
-                context.getImage("next"),
+                context,
+                "next",
                 context.getImage("buttonbg"),
                 Constants.WIDTH / 2f + 50f,
                 Constants.HEIGHT / 2f - infoBox.height / 2 + 26f,
@@ -218,7 +210,13 @@ class LevelFinishState extends GameState {
                 lights.render(sb);
             }
             star.render(sb);
-            completeImage.render(sb);
+            if (newRecord) {
+                newRecordText.render(sb);
+            } else if (moves <= goal) {
+                perfectText.render(sb);
+            } else {
+                completeText.render(sb);
+            }
             goalLabel.render(sb);
             bestLabel.render(sb);
             movesLabel.render(sb);

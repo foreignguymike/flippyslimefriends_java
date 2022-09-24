@@ -7,8 +7,10 @@ public class Constants {
     public static final int WIDTH = 480;
     public static final int HEIGHT = 270;
 
-    public static final int DESKTOP_WIDTH = 480 * 2;
-    public static final int DESKTOP_HEIGHT = 270 * 2;
+    public static final int SCALE = 2;
+
+    public static final int DESKTOP_WIDTH = 480 * SCALE;
+    public static final int DESKTOP_HEIGHT = 270 * SCALE;
 
     public static final String VERSION = "v0.1.0";
 

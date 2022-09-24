@@ -26,7 +26,7 @@ public class Placement {
 
     private Player player;
     private Player newPlayer;
-    private final NumberFont scoreFont;
+    private final TextFont scoreFont;
     private final TextFont nameFont;
 
     private String newName;
@@ -59,7 +59,14 @@ public class Placement {
         if (rank <= 3) y = Constants.HEIGHT - (rank) * 50;
         else y = Constants.HEIGHT - 150 - (rank - 3) * 30;
 
-        scoreFont = new NumberFont(context, false, NumberFont.NumberSize.LARGE);
+        scoreFont = new TextFont(
+                context,
+                TextFont.FontType.FONT3,
+                "",
+                false,
+                x + totalOffset + (rank <= 3 ? Player.SPRITE_WIDTH / 2f + 30 : -10),
+                y + end.getRegionHeight() / 2f
+        );
         if (rank <= 3) setScore(0, null, null);
         else setScore(0, null);
 
@@ -100,8 +107,8 @@ public class Placement {
             xdest = xmin;
             player = newPlayer;
 
-            if (newScore > 0) scoreFont.setNum(newScore);
-            else scoreFont.setNum(-1);
+            if (newScore > 0) scoreFont.setText(Integer.toString(newScore));
+            else scoreFont.setText("-");
             nameFont.setText(newName);
         }
 
@@ -128,7 +135,7 @@ public class Placement {
         }
 
         // draw score
-        scoreFont.render(sb, x + totalOffset + (rank <= 3 ? Player.SPRITE_WIDTH / 2f + 30 : -10), y + end.getRegionHeight() / 2f);
+        scoreFont.render(sb);
 
         // draw name
         nameFont.x = x + totalOffset + scoreFont.getTotalWidth() + 10 + (rank <= 3 ? Player.SPRITE_WIDTH / 2f + 30 : -10);

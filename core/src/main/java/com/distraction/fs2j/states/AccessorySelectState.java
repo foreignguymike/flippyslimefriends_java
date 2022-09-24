@@ -8,10 +8,10 @@ import com.distraction.fs2j.AccessoryIcon;
 import com.distraction.fs2j.BreathingImage;
 import com.distraction.fs2j.Constants;
 import com.distraction.fs2j.Context;
+import com.distraction.fs2j.IconButton;
 import com.distraction.fs2j.ImageButton;
 import com.distraction.fs2j.InfoBox;
-import com.distraction.fs2j.NumberFont;
-import com.distraction.fs2j.TextButton;
+import com.distraction.fs2j.TextFont;
 import com.distraction.fs2j.Utils;
 import com.distraction.fs2j.tilemap.player.AccessoryType;
 
@@ -32,10 +32,10 @@ class AccessorySelectState extends GameState {
     private final AccessoryIcon[] accessoryIcons;
     private final AccessoryType[] accessoryTypes;
 
-    private final TextButton xbutton;
+    private final IconButton xbutton;
 
     private final ImageButton diamond;
-    private final NumberFont diamondFont;
+    private final TextFont diamondFont;
 
     protected AccessorySelectState(Context context, CustomizeState customizeState, int accessoryIndex, AccessoryType replacing, AccessoryType[] alreadySelected) {
         super(context);
@@ -83,11 +83,11 @@ class AccessorySelectState extends GameState {
         }
 
         infoBox = new InfoBox(context, Constants.WIDTH / 2f, Constants.HEIGHT / 2f, tw + 40, th + 90);
-        xbutton = new TextButton(context.getImage("xicon"), context.getImage("iconbuttonbg"), Constants.WIDTH / 2f, infoBox.pos.y - infoBox.height / 2 + 30);
+        xbutton = new IconButton(context.getImage("xicon"), context.getImage("iconbuttonbg"), Constants.WIDTH / 2f, infoBox.pos.y - infoBox.height / 2 + 30);
         diamond = new ImageButton(context.getImage("diamondunlock"));
-        diamondFont = new NumberFont(context, false, NumberFont.NumberSize.LARGE);
-        diamondFont.setNum(numDiamonds);
+        diamondFont = new TextFont(context, TextFont.FontType.FONT3, Integer.toString(numDiamonds), false, 0, 0);
         diamond.setPosition((Constants.WIDTH - diamondFont.getTotalWidth()) / 2f - 3, infoBox.pos.y + infoBox.height / 2 - 20);
+        diamondFont.setPosition(diamond.pos.x + diamond.width / 2 + 6, diamond.pos.y - 8);
     }
 
     private void goBack() {
@@ -148,7 +148,7 @@ class AccessorySelectState extends GameState {
             selectedBorder.render(sb);
 
             diamond.render(sb);
-            diamondFont.render(sb, diamond.pos.x + diamond.width / 2 + 6, diamond.pos.y);
+            diamondFont.render(sb);
         }
         sb.end();
     }

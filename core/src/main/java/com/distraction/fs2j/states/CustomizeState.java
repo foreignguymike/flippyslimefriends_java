@@ -10,9 +10,10 @@ import com.distraction.fs2j.Background;
 import com.distraction.fs2j.BreathingImage;
 import com.distraction.fs2j.Constants;
 import com.distraction.fs2j.Context;
+import com.distraction.fs2j.IconButton;
 import com.distraction.fs2j.ImageButton;
-import com.distraction.fs2j.NumberFont;
 import com.distraction.fs2j.TextButton;
+import com.distraction.fs2j.TextFont;
 import com.distraction.fs2j.Utils;
 import com.distraction.fs2j.tilemap.TileMap;
 import com.distraction.fs2j.tilemap.data.Area;
@@ -35,12 +36,12 @@ public class CustomizeState extends GameState {
 
     private final TextureRegion pixel;
 
-    private final TextButton backButton;
-    private final TextButton audioButton;
+    private final IconButton backButton;
+    private final IconButton audioButton;
 
-    private final ImageButton skinText;
-    private final ImageButton faceText;
-    private final ImageButton accessoriesText;
+    private final TextFont skinText;
+    private final TextFont faceText;
+    private final TextFont accessoriesText;
 
     private final AccessoryIcon faceIcon;
     private final AccessoryIcon skinIcon;
@@ -69,7 +70,7 @@ public class CustomizeState extends GameState {
     private final ImageButton up;
 
     private final TextureRegion star;
-    private final NumberFont starFont;
+    private final TextFont starFont;
 
     protected CustomizeState(Context context, boolean preview) {
         super(context);
@@ -88,7 +89,8 @@ public class CustomizeState extends GameState {
 
         tileMap = new TileMap(
                 context,
-                tileMap -> {},
+                tileMap -> {
+                },
                 Area.TUTORIAL,
                 4
         );
@@ -115,16 +117,16 @@ public class CustomizeState extends GameState {
 
         bg = new Background(context, context.getImage("slimebg"), GameColor.PEACH, GameColor.WHITE);
         pixel = context.getImage("pixel");
-        backButton = new TextButton(context.getImage("backicon"), context.getImage("iconbuttonbg"), 25f, Constants.HEIGHT - 25, 5f);
-        audioButton = new TextButton(context.getImage("audioicon"), context.getImage("iconbuttonbg"), 65f, Constants.HEIGHT - 25f, 5f);
+        backButton = new IconButton(context.getImage("backicon"), context.getImage("iconbuttonbg"), 25f, Constants.HEIGHT - 25, 5f);
+        audioButton = new IconButton(context.getImage("audioicon"), context.getImage("iconbuttonbg"), 65f, Constants.HEIGHT - 25f, 5f);
         audioButton.enabled = !context.audioHandler.isMuted();
-        skinText = new ImageButton(context.getImage("skin"), 4f * Constants.WIDTH / 6, 245);
-        faceText = new ImageButton(context.getImage("face"), 5f * Constants.WIDTH / 6, 245);
-        accessoriesText = new ImageButton(context.getImage("accessories"), 3f * Constants.WIDTH / 4 - 20, 165);
+        skinText = new TextFont(context, TextFont.FontType.FONT3, "skin", true, 4f * Constants.WIDTH / 6, 237);
+        faceText = new TextFont(context, TextFont.FontType.FONT3, "face", true, 5f * Constants.WIDTH / 6, 237);
+        accessoriesText = new TextFont(context, TextFont.FontType.FONT3, "accessories", true, 3f * Constants.WIDTH / 4 - 20, 157);
 
-        skinIcon = new AccessoryIcon(context, null, skinText.pos.x, skinText.pos.y - 33, numStars, numDiamonds);
+        skinIcon = new AccessoryIcon(context, null, skinText.x, skinText.y - 25, numStars, numDiamonds);
         skinIcon.setOffset(0, 4);
-        faceIcon = new AccessoryIcon(context, null, faceText.pos.x, faceText.pos.y - 33, numStars, numDiamonds);
+        faceIcon = new AccessoryIcon(context, null, faceText.x, faceText.y - 25, numStars, numDiamonds);
         faceIcon.setOffset(-1, 6);
         accessoryTypes = new AccessoryType[10];
         accessoryIcons = new AccessoryIcon[10];
@@ -139,7 +141,7 @@ public class CustomizeState extends GameState {
                 int i = row * c + col;
                 accessoryIcons[i] = new AccessoryIcon(context, null,
                         s + col * (w + p),
-                        accessoriesText.pos.y - 33 - row * (w + p),
+                        accessoriesText.y - 25 - row * (w + p),
                         numStars,
                         numDiamonds
                 );
@@ -163,7 +165,8 @@ public class CustomizeState extends GameState {
         shiftRight = new ImageButton(context.getImage("shiftright"), 3f * Constants.WIDTH / 4 + 15, accessoryIcons[accessoryIcons.length - 1].pos.y - 35, 5);
 
         saveButton = new TextButton(
-                context.getImage("save"),
+                context,
+                "save",
                 context.getImage("buttonbg"),
                 3 * Constants.WIDTH / 4f,
                 30,
@@ -188,20 +191,19 @@ public class CustomizeState extends GameState {
         setFace(context.playerDataHandler.face);
 
         star = context.getImage("starunlock");
-        starFont = new NumberFont(context, false, NumberFont.NumberSize.LARGE);
-        starFont.setNum(numStars);
-        accessoriesText.setPosition(3f * Constants.WIDTH / 4 - (19 + star.getRegionWidth() + starFont.getTotalWidth()) / 2f, accessoriesText.pos.y);
+        starFont = new TextFont(context, TextFont.FontType.FONT3, Integer.toString(numStars), false, accessoriesText.x + 85, accessoriesText.y);
+        accessoriesText.setPosition(3f * Constants.WIDTH / 4 - (19 + star.getRegionWidth() + starFont.getTotalWidth()) / 2f, accessoriesText.y);
     }
 
     private void openSkinSelect() {
         ignoreInput = true;
-        context.gsm.push(new SkinSelectState(context, this));
+        context.gsm.push(new SkinSelectState(context, this, skin));
         context.gsm.depth++;
     }
 
     private void openFaceSelect() {
         ignoreInput = true;
-        context.gsm.push(new FaceSelectState(context, this));
+        context.gsm.push(new FaceSelectState(context, this, face));
         context.gsm.depth++;
     }
 
@@ -359,8 +361,8 @@ public class CustomizeState extends GameState {
             sb.draw(pixel, Constants.WIDTH / 2f, 0, 1, Constants.HEIGHT);
 
             sb.setColor(1, 1, 1, 1);
-            Utils.drawCentered(sb, star, accessoriesText.pos.x + 80, accessoriesText.pos.y);
-            starFont.render(sb, accessoriesText.pos.x + 95, accessoriesText.pos.y);
+            Utils.drawCentered(sb, star, accessoriesText.x + 80, accessoriesText.y + 8);
+            starFont.render(sb);
 
             backButton.render(sb);
             audioButton.render(sb);

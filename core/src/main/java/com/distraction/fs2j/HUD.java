@@ -30,11 +30,15 @@ public class HUD {
     private final OrthographicCamera bottomCam;
 
     private final Map<ButtonListener.ButtonType, ImageButton> bottomButtons;
-    private final Map<ButtonListener.ButtonType, TextButton> topButtons;
+    private final Map<ButtonListener.ButtonType, IconButton> topButtons;
     private final TextButton switchButton;
-    private final TextButton bubbleDropButton;
-    private final TextButton audioButton;
-    private final NumberLabel[] labels;
+    private final IconButton bubbleDropButton;
+    private final IconButton audioButton;
+    private final TextFont[] labels;
+
+    private int goal;
+    private int best;
+    private int moves;
 
     public HUD(Context context, int level, ButtonListener buttonListener, List<Player> players, Area area) {
         this.context = context;
@@ -57,64 +61,48 @@ public class HUD {
         bottomButtons.put(ButtonListener.ButtonType.DOWN, new ImageButton(context.getImage("downleftarrow"), a.x - dist, a.y - dist, 5f));
         topButtons = new HashMap<>();
         topButtons.put(ButtonListener.ButtonType.BACK,
-                new TextButton(context.getImage("backicon"), context.getImage("iconbuttonbg"), 25f, Constants.HEIGHT - HEIGHT / 2f, 5f));
+                new IconButton(context.getImage("backicon"), context.getImage("iconbuttonbg"), 25f, Constants.HEIGHT - HEIGHT / 2f, 5f));
         topButtons.put(ButtonListener.ButtonType.RESTART,
-                new TextButton(context.getImage("restarticon"), context.getImage("iconbuttonbg"), 65f, Constants.HEIGHT - HEIGHT / 2f, 5f));
-        switchButton = new TextButton(context.getImage("switch"), context.getImage("buttonbg"), Constants.WIDTH / 2f, 30f, 5f);
-        bubbleDropButton = new TextButton(context.getImage("bubbledropicon"), context.getImage("iconbuttonbg"), Constants.WIDTH - 25f, 25f, 5f);
-        audioButton = new TextButton(context.getImage("audioicon"), context.getImage("iconbuttonbg"), 105f, Constants.HEIGHT - HEIGHT / 2f, 5f);
+                new IconButton(context.getImage("restarticon"), context.getImage("iconbuttonbg"), 65f, Constants.HEIGHT - HEIGHT / 2f, 5f));
+        switchButton = new TextButton(context, "switch", context.getImage("buttonbg"), Constants.WIDTH / 2f, 28f, 5f);
+        bubbleDropButton = new IconButton(context.getImage("bubbledropicon"), context.getImage("iconbuttonbg"), Constants.WIDTH - 25f, 25f, 5f);
+        audioButton = new IconButton(context.getImage("audioicon"), context.getImage("iconbuttonbg"), 105f, Constants.HEIGHT - HEIGHT / 2f, 5f);
         audioButton.enabled = !context.audioHandler.isMuted();
 
-        labels = new NumberLabel[]{
-                new NumberLabel(
-                        context,
-                        context.getImage("goal"),
-                        new Vector2(Constants.WIDTH - 50f, Constants.HEIGHT - 15f)
-                ),
-                new NumberLabel(
-                        context,
-                        context.getImage("best"),
-                        new Vector2(Constants.WIDTH - 50f, Constants.HEIGHT - 35f + (area == Area.CHALLENGE ? 12 : 0))
-                ),
-                new NumberLabel(
-                        context,
-                        context.getImage("moves"),
-                        new Vector2(Constants.WIDTH - 130f, Constants.HEIGHT - 35f + (area == Area.CHALLENGE ? 12 : 0)),
-                        0
-                ),
-                new NumberLabel(
-                        context,
-                        context.getImage("leveltitle"),
-                        new Vector2(170f, Constants.HEIGHT - HEIGHT / 2f),
-                        level + 1,
-                        NumberFont.NumberSize.LARGE
-                )
+        labels = new TextFont[]{
+                new TextFont(context, TextFont.FontType.FONT2, "goal 0", false, Constants.WIDTH - 70f, Constants.HEIGHT - 22f),
+                new TextFont(context, TextFont.FontType.FONT2, "best 0", false, Constants.WIDTH - 70f, Constants.HEIGHT - 42f + (area == Area.CHALLENGE ? 12 : 0)),
+                new TextFont(context, TextFont.FontType.FONT2, "moves 0", false, Constants.WIDTH - 150f, Constants.HEIGHT - 42f + (area == Area.CHALLENGE ? 12 : 0)),
+                new TextFont(context, TextFont.FontType.FONT3, "level " + (level + 1), false, 170f, Constants.HEIGHT - HEIGHT / 2f - 8),
         };
     }
 
     public void setGoal(int goal) {
-        labels[0].font.setNum(goal);
+        this.goal = goal;
+        labels[0].setText("goal " + goal);
     }
 
     public void setBest(int best) {
-        if (best == 0) labels[1].font.setNum(-1);
-        else labels[1].font.setNum(best);
-    }
-
-    public int getGoal() {
-        return labels[0].font.num;
-    }
-
-    public int getBest() {
-        return labels[1].font.num;
-    }
-
-    public int getMoves() {
-        return labels[2].font.num;
+        this.best = best;
+        if (best == 0) labels[1].setText("best -");
+        else labels[1].setText("best " + best);
     }
 
     public void incrementMoves() {
-        labels[2].font.setNum(labels[2].font.num + 1);
+        moves++;
+        labels[2].setText("moves " + moves);
+    }
+
+    public int getGoal() {
+        return goal;
+    }
+
+    public int getBest() {
+        return best;
+    }
+
+    public int getMoves() {
+        return moves;
     }
 
     private void updateVisibility(float dt) {
@@ -130,7 +118,7 @@ public class HUD {
     }
 
     public void handleInput() {
-        for (TextButton it : topButtons.values()) it.scale = 1f;
+        for (IconButton it : topButtons.values()) it.scale = 1f;
         for (ImageButton it : bottomButtons.values()) it.scale = 1f;
         switchButton.scale = 1f;
         bubbleDropButton.scale = 1f;
@@ -138,9 +126,9 @@ public class HUD {
         if (Gdx.input.isTouched()) {
             touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             topCam.unproject(touchPoint);
-            for (Map.Entry<ButtonListener.ButtonType, TextButton> it : topButtons.entrySet()) {
+            for (Map.Entry<ButtonListener.ButtonType, IconButton> it : topButtons.entrySet()) {
                 ButtonListener.ButtonType key = it.getKey();
-                TextButton value = it.getValue();
+                IconButton value = it.getValue();
                 if (value.containsPoint(touchPoint)) {
                     buttonListener.onButtonPressed(key);
                     value.scale = 0.75f;

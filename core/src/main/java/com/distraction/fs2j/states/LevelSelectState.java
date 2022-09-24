@@ -10,9 +10,10 @@ import com.badlogic.gdx.math.MathUtils;
 import com.distraction.fs2j.BreathingImage;
 import com.distraction.fs2j.Constants;
 import com.distraction.fs2j.Context;
+import com.distraction.fs2j.IconButton;
 import com.distraction.fs2j.ImageButton;
-import com.distraction.fs2j.NumberFont;
 import com.distraction.fs2j.TextButton;
+import com.distraction.fs2j.TextFont;
 import com.distraction.fs2j.Utils;
 import com.distraction.fs2j.tilemap.data.Area;
 import com.distraction.fs2j.tilemap.data.GameColor;
@@ -44,12 +45,12 @@ class LevelSelectState extends GameState {
     private final int maxPages;
 
     private final ImageButton[] levels;
+    private final TextFont[] numberFonts;
 
-    private final NumberFont numberFont;
     private final BreathingImage levelSelectedBorder;
     private final TextureRegion levelSelectImage;
-    private final TextButton backButton;
-    private final TextButton audioButton;
+    private final IconButton backButton;
+    private final IconButton audioButton;
     private final OrthographicCamera staticCam;
     private final BreathingImage leftButton;
     private final BreathingImage rightButton;
@@ -74,6 +75,7 @@ class LevelSelectState extends GameState {
         diamondEmpty = context.getImage("leveldiamondemptyicon");
 
         levels = new ImageButton[numLevels];
+        numberFonts = new TextFont[numLevels];
         for (int i = 0; i < levels.length; i++) {
             int page = i / PAGE_SIZE;
             int row = (i % PAGE_SIZE) / NUM_COLS;
@@ -81,9 +83,9 @@ class LevelSelectState extends GameState {
             float x = WIDTH_PADDING + col * CELL_WIDTH + CELL_WIDTH / 2 + Constants.WIDTH * page;
             float y = Constants.HEIGHT - HEIGHT_PADDING - (row * CELL_HEIGHT + CELL_HEIGHT / 2f);
             levels[i] = new ImageButton(context.getImage("levelbutton"), x, y);
+            numberFonts[i] = new TextFont(context, TextFont.FontType.FONT3, Integer.toString(i + 1), true, x, y - 13);
         }
 
-        numberFont = new NumberFont(context, true, NumberFont.NumberSize.LARGE);
         levelSelectedBorder = new BreathingImage(
                 context.getImage("levelselectedborder"),
                 level < 0 ? 0f : levels[level].pos.x,
@@ -91,8 +93,8 @@ class LevelSelectState extends GameState {
                 0, 1f, 0.03f
         );
         levelSelectImage = context.getImage("levelselect");
-        backButton = new TextButton(context.getImage("backicon"), context.getImage("iconbuttonbg"), 25f, Constants.HEIGHT - 25, 5f);
-        audioButton = new TextButton(context.getImage("audioicon"), context.getImage("iconbuttonbg"), 65f, Constants.HEIGHT - 25f, 5f);
+        backButton = new IconButton(context.getImage("backicon"), context.getImage("iconbuttonbg"), 25f, Constants.HEIGHT - 25, 5f);
+        audioButton = new IconButton(context.getImage("audioicon"), context.getImage("iconbuttonbg"), 65f, Constants.HEIGHT - 25f, 5f);
         audioButton.enabled = !context.audioHandler.isMuted();
         staticCam = new OrthographicCamera();
         staticCam.setToOrtho(false, Constants.WIDTH, Constants.HEIGHT);
@@ -190,7 +192,8 @@ class LevelSelectState extends GameState {
             if (backButton.containsPoint(touchPoint)) back();
             if (leftButton.containsPoint(touchPoint)) decrementPage();
             if (rightButton.containsPoint(touchPoint)) incrementPage();
-            if (audioButton.containsPoint(touchPoint)) audioButton.enabled = !context.audioHandler.toggleMute();
+            if (audioButton.containsPoint(touchPoint))
+                audioButton.enabled = !context.audioHandler.toggleMute();
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) goToLevel(level);
@@ -247,8 +250,7 @@ class LevelSelectState extends GameState {
                 int best = context.scoreHandler.getScores(area)[i];
                 it.enabled = best != 0;
                 it.render(sb);
-                numberFont.setNum(i + 1);
-                numberFont.render(sb, it.pos.x, it.pos.y - 5);
+                numberFonts[i].render(sb);
                 if (best == 0) sb.setColor(0.3f, 0.3f, 0.3f, 1);
                 else sb.setColor(1, 1, 1, 1);
                 sb.draw(
