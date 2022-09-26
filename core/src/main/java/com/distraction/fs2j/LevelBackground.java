@@ -15,13 +15,15 @@ import java.util.Map;
 
 public class LevelBackground {
 
-    private static final Map<Area, Color> colorMap = new HashMap<>() {{
-        put(Area.MEADOW, GameColor.SKY_BLUE);
-        put(Area.TUNDRA, GameColor.LIGHT_GRAY_PURPLE);
-        put(Area.RUINS, GameColor.CYAN);
-        put(Area.UNDERSEA, GameColor.SKY_BLUE);
-        put(Area.MATRIX, GameColor.VERY_DARK_GRAY);
-    }};
+    private static final Map<Area, Color> colorMap = new HashMap<>();
+
+    static {
+        colorMap.put(Area.MEADOW, GameColor.SKY_BLUE);
+        colorMap.put(Area.TUNDRA, GameColor.LIGHT_GRAY_PURPLE);
+        colorMap.put(Area.RUINS, GameColor.CYAN);
+        colorMap.put(Area.UNDERSEA, GameColor.SKY_BLUE);
+        colorMap.put(Area.MATRIX, GameColor.VERY_DARK_GRAY);
+    }
 
     private final TextureRegion pixel;
 
