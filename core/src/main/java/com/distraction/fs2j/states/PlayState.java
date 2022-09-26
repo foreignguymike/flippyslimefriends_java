@@ -5,7 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.distraction.fs2j.Background;
+import com.distraction.fs2j.GameBackground;
 import com.distraction.fs2j.ButtonListener;
 import com.distraction.fs2j.Constants;
 import com.distraction.fs2j.Context;
@@ -32,7 +32,7 @@ class PlayState extends GameState implements TileMap.TileListener, Player.MoveLi
     private Player player;
     private final List<Player> sortedPlayers;
 
-    private final Background bg;
+    private final GameBackground bg;
     private final OrthographicCamera bgCam;
 
     private final HUD hud;
@@ -55,7 +55,7 @@ class PlayState extends GameState implements TileMap.TileListener, Player.MoveLi
         setPlayerIndex(0);
         sortedPlayers = new ArrayList<>(players);
 
-        bg = new Background(context, area);
+        bg = new GameBackground(context, area);
         bgCam = new OrthographicCamera();
         bgCam.setToOrtho(false, Constants.WIDTH, Constants.HEIGHT);
 
@@ -67,7 +67,7 @@ class PlayState extends GameState implements TileMap.TileListener, Player.MoveLi
         hud.setGoal(tileMap.mapData.goal);
 
         int[] scores = context.scoreHandler.scores.get(area);
-        if (scores != null) hud.setBest(scores[level]);
+        if (scores != null) hud.setBest(scores[level % 45]);
 
         if (players.size() > 1) player.showSelected(true);
 
@@ -111,7 +111,7 @@ class PlayState extends GameState implements TileMap.TileListener, Player.MoveLi
     private void back() {
         if (!ignoreInput) {
             ignoreInput = true;
-            context.gsm.push(new CheckeredTransitionState(context, area == Area.CHALLENGE ? new ChallengeState(context, level) : new LevelSelectState(context, area, level)));
+            context.gsm.push(new CheckeredTransitionState(context, area == Area.CHALLENGE ? new ChallengeState(context, level) : new LevelSelectV2State(context, level)));
             context.audioHandler.playSound("select", 0.3f);
         }
     }
@@ -127,7 +127,7 @@ class PlayState extends GameState implements TileMap.TileListener, Player.MoveLi
         hud.incrementMoves();
         boolean newRecord = false;
         if (hud.getBest() == 0 || hud.getMoves() < hud.getBest()) {
-            context.scoreHandler.saveScore(area, level, hud.getMoves());
+            context.scoreHandler.saveScore(area, level % 45, hud.getMoves());
             hud.setBest(hud.getMoves());
             newRecord = true;
         }

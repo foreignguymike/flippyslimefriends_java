@@ -65,7 +65,11 @@ public class TileMap implements Tile.TileMoveListener {
         this.tileListener = tileListener;
         this.area = area;
 
-        mapData = context.gameData.getMapData(area).get(level);
+        if (area == Area.CHALLENGE) {
+            mapData = context.gameData.getMapData(Area.CHALLENGE).get(level);
+        } else {
+            mapData = context.gameData.getAllMapData().get(level);
+        }
         startBubble = mapData.startBubble;
 
         numRows = mapData.numRows;

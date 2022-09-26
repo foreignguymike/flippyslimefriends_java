@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.distraction.fs2j.AccessoryIcon;
-import com.distraction.fs2j.Background;
+import com.distraction.fs2j.GameBackground;
 import com.distraction.fs2j.BreathingImage;
 import com.distraction.fs2j.Constants;
 import com.distraction.fs2j.Context;
@@ -32,7 +32,7 @@ public class CustomizeState extends GameState {
 
     private final boolean preview;
 
-    private final Background bg;
+    private final GameBackground bg;
 
     private final TextureRegion pixel;
 
@@ -91,7 +91,7 @@ public class CustomizeState extends GameState {
                 context,
                 tileMap -> {
                 },
-                Area.TUTORIAL,
+                Area.MEADOW,
                 4
         );
         player = new Player(
@@ -115,7 +115,7 @@ public class CustomizeState extends GameState {
         players = new ArrayList<>();
         players.add(player);
 
-        bg = new Background(context, context.getImage("slimebg"), GameColor.PEACH, GameColor.WHITE);
+        bg = new GameBackground(context, context.getImage("slimebg"), GameColor.PEACH, GameColor.WHITE);
         pixel = context.getImage("pixel");
         backButton = new IconButton(context.getImage("backicon"), context.getImage("iconbuttonbg"), 25f, Constants.HEIGHT - 25, 5f);
         audioButton = new IconButton(context.getImage("audioicon"), context.getImage("iconbuttonbg"), 65f, Constants.HEIGHT - 25f, 5f);

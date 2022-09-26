@@ -2,7 +2,6 @@ package com.distraction.fs2j.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -12,7 +11,7 @@ import com.distraction.fs2j.Constants;
 import com.distraction.fs2j.Context;
 import com.distraction.fs2j.IconButton;
 import com.distraction.fs2j.ImageButton;
-import com.distraction.fs2j.TextButton;
+import com.distraction.fs2j.LevelBackground;
 import com.distraction.fs2j.TextFont;
 import com.distraction.fs2j.Utils;
 import com.distraction.fs2j.tilemap.data.Area;
@@ -21,7 +20,7 @@ import com.distraction.fs2j.tilemap.data.MapData;
 
 import java.util.List;
 
-class LevelSelectState extends GameState {
+class LevelSelectV2State extends GameState {
 
     private static final int NUM_ROWS = 3;
     private static final int NUM_COLS = 5;
@@ -32,9 +31,9 @@ class LevelSelectState extends GameState {
     private static final float CELL_WIDTH = (Constants.WIDTH - 2 * WIDTH_PADDING) / NUM_COLS;
     private static final float CELL_HEIGHT = (Constants.HEIGHT - 2 * HEIGHT_PADDING) / NUM_ROWS;
 
-
-    private final Area area;
     private int level;
+    private Area previousArea = Area.MEADOW;
+    private Area currentArea = Area.MEADOW;
 
     private final TextureRegion diamond;
     private final TextureRegion diamondEmpty;
@@ -48,27 +47,35 @@ class LevelSelectState extends GameState {
     private final TextFont[] numberFonts;
 
     private final BreathingImage levelSelectedBorder;
-    private final TextureRegion levelSelectImage;
+    private final TextFont levelSelectText;
     private final IconButton backButton;
     private final IconButton audioButton;
     private final OrthographicCamera staticCam;
     private final BreathingImage leftButton;
     private final BreathingImage rightButton;
-    private final Color color;
 
-    public LevelSelectState(Context context, Area area) {
-        this(context, area, -1);
+    private final LevelBackground[] backgrounds;
+
+    public LevelSelectV2State(Context context) {
+        this(context, 0);
     }
 
-    public LevelSelectState(Context context, Area area, int level) {
+    public LevelSelectV2State(Context context, int level) {
         super(context);
-        this.area = area;
         this.level = level;
-        page = level / PAGE_SIZE;
 
-        levelData = context.gameData.getMapData(area);
-        if (area == Area.TUTORIAL) numLevels = 4;
-        else numLevels = levelData.size();
+        backgrounds = new LevelBackground[Area.values().length];
+        for (int i = 0; i < backgrounds.length; i++) {
+            backgrounds[i] = new LevelBackground(context, Area.values()[i]);
+            backgrounds[i].setAlpha(i == currentArea.ordinal() ? 1f : 0f);
+        }
+
+        page = level / PAGE_SIZE;
+        updateArea(true);
+
+        levelData = context.gameData.getAllMapData();
+        numLevels = levelData.size();
+
         maxPages = MathUtils.ceil(1f * numLevels / PAGE_SIZE);
 
         diamond = context.getImage("leveldiamondicon");
@@ -92,7 +99,7 @@ class LevelSelectState extends GameState {
                 level < 0 ? 0f : levels[level].pos.y,
                 0, 1f, 0.03f
         );
-        levelSelectImage = context.getImage("levelselect");
+        levelSelectText = new TextFont(context, TextFont.FontType.FONT3, "level select", true, Constants.WIDTH / 2f, Constants.HEIGHT - 38f);
         backButton = new IconButton(context.getImage("backicon"), context.getImage("iconbuttonbg"), 25f, Constants.HEIGHT - 25, 5f);
         audioButton = new IconButton(context.getImage("audioicon"), context.getImage("iconbuttonbg"), 65f, Constants.HEIGHT - 25f, 5f);
         audioButton.enabled = !context.audioHandler.isMuted();
@@ -101,7 +108,6 @@ class LevelSelectState extends GameState {
         leftButton = new BreathingImage(context.getImage("areaselectarrow"), 50f, Constants.HEIGHT / 2f, 10f);
         leftButton.flipped = true;
         rightButton = new BreathingImage(context.getImage("areaselectarrow"), Constants.WIDTH - 50f, Constants.HEIGHT / 2f - 5f, 10f);
-        color = area.colorCopy();
 
         camera.position.set(Constants.WIDTH * page + Constants.WIDTH / 2f, Constants.HEIGHT / 2f, 0f);
         camera.update();
@@ -116,6 +122,7 @@ class LevelSelectState extends GameState {
         if (page < maxPages - 1) {
             page++;
             updateNavButtons();
+            updateArea();
         }
     }
 
@@ -123,6 +130,7 @@ class LevelSelectState extends GameState {
         if (page > 0) {
             page--;
             updateNavButtons();
+            updateArea();
         }
     }
 
@@ -132,6 +140,7 @@ class LevelSelectState extends GameState {
             page = level / PAGE_SIZE;
             updateNavButtons();
             updateLevelSelectedBorder();
+            updateArea();
         }
     }
 
@@ -141,6 +150,21 @@ class LevelSelectState extends GameState {
             page = level / PAGE_SIZE;
             updateNavButtons();
             updateLevelSelectedBorder();
+            updateArea();
+        }
+    }
+
+    public void updateArea() {
+        updateArea(false);
+    }
+
+    private void updateArea(boolean force) {
+        Area newArea = Area.values()[page / 3];
+        if (currentArea != newArea || force) {
+            previousArea = currentArea;
+            currentArea = newArea;
+            backgrounds[previousArea.ordinal()].setVisible(false);
+            backgrounds[currentArea.ordinal()].setVisible(true);
         }
     }
 
@@ -158,13 +182,21 @@ class LevelSelectState extends GameState {
         );
     }
 
+    private int getCurrentLevelIndex(int level) {
+        return level % 45;
+    }
+
+    private Area getAreaFromLevel(int level) {
+        return Area.values()[level / 45];
+    }
+
     private float getCamPosition() {
         return Constants.WIDTH * page + Constants.WIDTH / 2f;
     }
 
     private void back() {
         ignoreInput = true;
-        context.gsm.push(new TransitionState(context, new AreaSelectState(context, area.ordinal())));
+        context.gsm.push(new TransitionState(context, new TitleState(context)));
         context.audioHandler.playSound("select", 0.3f);
         context.audioHandler.stopAllMusic();
     }
@@ -174,7 +206,7 @@ class LevelSelectState extends GameState {
             this.level = level;
             updateLevelSelectedBorder();
             ignoreInput = true;
-            context.gsm.push(new CheckeredTransitionState(context, new PlayState(context, area, level)));
+            context.gsm.push(new CheckeredTransitionState(context, new PlayState(context, currentArea, level)));
             context.audioHandler.playSound("select", 0.3f);
         }
     }
@@ -215,19 +247,23 @@ class LevelSelectState extends GameState {
     @Override
     public void update(float dt) {
         if (!ignoreInput) handleInput();
-        camera.position.set(Utils.lerp(camera.position, getCamPosition(), Constants.HEIGHT / 2f, 0f, 8f * dt));
+        camera.position.set(Utils.lerp(camera.position, getCamPosition(), Constants.HEIGHT / 2f, 0f, 6f * dt));
         camera.update();
         levelSelectedBorder.update(dt);
         leftButton.update(dt);
         rightButton.update(dt);
+        for (LevelBackground bg : backgrounds) {
+            bg.update(dt);
+        }
     }
 
     @Override
     public void render(SpriteBatch sb) {
-        Utils.clearScreen(color);
         sb.begin();
         {
             sb.setProjectionMatrix(staticCam.combined);
+            backgrounds[previousArea.ordinal()].render(sb);
+            backgrounds[currentArea.ordinal()].render(sb);
             sb.setColor(GameColor.MIDNIGHT_BLUE);
             sb.draw(pixel, 0f, 0f, Constants.WIDTH, 60f);
             sb.draw(pixel, 0f, Constants.HEIGHT - 60f, Constants.WIDTH, 60f);
@@ -235,19 +271,17 @@ class LevelSelectState extends GameState {
             sb.draw(pixel, 0f, 56f, Constants.WIDTH, 1f);
             sb.draw(pixel, 0f, Constants.HEIGHT - 58f, Constants.WIDTH, 1f);
 
-            sb.draw(
-                    levelSelectImage,
-                    (Constants.WIDTH - levelSelectImage.getRegionWidth()) / 2f,
-                    Constants.HEIGHT - levelSelectImage.getRegionHeight() - 8f
-            );
+            levelSelectText.render(sb);
             backButton.render(sb);
             audioButton.render(sb);
 
             sb.setProjectionMatrix(camera.combined);
-            for (int i = 0; i < levels.length; i++) {
+            int lower = Math.max(page - 2, 0) * 15;
+            int upper = Math.min(page + 3, 3 * 5) * 15;
+            for (int i = lower; i < upper; i++) {
                 ImageButton it = levels[i];
                 sb.setColor(1, 1, 1, 1);
-                int best = context.scoreHandler.getScores(area)[i];
+                int best = context.scoreHandler.getScores(getAreaFromLevel(i))[getCurrentLevelIndex(i)];
                 it.enabled = best != 0;
                 it.render(sb);
                 numberFonts[i].render(sb);

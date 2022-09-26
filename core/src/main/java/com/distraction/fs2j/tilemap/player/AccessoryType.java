@@ -75,8 +75,10 @@ public enum AccessoryType implements Customizer {
     private int diamond = 0;
     private int width = -1;
     private int height = -1;
-    public float xoffset = 0; // for icon
-    public float yoffset = 0; // for icon
+
+    // for icon
+    public float xoffset = 0;
+    public float yoffset = 0;
 
     AccessoryType(String key) {
         this.key = key;

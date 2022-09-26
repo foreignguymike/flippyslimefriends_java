@@ -71,7 +71,6 @@ public class Context {
             List<ILeaderBoardEntry> entries = new ArrayList<>();
             for (ILeaderBoardEntry it : leaderBoard) entries.add(it);
             playerDataHandler.leaderboards.add(entries);
-            System.out.println("added leaderboard entries for beta 1");
             callback.callback();
         });
     }

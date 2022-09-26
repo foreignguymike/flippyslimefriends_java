@@ -9,7 +9,7 @@ import com.distraction.fs2j.tilemap.data.Area;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Background {
+public class GameBackground {
 
     private static final float SPEED = 5f;
     private static final float INTERVAL = SPEED * 2f;
@@ -24,11 +24,11 @@ public class Background {
     private float time2 = 0f;
     private float rot = 0f;
 
-    public Background(Context context, Area area) {
-        this(context, context.getImage(area.bg), area.colorCopy(), area.bgIconColor);
+    public GameBackground(Context context, Area area) {
+        this(context, context.getImage(area.bgIcon), area.color, area.bgIconColor);
     }
 
-    public Background(Context context, TextureRegion image, Color color, Color bgIconColor) {
+    public GameBackground(Context context, TextureRegion image, Color color, Color bgIconColor) {
         pixel = context.getImage("pixel");
         this.image = image;
         this.color = color;

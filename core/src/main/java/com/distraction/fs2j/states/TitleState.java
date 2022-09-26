@@ -47,9 +47,9 @@ public class TitleState extends GameState {
         context.audioHandler.stopAllMusic();
     }
 
-    private void goToAreaSelect() {
+    private void goToLevelSelect() {
         ignoreInput = true;
-        context.gsm.push(new CheckeredTransitionState(context, new AreaSelectState(context)));
+        context.gsm.push(new CheckeredTransitionState(context, new LevelSelectV2State(context)));
         context.audioHandler.playSound("select", 0.3f);
     }
 
@@ -75,13 +75,13 @@ public class TitleState extends GameState {
                 }
             } else unlockCount = 0;
 
-            if (playButton.containsPoint(touchPoint)) goToAreaSelect();
+            if (playButton.containsPoint(touchPoint)) goToLevelSelect();
             if (customizeButton.containsPoint(touchPoint)) goToCustomize(false);
             if (challengeButton.containsPoint(touchPoint)) goToChallenge();
             if (audioButton.containsPoint(touchPoint))
                 audioButton.enabled = !context.audioHandler.toggleMute();
         }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) goToAreaSelect();
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) goToLevelSelect();
         if (Gdx.input.isKeyJustPressed(Input.Keys.N)) {
             ignoreInput = true;
             context.gsm.push(new NameState(context, this));
