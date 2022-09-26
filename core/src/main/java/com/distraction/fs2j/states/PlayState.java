@@ -1,5 +1,6 @@
 package com.distraction.fs2j.states;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -72,7 +73,8 @@ class PlayState extends GameState implements TileMap.TileListener, Player.MoveLi
         if (players.size() > 1) player.showSelected(true);
 
         if (area == Area.RUINS) context.audioHandler.playMusic("mystery", 0.5f, true);
-        else if (area == Area.TUNDRA) context.audioHandler.playMusic("calm", 0.5f, true, 10.7f);
+        else if (area == Area.TUNDRA) context.audioHandler.playMusic("calm", 0.5f, true,
+                Gdx.app.getType() == Application.ApplicationType.WebGL ? -1 : 10.7f);
     }
 
     private void setPlayerIndex(int playerIndex) {
@@ -122,11 +124,10 @@ class PlayState extends GameState implements TileMap.TileListener, Player.MoveLi
         ignoreInput = true;
         hud.hideInfo = true;
         hud.incrementMoves();
-        boolean newRecord = false;
+        int previousBest = hud.getBest();
         if (hud.getBest() == 0 || hud.getMoves() < hud.getBest()) {
             context.scoreHandler.saveScore(area, level % 45, hud.getMoves());
             hud.setBest(hud.getMoves());
-            newRecord = true;
         }
         context.gsm.push(
                 area == Area.CHALLENGE ?
@@ -135,7 +136,7 @@ class PlayState extends GameState implements TileMap.TileListener, Player.MoveLi
                                 level,
                                 hud.getMoves(),
                                 hud.getBest(),
-                                newRecord
+                                previousBest
                         ) :
                         new LevelFinishState(
                                 context,
@@ -144,7 +145,7 @@ class PlayState extends GameState implements TileMap.TileListener, Player.MoveLi
                                 hud.getMoves(),
                                 hud.getBest(),
                                 hud.getGoal(),
-                                newRecord
+                                previousBest
                         )
         );
     }

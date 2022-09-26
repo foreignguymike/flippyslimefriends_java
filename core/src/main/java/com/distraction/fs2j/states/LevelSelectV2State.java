@@ -55,6 +55,8 @@ class LevelSelectV2State extends GameState {
     private final BreathingImage rightButton;
 
     private final LevelBackground[] backgrounds;
+    private final TextFont[] areaNames;
+    private final OrthographicCamera areaNamesCam;
 
     public LevelSelectV2State(Context context) {
         this(context, 0);
@@ -64,14 +66,23 @@ class LevelSelectV2State extends GameState {
         super(context);
         this.level = level;
 
-        backgrounds = new LevelBackground[Area.values().length];
+        Area[] areas = Area.values();
+        backgrounds = new LevelBackground[areas.length];
         for (int i = 0; i < backgrounds.length; i++) {
             backgrounds[i] = new LevelBackground(context, Area.values()[i]);
             backgrounds[i].setAlpha(i == currentArea.ordinal() ? 1f : 0f);
         }
+        areaNames = new TextFont[areas.length];
+        for (int i = 0; i < areaNames.length; i++) {
+            areaNames[i] = new TextFont(context, TextFont.FontType.BIG, areas[i].text, true, Constants.WIDTH / 2f + Constants.WIDTH * i, 23f);
+        }
+        areaNamesCam = new OrthographicCamera();
+        areaNamesCam.setToOrtho(false, Constants.WIDTH, Constants.HEIGHT);
 
         page = level / PAGE_SIZE;
         updateArea(true);
+        areaNamesCam.position.set(getAreaNamesCamPosition(), Constants.HEIGHT / 2f, 0f);
+        areaNamesCam.update();
 
         levelData = context.gameData.getAllMapData();
         numLevels = levelData.size();
@@ -194,6 +205,10 @@ class LevelSelectV2State extends GameState {
         return Constants.WIDTH * page + Constants.WIDTH / 2f;
     }
 
+    private float getAreaNamesCamPosition() {
+        return Constants.WIDTH * (int ) (page / 3) + Constants.WIDTH / 2f;
+    }
+
     private void back() {
         ignoreInput = true;
         context.gsm.push(new TransitionState(context, new TitleState(context)));
@@ -247,8 +262,13 @@ class LevelSelectV2State extends GameState {
     @Override
     public void update(float dt) {
         if (!ignoreInput) handleInput();
+
         camera.position.set(Utils.lerp(camera.position, getCamPosition(), Constants.HEIGHT / 2f, 0f, 6f * dt));
         camera.update();
+
+        areaNamesCam.position.set(Utils.lerp(areaNamesCam.position, getAreaNamesCamPosition(), Constants.HEIGHT / 2f, 0f, 6f * dt));
+        areaNamesCam.update();
+
         levelSelectedBorder.update(dt);
         leftButton.update(dt);
         rightButton.update(dt);
@@ -294,9 +314,15 @@ class LevelSelectV2State extends GameState {
                 );
                 if (level == i) levelSelectedBorder.render(sb);
             }
+
             sb.setProjectionMatrix(staticCam.combined);
             leftButton.render(sb);
             rightButton.render(sb);
+
+            sb.setProjectionMatrix(areaNamesCam.combined);
+            for (TextFont textFont : areaNames) {
+                textFont.render(sb);
+            }
         }
         sb.end();
     }

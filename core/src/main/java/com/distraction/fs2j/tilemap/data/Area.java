@@ -2,6 +2,9 @@ package com.distraction.fs2j.tilemap.data;
 
 import com.badlogic.gdx.graphics.Color;
 
+import java.util.Arrays;
+import java.util.List;
+
 public enum Area {
 
     //    TUTORIAL("tutorial", GameColor.SKY_BLUE, "bgs", GameColor.WHITE, "tiletutorial", "tiletutorial"),
@@ -29,5 +32,9 @@ public enum Area {
         this.bgIconColor = bgIconColor;
         this.tilesetOn = tilesetOn;
         this.tilesetOff = tilesetOff;
+    }
+
+    public static List<Area> getNormalAreas() {
+        return Arrays.asList(MEADOW, TUNDRA, RUINS, UNDERSEA, MATRIX);
     }
 }

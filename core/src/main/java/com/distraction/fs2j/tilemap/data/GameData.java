@@ -45,7 +45,7 @@ public class GameData {
         list.addAll(mapData.get(Area.TUNDRA));
         list.addAll(mapData.get(Area.RUINS));
         list.addAll(mapData.get(Area.UNDERSEA));
-        list.addAll(mapData.get(Area.MEADOW));
+        list.addAll(mapData.get(Area.MATRIX));
         return list;
     }
 

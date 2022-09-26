@@ -25,7 +25,6 @@ class LevelFinishState extends GameState {
     private final int level;
     private final int moves;
     private final int goal;
-    private final boolean newRecord;
 
     private final Color dimColor = new Color(0, 0, 0, 0);
     private final OrthographicCamera staticCam;
@@ -43,9 +42,7 @@ class LevelFinishState extends GameState {
     private final SpinningLights lights;
     private final SpinningLights diamondLights;
 
-    private final TextFont newRecordText;
-    private final TextFont completeText;
-    private final TextFont perfectText;
+    private final TextFont finishText;
     private final TextFont bestLabel;
     private final TextFont goalLabel;
     private final TextFont movesLabel;
@@ -54,13 +51,15 @@ class LevelFinishState extends GameState {
     private final IconButton restartButton;
     private final TextButton nextButton;
 
-    public LevelFinishState(Context context, Area area, int level, int moves, int best, int goal, boolean newRecord) {
+    private final InfoBox newAccessoryBox;
+    private final TextFont newAccessoryText;
+
+    public LevelFinishState(Context context, Area area, int level, int moves, int best, int goal, int previousBest) {
         super(context);
         this.area = area;
         this.level = level;
         this.moves = moves;
         this.goal = goal;
-        this.newRecord = newRecord;
 
         staticCam = new OrthographicCamera();
         staticCam.setToOrtho(false, Constants.WIDTH, Constants.HEIGHT);
@@ -85,9 +84,9 @@ class LevelFinishState extends GameState {
         lights = new SpinningLights(context, star.pos.x, star.pos.y, 5);
         diamondLights = new SpinningLights(context, diamond.pos.x, diamond.pos.y, 5, 0.5f);
 
-        completeText = new TextFont(context, TextFont.FontType.NORMAL, "complete!", true, Constants.WIDTH / 2f, Constants.HEIGHT - 50f);
-        newRecordText = new TextFont(context, TextFont.FontType.NORMAL, "new record!", true, Constants.WIDTH / 2f, Constants.HEIGHT - 50f);
-        perfectText = new TextFont(context, TextFont.FontType.NORMAL, "perfect!", true, Constants.WIDTH / 2f, Constants.HEIGHT - 50f);
+        String text = moves <= goal ? "perfect!" : "complete!";
+        if (best < previousBest || previousBest == 0) text += " new record!";
+        finishText = new TextFont(context, TextFont.FontType.NORMAL, text, true, Constants.WIDTH / 2f, Constants.HEIGHT - 50f);
         bestLabel = new TextFont(context, TextFont.FontType.NORMAL, "best " + best, true, Constants.WIDTH / 2f - 60f, Constants.HEIGHT / 2f - infoBox.height / 2 + 64f);
         goalLabel = new TextFont(context, TextFont.FontType.NORMAL, "goal " + goal, true, Constants.WIDTH / 2f + 10, Constants.HEIGHT / 2f - infoBox.height / 2 + 54f);
         movesLabel = new TextFont(context, TextFont.FontType.NORMAL, "moves " + moves, true, Constants.WIDTH / 2f + 10f, Constants.HEIGHT / 2f - infoBox.height / 2 + 74f);
@@ -117,6 +116,17 @@ class LevelFinishState extends GameState {
         context.gsm.depth++;
         camera.position.y = 2f * Constants.HEIGHT;
         camera.update();
+
+        // just earned diamond
+        if (moves <= goal && (previousBest == 0 || previousBest > goal) && context.playerDataHandler.accessoryUnlockAt(context.scoreHandler.getNumDiamonds())) {
+            newAccessoryText = new TextFont(context, TextFont.FontType.NORMAL, "new accessory!", false, 0, 0);
+            float w = newAccessoryText.getTotalWidth();
+            newAccessoryText.setPosition(Constants.WIDTH - w - 10, Constants.HEIGHT - 80);
+            newAccessoryBox = new InfoBox(context, Constants.WIDTH - w / 2f - 10, Constants.HEIGHT - 74, w + 30f, 30);
+        } else {
+            newAccessoryBox = null;
+            newAccessoryText = null;
+        }
     }
 
     private void goToNextLevel() {
@@ -202,18 +212,16 @@ class LevelFinishState extends GameState {
                     diamondLights.render(sb);
                 }
                 diamond.render(sb);
+                if (newAccessoryBox != null) {
+                    newAccessoryBox.render(sb);
+                    newAccessoryText.render(sb);
+                }
             }
             if (star.scale < 2) {
                 lights.render(sb);
             }
             star.render(sb);
-            if (newRecord) {
-                newRecordText.render(sb);
-            } else if (moves <= goal) {
-                perfectText.render(sb);
-            } else {
-                completeText.render(sb);
-            }
+            finishText.render(sb);
             goalLabel.render(sb);
             bestLabel.render(sb);
             movesLabel.render(sb);

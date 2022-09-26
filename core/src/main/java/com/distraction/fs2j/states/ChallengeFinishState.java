@@ -18,7 +18,6 @@ public class ChallengeFinishState extends GameState {
 
     private final int level;
     private final int moves;
-    private final boolean newRecord;
 
     private float alpha;
     private final OrthographicCamera staticCam;
@@ -38,11 +37,10 @@ public class ChallengeFinishState extends GameState {
     private final TextFont warning;
     private final TextFont warning2;
 
-    public ChallengeFinishState(Context context, int level, int moves, int best, boolean newRecord) {
+    public ChallengeFinishState(Context context, int level, int moves, int best, int previousBest) {
         super(context);
         this.level = level;
         this.moves = moves;
-        this.newRecord = newRecord;
 
         pixel = context.getImage("pixel");
 
@@ -61,7 +59,7 @@ public class ChallengeFinishState extends GameState {
         camera.update();
 
         title = new TextFont(context, TextFont.FontType.BIG, "level " + (level + 1), true, Constants.WIDTH / 2f, Constants.HEIGHT / 2f + infoBox.height / 2f - 28);
-        newRecordText = new TextFont(context, TextFont.FontType.NORMAL, "new record!", true, Constants.WIDTH / 2f, Constants.HEIGHT / 2f + infoBox.height / 2f - 48f);
+        newRecordText = best < previousBest ? new TextFont(context, TextFont.FontType.NORMAL, "new record!", true, Constants.WIDTH / 2f, Constants.HEIGHT / 2f + infoBox.height / 2f - 48f) : null;
         bestLabel = new TextFont(context, TextFont.FontType.NORMAL, "best " + best, true, Constants.WIDTH / 2f + 50, Constants.HEIGHT / 2f + infoBox.height / 2 - 72f);
         movesLabel = new TextFont(context, TextFont.FontType.NORMAL, "moves " + moves, true, Constants.WIDTH / 2f - 50, Constants.HEIGHT / 2f + infoBox.height / 2 - 72f);
 
@@ -157,7 +155,7 @@ public class ChallengeFinishState extends GameState {
             sb.setColor(1, 1, 1, 1);
             infoBox.render(sb);
             title.render(sb);
-            if (newRecord) {
+            if (newRecordText != null) {
                 newRecordText.render(sb);
             }
             movesLabel.render(sb);

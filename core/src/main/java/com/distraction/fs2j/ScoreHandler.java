@@ -56,7 +56,7 @@ public class ScoreHandler {
     public int getNumDiamonds() {
         if (Constants.DEBUG_MODE) return 1000;
         int count = 0;
-        for (Area area : Area.values()) {
+        for (Area area : Area.getNormalAreas()) {
             int[] areaScores = getScores(area);
             for (int i = 0; i < areaScores.length; i++) {
                 int areaScore = areaScores[i];

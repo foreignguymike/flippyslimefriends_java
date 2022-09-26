@@ -152,4 +152,23 @@ public class PlayerDataHandler {
             custom[i] = AccessoryType.valueOf(parse[i]).ordinal();
         return custom;
     }
+
+    public boolean accessoryUnlockAt(int numDiamonds) {
+        for (int i = 0; i < Skin.values().length; i++) {
+            if (Skin.values()[i].getDiamonds() == numDiamonds) {
+                return true;
+            }
+        }
+        for (int i = 0; i < Face.values().length; i++) {
+            if (Face.values()[i].getDiamonds() == numDiamonds) {
+                return true;
+            }
+        }
+        for (int i = 0; i < AccessoryType.values().length; i++) {
+            if (AccessoryType.values()[i].getDiamonds() == numDiamonds) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
