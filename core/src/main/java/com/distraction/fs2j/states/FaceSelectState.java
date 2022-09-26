@@ -34,12 +34,10 @@ public class FaceSelectState extends GameState {
     private final ImageButton diamond;
     private final TextFont diamondFont;
 
-    protected FaceSelectState(Context context, CustomizeState customizeState, Face replacing) {
+    protected FaceSelectState(Context context, CustomizeState customizeState, Face replacing, int numDiamonds) {
         super(context);
         this.customizeState = customizeState;
         selectedBorder = new BreathingImage(context.getImage("levelselectedborder"), -100, -100, 0, 1f, 0.03f);
-
-        int numDiamonds = context.scoreHandler.getNumDiamonds();
 
         pixel = context.getImage("pixel");
 

@@ -43,6 +43,8 @@ public class CustomizeState extends GameState {
     private final TextFont faceText;
     private final TextFont accessoriesText;
 
+    private final int numDiamonds;
+
     private final AccessoryIcon faceIcon;
     private final AccessoryIcon skinIcon;
     private final AccessoryIcon[] accessoryIcons;
@@ -78,7 +80,6 @@ public class CustomizeState extends GameState {
         this.preview = preview;
 
         int numStars;
-        int numDiamonds;
         if (preview) {
             numStars = 1000;
             numDiamonds = 1000;
@@ -197,20 +198,20 @@ public class CustomizeState extends GameState {
 
     private void openSkinSelect() {
         ignoreInput = true;
-        context.gsm.push(new SkinSelectState(context, this, skin));
+        context.gsm.push(new SkinSelectState(context, this, skin, numDiamonds));
         context.gsm.depth++;
     }
 
     private void openFaceSelect() {
         ignoreInput = true;
-        context.gsm.push(new FaceSelectState(context, this, face));
+        context.gsm.push(new FaceSelectState(context, this, face, numDiamonds));
         context.gsm.depth++;
     }
 
     private void openAccessorySelect(int index) {
         setSelectedIndex(index);
         ignoreInput = true;
-        context.gsm.push(new AccessorySelectState(context, this, index, accessoryTypes[index], accessoryTypes));
+        context.gsm.push(new AccessorySelectState(context, this, index, accessoryTypes[index], accessoryTypes, numDiamonds));
         context.gsm.depth++;
     }
 

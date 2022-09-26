@@ -86,10 +86,10 @@ class LevelFinishState extends GameState {
 
         String text = moves <= goal ? "perfect!" : "complete!";
         if (best < previousBest || previousBest == 0) text += " new record!";
-        finishText = new TextFont(context, TextFont.FontType.NORMAL, text, true, Constants.WIDTH / 2f, Constants.HEIGHT - 50f);
-        bestLabel = new TextFont(context, TextFont.FontType.NORMAL, "best " + best, true, Constants.WIDTH / 2f - 60f, Constants.HEIGHT / 2f - infoBox.height / 2 + 64f);
-        goalLabel = new TextFont(context, TextFont.FontType.NORMAL, "goal " + goal, true, Constants.WIDTH / 2f + 10, Constants.HEIGHT / 2f - infoBox.height / 2 + 54f);
-        movesLabel = new TextFont(context, TextFont.FontType.NORMAL, "moves " + moves, true, Constants.WIDTH / 2f + 10f, Constants.HEIGHT / 2f - infoBox.height / 2 + 74f);
+        finishText = new TextFont(context, TextFont.FontType.NORMAL2, text, true, Constants.WIDTH / 2f, Constants.HEIGHT - 50f);
+        bestLabel = new TextFont(context, TextFont.FontType.NORMAL2, "best " + best, true, Constants.WIDTH / 2f - 60f, Constants.HEIGHT / 2f - infoBox.height / 2 + 64f);
+        goalLabel = new TextFont(context, TextFont.FontType.NORMAL2, "goal " + goal, true, Constants.WIDTH / 2f + 10, Constants.HEIGHT / 2f - infoBox.height / 2 + 54f);
+        movesLabel = new TextFont(context, TextFont.FontType.NORMAL2, "moves " + moves, true, Constants.WIDTH / 2f + 10f, Constants.HEIGHT / 2f - infoBox.height / 2 + 74f);
         backButton = new IconButton(
                 context.getImage("backicon"),
                 context.getImage("iconbuttonbg"),
@@ -119,7 +119,7 @@ class LevelFinishState extends GameState {
 
         // just earned diamond
         if (moves <= goal && (previousBest == 0 || previousBest > goal) && context.playerDataHandler.accessoryUnlockAt(context.scoreHandler.getNumDiamonds())) {
-            newAccessoryText = new TextFont(context, TextFont.FontType.NORMAL, "new accessory!", false, 0, 0);
+            newAccessoryText = new TextFont(context, TextFont.FontType.NORMAL2, "new accessory!", false, 0, 0);
             float w = newAccessoryText.getTotalWidth();
             newAccessoryText.setPosition(Constants.WIDTH - w - 10, Constants.HEIGHT - 80);
             newAccessoryBox = new InfoBox(context, Constants.WIDTH - w / 2f - 10, Constants.HEIGHT - 74, w + 30f, 30);

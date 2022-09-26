@@ -34,12 +34,10 @@ public class SkinSelectState extends GameState {
     private final ImageButton diamond;
     private final TextFont diamondFont;
 
-    protected SkinSelectState(Context context, CustomizeState customizeState, Skin replacing) {
+    protected SkinSelectState(Context context, CustomizeState customizeState, Skin replacing, int numDiamonds) {
         super(context);
         this.customizeState = customizeState;
         selectedBorder = new BreathingImage(context.getImage("levelselectedborder"), -100, -100, 0, 1f, 0.03f);
-
-        int numDiamonds = context.scoreHandler.getNumDiamonds();
 
         pixel = context.getImage("pixel");
 

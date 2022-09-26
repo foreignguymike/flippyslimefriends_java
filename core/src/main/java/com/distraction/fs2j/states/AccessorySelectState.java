@@ -37,14 +37,12 @@ class AccessorySelectState extends GameState {
     private final ImageButton diamond;
     private final TextFont diamondFont;
 
-    protected AccessorySelectState(Context context, CustomizeState customizeState, int accessoryIndex, AccessoryType replacing, AccessoryType[] alreadySelected) {
+    protected AccessorySelectState(Context context, CustomizeState customizeState, int accessoryIndex, AccessoryType replacing, AccessoryType[] alreadySelected, int numDiamonds) {
         super(context);
         this.customizeState = customizeState;
         this.accessoryIndex = accessoryIndex;
         this.accessoryTypes = AccessoryType.values();
         selectedBorder = new BreathingImage(context.getImage("levelselectedborder"), -100, -100, 0, 1f, 0.03f);
-
-        int numDiamonds = context.scoreHandler.getNumDiamonds();
 
         pixel = context.getImage("pixel");
 

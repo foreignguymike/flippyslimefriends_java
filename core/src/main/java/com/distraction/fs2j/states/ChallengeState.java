@@ -81,7 +81,7 @@ public class ChallengeState extends GameState {
             levelTitles[i] = new TextFont(context, TextFont.FontType.BIG, "level " + (i + 1), true, -15, -Constants.HEIGHT + Constants.HEIGHT / 8f + 12);
             int score = context.scoreHandler.getScores(Area.CHALLENGE)[i];
             if (score == 0) score = -1;
-            bestMoves[i] = new TextFont(context, TextFont.FontType.NORMAL, "best " + score, true, -15, -Constants.HEIGHT + Constants.HEIGHT / 8f - 9);
+            bestMoves[i] = new TextFont(context, TextFont.FontType.NORMAL2, "best " + score, true, -15, -Constants.HEIGHT + Constants.HEIGHT / 8f - 9);
             playButtons[i] = new IconButton(context.getImage("play"), context.getImage("buttonbgsmall"), 90, -Constants.HEIGHT + Constants.HEIGHT / 8f + 13, 5);
             cameras[i] = new OrthographicCamera();
             cameras[i].setToOrtho(false, Constants.WIDTH, Constants.HEIGHT);

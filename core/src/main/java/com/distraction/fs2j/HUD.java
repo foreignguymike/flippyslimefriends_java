@@ -70,9 +70,9 @@ public class HUD {
         audioButton.enabled = !context.audioHandler.isMuted();
 
         labels = new TextFont[]{
-                new TextFont(context, TextFont.FontType.NORMAL, "goal 0", false, Constants.WIDTH - 70f, Constants.HEIGHT - 22f),
-                new TextFont(context, TextFont.FontType.NORMAL, "best 0", false, Constants.WIDTH - 70f, Constants.HEIGHT - 42f + (area == Area.CHALLENGE ? 12 : 0)),
-                new TextFont(context, TextFont.FontType.NORMAL, "moves 0", false, Constants.WIDTH - 150f, Constants.HEIGHT - 42f + (area == Area.CHALLENGE ? 12 : 0)),
+                new TextFont(context, TextFont.FontType.NORMAL2, "goal 0", false, Constants.WIDTH - 70f, Constants.HEIGHT - 22f),
+                new TextFont(context, TextFont.FontType.NORMAL2, "best 0", false, Constants.WIDTH - 70f, Constants.HEIGHT - 42f + (area == Area.CHALLENGE ? 12 : 0)),
+                new TextFont(context, TextFont.FontType.NORMAL2, "moves 0", false, Constants.WIDTH - 150f, Constants.HEIGHT - 42f + (area == Area.CHALLENGE ? 12 : 0)),
                 new TextFont(context, TextFont.FontType.BIG, "level " + (level + 1), false, 170f, Constants.HEIGHT - HEIGHT / 2f - 8),
         };
     }
