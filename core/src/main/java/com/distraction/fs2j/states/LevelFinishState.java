@@ -132,7 +132,7 @@ class LevelFinishState extends GameState {
     private void goToNextLevel() {
         if (level < context.gameData.getAllMapData().size() - 1) {
             ignoreInput = true;
-            context.gsm.push(new CheckeredTransitionState(context, new PlayState(context, area, level + 1), 2));
+            context.gsm.push(new CheckeredTransitionState(context, new PlayState(context, Area.values()[(level + 1) / 45], level + 1), 2));
             context.audioHandler.playSound("select", 0.3f);
         }
     }

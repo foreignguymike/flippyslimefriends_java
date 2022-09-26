@@ -66,7 +66,7 @@ public class AudioHandler {
             stopMusic();
         }
         currentlyPlaying = new MusicConfig(music.get(key), volume, looping, start);
-        currentlyPlaying.play();
+        if (!muted) currentlyPlaying.play();
     }
 
     public void stopMusic() {

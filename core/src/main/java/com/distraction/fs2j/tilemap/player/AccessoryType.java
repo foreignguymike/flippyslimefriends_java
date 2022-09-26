@@ -25,11 +25,11 @@ import java.util.List;
 public enum AccessoryType implements Customizer {
 
     HEAD_BUBBLE("headbubble"),
-    HEADBAND_WHITE("headbandwhite", 10, 30, 10),
-    HEADBAND_BLUE("headbandblue", 10, 30, 10),
-    HEADBAND_GREEN("headbandgreen", 10, 30, 10),
+    HEADBAND_WHITE("headbandwhite", 3, 30, 10),
+    HEADBAND_BLUE("headbandblue", 5, 30, 10),
+    HEADBAND_GREEN("headbandgreen", 7, 30, 10),
     HEADBAND_RED("headbandred", 10, 30, 10),
-    SANTA_HAT("santahat", 20, 27, 20),
+    SANTA_HAT("santahat", 15, 27, 20),
     HEADBAND_ORANGE("headbandorange", 25, 30, 10),
     WIZARD_HAT("wizardhat", 30),
     HEADBAND_YELLOW("headbandyellow", 35, 30, 10),
@@ -37,8 +37,8 @@ public enum AccessoryType implements Customizer {
     DOG_EARS("dogears", 50, 10, 10),
     HEADBAND_BLACK("headbandblack", 50, 30, 10),
     BAMBOO_HAT("bamboohat", 50),
-    WOOD_STAFF("woodstaff", 65),
     CAT_EARS("catears", 60, 9, 10),
+    WOOD_STAFF("woodstaff", 65),
     CROWN("crown", 70, 13, 11),
     HALO("halo", 75),
     BAMBOO_HAT_GREEN("bamboohatgreen", 75),
@@ -70,6 +70,18 @@ public enum AccessoryType implements Customizer {
     private static final AccessoryType[] wieldable = new AccessoryType[]{
             WOOD_STAFF, CANDY_CANE, WAND
     };
+
+    static {
+        // sanity check
+        AccessoryType[] accs = AccessoryType.values();
+        int diamondCount = 0;
+        for (int i = 0; i < accs.length; i++) {
+            if (diamondCount > accs[i].getDiamonds()) {
+                throw new IllegalStateException(accs[i] + " is in wrong spot");
+            }
+            diamondCount = accs[i].getDiamonds();
+        }
+    }
 
     public String key;
     private int diamond = 0;
