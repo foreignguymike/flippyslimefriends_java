@@ -60,10 +60,10 @@ public class ChallengeFinishState extends GameState {
         camera.position.y = Constants.HEIGHT * 2;
         camera.update();
 
-        title = new TextFont(context, TextFont.FontType.FONT3, "level " + (level + 1), true, Constants.WIDTH / 2f, Constants.HEIGHT / 2f + infoBox.height / 2f - 28);
-        newRecordText = new TextFont(context, TextFont.FontType.FONT2, "new record!", true, Constants.WIDTH / 2f, Constants.HEIGHT / 2f + infoBox.height / 2f - 48f);
-        bestLabel = new TextFont(context, TextFont.FontType.FONT2, "best " + best, true, Constants.WIDTH / 2f + 50, Constants.HEIGHT / 2f + infoBox.height / 2 - 72f);
-        movesLabel = new TextFont(context, TextFont.FontType.FONT2, "moves " + moves, true, Constants.WIDTH / 2f - 50, Constants.HEIGHT / 2f + infoBox.height / 2 - 72f);
+        title = new TextFont(context, TextFont.FontType.BIG, "level " + (level + 1), true, Constants.WIDTH / 2f, Constants.HEIGHT / 2f + infoBox.height / 2f - 28);
+        newRecordText = new TextFont(context, TextFont.FontType.NORMAL, "new record!", true, Constants.WIDTH / 2f, Constants.HEIGHT / 2f + infoBox.height / 2f - 48f);
+        bestLabel = new TextFont(context, TextFont.FontType.NORMAL, "best " + best, true, Constants.WIDTH / 2f + 50, Constants.HEIGHT / 2f + infoBox.height / 2 - 72f);
+        movesLabel = new TextFont(context, TextFont.FontType.NORMAL, "moves " + moves, true, Constants.WIDTH / 2f - 50, Constants.HEIGHT / 2f + infoBox.height / 2 - 72f);
 
         nameFont = new TextFont(
                 context,

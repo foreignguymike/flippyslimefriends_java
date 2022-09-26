@@ -61,7 +61,7 @@ public class Placement {
 
         scoreFont = new TextFont(
                 context,
-                TextFont.FontType.FONT3,
+                TextFont.FontType.BIG,
                 "",
                 false,
                 x + totalOffset + (rank <= 3 ? Player.SPRITE_WIDTH / 2f + 30 : -10),

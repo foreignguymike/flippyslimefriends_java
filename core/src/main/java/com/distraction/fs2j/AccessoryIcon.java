@@ -33,8 +33,8 @@ public class AccessoryIcon extends ImageButton {
         this.numDiamonds = numDiamonds;
         star = context.getImage("starunlock");
         diamond = context.getImage("diamondunlock");
-        starFont = new TextFont(context, TextFont.FontType.FONT1, "", true, pos.x, pos.y - 12);
-        diamondFont = new TextFont(context, TextFont.FontType.FONT1, "", true, pos.x, pos.y - 11);
+        starFont = new TextFont(context, TextFont.FontType.SMALL, "", true, pos.x, pos.y - 12);
+        diamondFont = new TextFont(context, TextFont.FontType.SMALL, "", true, pos.x, pos.y - 11);
         setType(type);
         if (type != null) {
             diamondFont.setText(Integer.toString(type.getDiamonds()));

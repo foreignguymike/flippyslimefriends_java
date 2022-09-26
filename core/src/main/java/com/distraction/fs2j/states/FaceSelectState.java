@@ -80,7 +80,7 @@ public class FaceSelectState extends GameState {
 
         infoBox = new InfoBox(context, Constants.WIDTH / 2f, Constants.HEIGHT / 2f, tw + 40, th + 55);
         diamond = new ImageButton(context.getImage("diamondunlock"));
-        diamondFont = new TextFont(context, TextFont.FontType.FONT3, Integer.toString(numDiamonds), false, 0, 0);
+        diamondFont = new TextFont(context, TextFont.FontType.BIG, Integer.toString(numDiamonds), false, 0, 0);
         diamond.setPosition((Constants.WIDTH - diamondFont.getTotalWidth()) / 2f - 3, infoBox.pos.y + infoBox.height / 2 - 20);
         diamondFont.setPosition(diamond.pos.x + diamond.width / 2 + 6, diamond.pos.y - 8);
     }

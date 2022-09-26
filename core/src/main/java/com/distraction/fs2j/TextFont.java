@@ -12,9 +12,9 @@ public class TextFont {
 
     public enum FontType {
         TINY("font0"),
-        FONT1("font1"),
-        FONT2("font2"),
-        FONT3("font3");
+        SMALL("font1"),
+        NORMAL("font2"),
+        BIG("font3");
 
         private final String name;
 
@@ -37,7 +37,7 @@ public class TextFont {
     }
 
     public TextFont(Context context, String text, boolean centered, float x, float y) {
-        this(context, FontType.FONT1, text, centered, x, y);
+        this(context, FontType.SMALL, text, centered, x, y);
     }
 
     public TextFont(Context context, FontType fontType, String text, boolean centered, float x, float y) {

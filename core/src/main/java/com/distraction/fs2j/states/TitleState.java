@@ -44,7 +44,7 @@ public class TitleState extends GameState {
         build = new TextFont(context, TextFont.FontType.TINY, Constants.VERSION, false, 0, 0);
         build.setPosition(Constants.WIDTH - build.getTotalWidth() - 1, 1);
 
-        context.audioHandler.stopAllMusic();
+        context.audioHandler.stopMusic();
     }
 
     private void goToLevelSelect() {

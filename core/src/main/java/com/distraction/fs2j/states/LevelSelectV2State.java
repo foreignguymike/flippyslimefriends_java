@@ -90,7 +90,7 @@ class LevelSelectV2State extends GameState {
             float x = WIDTH_PADDING + col * CELL_WIDTH + CELL_WIDTH / 2 + Constants.WIDTH * page;
             float y = Constants.HEIGHT - HEIGHT_PADDING - (row * CELL_HEIGHT + CELL_HEIGHT / 2f);
             levels[i] = new ImageButton(context.getImage("levelbutton"), x, y);
-            numberFonts[i] = new TextFont(context, TextFont.FontType.FONT3, Integer.toString(i + 1), true, x, y - 13);
+            numberFonts[i] = new TextFont(context, TextFont.FontType.BIG, Integer.toString(i + 1), true, x, y - 13);
         }
 
         levelSelectedBorder = new BreathingImage(
@@ -99,7 +99,7 @@ class LevelSelectV2State extends GameState {
                 level < 0 ? 0f : levels[level].pos.y,
                 0, 1f, 0.03f
         );
-        levelSelectText = new TextFont(context, TextFont.FontType.FONT3, "level select", true, Constants.WIDTH / 2f, Constants.HEIGHT - 38f);
+        levelSelectText = new TextFont(context, TextFont.FontType.BIG, "level select", true, Constants.WIDTH / 2f, Constants.HEIGHT - 38f);
         backButton = new IconButton(context.getImage("backicon"), context.getImage("iconbuttonbg"), 25f, Constants.HEIGHT - 25, 5f);
         audioButton = new IconButton(context.getImage("audioicon"), context.getImage("iconbuttonbg"), 65f, Constants.HEIGHT - 25f, 5f);
         audioButton.enabled = !context.audioHandler.isMuted();
@@ -115,7 +115,7 @@ class LevelSelectV2State extends GameState {
         rightButton.setPosition(Constants.WIDTH + (page >= maxPages - 1 ? 50f : -50f), rightButton.pos.y);
         leftButton.setPosition(page == 0 ? -50f : 50f, leftButton.pos.y);
 
-        context.audioHandler.stopAllMusic();
+        context.audioHandler.stopMusic();
     }
 
     private void incrementPage() {
@@ -198,7 +198,7 @@ class LevelSelectV2State extends GameState {
         ignoreInput = true;
         context.gsm.push(new TransitionState(context, new TitleState(context)));
         context.audioHandler.playSound("select", 0.3f);
-        context.audioHandler.stopAllMusic();
+        context.audioHandler.stopMusic();
     }
 
     private void goToLevel(int level) {

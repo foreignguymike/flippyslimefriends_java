@@ -5,16 +5,14 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 public class AudioHandler {
 
     private final Map<String, Music> music;
     private final Map<String, Sound> sounds;
 
-    private final Set<MusicConfig> currentlyPlaying;
+    private MusicConfig currentlyPlaying;
 
     private boolean muted = false;
 
@@ -28,8 +26,6 @@ public class AudioHandler {
         addSound("activate", "sfx/activate.wav");
         addSound("deactivate", "sfx/deactivate.wav");
         addSound("complete", "sfx/complete.wav");
-
-        currentlyPlaying = new HashSet<>();
     }
 
     private void addMusic(String key, String fileName) {
@@ -50,83 +46,33 @@ public class AudioHandler {
             for (Music it : music.values()) it.setVolume(0f);
             for (Sound it : sounds.values()) it.stop();
         } else {
-            for (MusicConfig it : currentlyPlaying) {
-                for (Map.Entry<String, Music> entry : music.entrySet()) {
-                    if (entry.getKey().equals(it.getKey())) {
-                        Music m = entry.getValue();
-                        m.setVolume(it.getVolume());
-                        m.play();
-                    }
-                }
+            if (currentlyPlaying != null) {
+                currentlyPlaying.play();
             }
         }
         return muted;
     }
 
-    public void playMusic(String key) {
-        playMusic(key, 1f, true);
-    }
-
-    public void playMusic(String key, float volume) {
-        playMusic(key, volume, true);
-    }
-
     public void playMusic(String key, float volume, boolean looping) {
-        stopAllMusic();
-        for (Map.Entry<String, Music> entry : music.entrySet()) {
-            if (entry.getKey().equals(key)) {
-                Music music = entry.getValue();
-                currentlyPlaying.add(new MusicConfig(key, volume, looping, -1));
-                music.setVolume(volume);
-                music.setLooping(looping);
-                if (!muted) music.play();
-            }
-        }
+        playMusic(key, volume, looping, -1f);
     }
 
-    public void playMusicLooped(String key, float volume, float start) {
-        stopAllMusic();
-        for (Map.Entry<String, Music> entry : music.entrySet()) {
-            if (entry.getKey().equals(key)) {
-                Music music = entry.getValue();
-                music.setVolume(volume);
-                if (start < 0) {
-                    music.setLooping(true);
-                } else {
-                    music.setLooping(false);
-                    music.setOnCompletionListener(it -> {
-                        it.play();
-                        it.setPosition(start);
-                    });
-                }
-                currentlyPlaying.add(new MusicConfig(key, volume, music.isLooping(), start));
-                if (!muted) music.play();
-            }
+    public void playMusic(String key, float volume, boolean looping, float start) {
+        Music newMusic = music.get(key);
+        if (newMusic == null) {
+            throw new IllegalArgumentException("music does not exist: " + key);
         }
+        if (currentlyPlaying != null && newMusic != currentlyPlaying.getMusic()) {
+            stopMusic();
+        }
+        currentlyPlaying = new MusicConfig(music.get(key), volume, looping, start);
+        currentlyPlaying.play();
     }
 
-    public void stopMusic(String key) {
-        for (Map.Entry<String, Music> entry : music.entrySet()) {
-            if (entry.getKey().equals(key)) {
-                Music music = entry.getValue();
-                music.stop();
-                music.setOnCompletionListener(null);
-                music.setVolume(1);
-                music.setLooping(false);
-                currentlyPlaying.removeIf(it -> it.getKey().equals(key));
-            }
+    public void stopMusic() {
+        if (currentlyPlaying != null) {
+            currentlyPlaying.stop();
         }
-    }
-
-    public void stopAllMusic() {
-        for (MusicConfig it : currentlyPlaying) {
-            Music m = music.get(it.getKey());
-            m.stop();
-            m.setOnCompletionListener(null);
-            m.setVolume(1);
-            m.setLooping(false);
-        }
-        currentlyPlaying.clear();
     }
 
     public void playSound(String key) {

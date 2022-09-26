@@ -85,12 +85,12 @@ class LevelFinishState extends GameState {
         lights = new SpinningLights(context, star.pos.x, star.pos.y, 5);
         diamondLights = new SpinningLights(context, diamond.pos.x, diamond.pos.y, 5, 0.5f);
 
-        completeText = new TextFont(context, TextFont.FontType.FONT2, "complete!", true, Constants.WIDTH / 2f, Constants.HEIGHT - 50f);
-        newRecordText = new TextFont(context, TextFont.FontType.FONT2, "new record!", true, Constants.WIDTH / 2f, Constants.HEIGHT - 50f);
-        perfectText = new TextFont(context, TextFont.FontType.FONT2, "perfect!", true, Constants.WIDTH / 2f, Constants.HEIGHT - 50f);
-        bestLabel = new TextFont(context, TextFont.FontType.FONT2, "best " + best, true, Constants.WIDTH / 2f - 60f, Constants.HEIGHT / 2f - infoBox.height / 2 + 64f);
-        goalLabel = new TextFont(context, TextFont.FontType.FONT2, "goal " + goal, true, Constants.WIDTH / 2f + 10, Constants.HEIGHT / 2f - infoBox.height / 2 + 54f);
-        movesLabel = new TextFont(context, TextFont.FontType.FONT2, "moves " + moves, true, Constants.WIDTH / 2f + 10f, Constants.HEIGHT / 2f - infoBox.height / 2 + 74f);
+        completeText = new TextFont(context, TextFont.FontType.NORMAL, "complete!", true, Constants.WIDTH / 2f, Constants.HEIGHT - 50f);
+        newRecordText = new TextFont(context, TextFont.FontType.NORMAL, "new record!", true, Constants.WIDTH / 2f, Constants.HEIGHT - 50f);
+        perfectText = new TextFont(context, TextFont.FontType.NORMAL, "perfect!", true, Constants.WIDTH / 2f, Constants.HEIGHT - 50f);
+        bestLabel = new TextFont(context, TextFont.FontType.NORMAL, "best " + best, true, Constants.WIDTH / 2f - 60f, Constants.HEIGHT / 2f - infoBox.height / 2 + 64f);
+        goalLabel = new TextFont(context, TextFont.FontType.NORMAL, "goal " + goal, true, Constants.WIDTH / 2f + 10, Constants.HEIGHT / 2f - infoBox.height / 2 + 54f);
+        movesLabel = new TextFont(context, TextFont.FontType.NORMAL, "moves " + moves, true, Constants.WIDTH / 2f + 10f, Constants.HEIGHT / 2f - infoBox.height / 2 + 74f);
         backButton = new IconButton(
                 context.getImage("backicon"),
                 context.getImage("iconbuttonbg"),
@@ -120,7 +120,7 @@ class LevelFinishState extends GameState {
     }
 
     private void goToNextLevel() {
-        if (level < context.gameData.getMapData(area).size() - 1) {
+        if (level < context.gameData.getAllMapData().size() - 1) {
             ignoreInput = true;
             context.gsm.push(new CheckeredTransitionState(context, new PlayState(context, area, level + 1), 2));
             context.audioHandler.playSound("select", 0.3f);
@@ -220,7 +220,7 @@ class LevelFinishState extends GameState {
 
             restartButton.render(sb);
             backButton.render(sb);
-            if (level < context.gameData.getMapData(area).size() - 1) {
+            if (level < context.gameData.getAllMapData().size() - 1) {
                 nextButton.render(sb);
             }
         }

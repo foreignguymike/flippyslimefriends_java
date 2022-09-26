@@ -120,9 +120,9 @@ public class CustomizeState extends GameState {
         backButton = new IconButton(context.getImage("backicon"), context.getImage("iconbuttonbg"), 25f, Constants.HEIGHT - 25, 5f);
         audioButton = new IconButton(context.getImage("audioicon"), context.getImage("iconbuttonbg"), 65f, Constants.HEIGHT - 25f, 5f);
         audioButton.enabled = !context.audioHandler.isMuted();
-        skinText = new TextFont(context, TextFont.FontType.FONT3, "skin", true, 4f * Constants.WIDTH / 6, 237);
-        faceText = new TextFont(context, TextFont.FontType.FONT3, "face", true, 5f * Constants.WIDTH / 6, 237);
-        accessoriesText = new TextFont(context, TextFont.FontType.FONT3, "accessories", true, 3f * Constants.WIDTH / 4 - 20, 157);
+        skinText = new TextFont(context, TextFont.FontType.BIG, "skin", true, 4f * Constants.WIDTH / 6, 237);
+        faceText = new TextFont(context, TextFont.FontType.BIG, "face", true, 5f * Constants.WIDTH / 6, 237);
+        accessoriesText = new TextFont(context, TextFont.FontType.BIG, "accessories", true, 3f * Constants.WIDTH / 4 - 20, 157);
 
         skinIcon = new AccessoryIcon(context, null, skinText.x, skinText.y - 25, numStars, numDiamonds);
         skinIcon.setOffset(0, 4);
@@ -191,7 +191,7 @@ public class CustomizeState extends GameState {
         setFace(context.playerDataHandler.face);
 
         star = context.getImage("starunlock");
-        starFont = new TextFont(context, TextFont.FontType.FONT3, Integer.toString(numStars), false, accessoriesText.x + 85, accessoriesText.y);
+        starFont = new TextFont(context, TextFont.FontType.BIG, Integer.toString(numStars), false, accessoriesText.x + 85, accessoriesText.y);
         accessoriesText.setPosition(3f * Constants.WIDTH / 4 - (19 + star.getRegionWidth() + starFont.getTotalWidth()) / 2f, accessoriesText.y);
     }
 
