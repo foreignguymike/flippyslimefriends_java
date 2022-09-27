@@ -939,7 +939,7 @@ public class MatrixData {
                                 0, 0, 0, 0,
                                 e, 0, 0, e
                         },
-                        26,
+                        22,
                         Arrays.asList(new TilePoint(2, 0), new TilePoint(2, 3)),
                         Arrays.asList(
                                 new TeleportData(0, 1, 4, 1),

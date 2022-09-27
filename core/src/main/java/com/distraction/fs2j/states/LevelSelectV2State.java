@@ -237,10 +237,17 @@ class LevelSelectV2State extends GameState {
 
             unprojectTouch(staticCam);
             if (backButton.containsPoint(touchPoint)) back();
-            if (leftButton.containsPoint(touchPoint)) decrementPage();
-            if (rightButton.containsPoint(touchPoint)) incrementPage();
-            if (audioButton.containsPoint(touchPoint))
+            if (leftButton.containsPoint(touchPoint)) {
+                decrementPage();
+                context.audioHandler.playSound("selectshort");
+            }
+            if (rightButton.containsPoint(touchPoint)) {
+                incrementPage();
+                context.audioHandler.playSound("selectshort");
+            }
+            if (audioButton.containsPoint(touchPoint)) {
                 audioButton.enabled = !context.audioHandler.toggleMute();
+            }
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) goToLevel(level);
@@ -257,6 +264,9 @@ class LevelSelectV2State extends GameState {
             if (level % PAGE_SIZE >= NUM_COLS) decrementLevel(NUM_COLS);
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) back();
+
+        leftButton.setClicked(Gdx.input.isTouched() && leftButton.containsPoint(touchPoint));
+        rightButton.setClicked(Gdx.input.isTouched() && rightButton.containsPoint(touchPoint));
     }
 
     @Override

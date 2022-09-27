@@ -73,8 +73,7 @@ class PlayState extends GameState implements TileMap.TileListener, Player.MoveLi
         if (players.size() > 1) player.showSelected(true);
 
         if (area == Area.RUINS) context.audioHandler.playMusic("mystery", 0.5f, true);
-        else if (area == Area.TUNDRA) context.audioHandler.playMusic("calm", 0.5f, true,
-                Gdx.app.getType() == Application.ApplicationType.WebGL ? -1 : 10.7f);
+        else if (area == Area.TUNDRA) context.audioHandler.playMusic("calm", 0.5f, true);
     }
 
     private void setPlayerIndex(int playerIndex) {
@@ -185,10 +184,12 @@ class PlayState extends GameState implements TileMap.TileListener, Player.MoveLi
         if (Gdx.input.isKeyJustPressed(Input.Keys.D)) player.dropBubble();
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) back();
         if (Gdx.input.isKeyJustPressed(Input.Keys.F)) {
-            while (hud.getMoves() < 1000) {
-                hud.incrementMoves();
+            if (Constants.DEBUG_MODE) {
+                while (hud.getMoves() < 1000) {
+                    hud.incrementMoves();
+                }
+                finish();
             }
-            finish();
         }
     }
 

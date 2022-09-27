@@ -10,6 +10,9 @@ public class BreathingImage extends ImageButton {
 
     private float time = 0;
 
+    private boolean clicked;
+    private float clickedScale = 0.75f;
+
     public BreathingImage(TextureRegion image) {
         this(image, 0, 0, 0);
     }
@@ -24,10 +27,18 @@ public class BreathingImage extends ImageButton {
         this.offset = offset;
     }
 
+    public void setClicked(boolean clicked) {
+        this.clicked = clicked;
+    }
+
     @Override
     public void update(float dt) {
         super.update(dt);
         time += dt;
-        scale = 1 + offset * MathUtils.sin(MathUtils.PI2 * time / interval);
+        if (clicked) {
+            scale = clickedScale;
+        } else {
+            scale = 1 + offset * MathUtils.sin(MathUtils.PI2 * time / interval);
+        }
     }
 }

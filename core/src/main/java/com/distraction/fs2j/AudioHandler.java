@@ -23,6 +23,7 @@ public class AudioHandler {
 
         sounds = new HashMap<>();
         addSound("select", "sfx/select.wav");
+        addSound("selectshort", "sfx/selectshort.wav");
         addSound("activate", "sfx/activate.wav");
         addSound("deactivate", "sfx/deactivate.wav");
         addSound("complete", "sfx/complete.wav");
@@ -54,10 +55,6 @@ public class AudioHandler {
     }
 
     public void playMusic(String key, float volume, boolean looping) {
-        playMusic(key, volume, looping, -1f);
-    }
-
-    public void playMusic(String key, float volume, boolean looping, float start) {
         Music newMusic = music.get(key);
         if (newMusic == null) {
             throw new IllegalArgumentException("music does not exist: " + key);
@@ -65,7 +62,7 @@ public class AudioHandler {
         if (currentlyPlaying != null && newMusic != currentlyPlaying.getMusic()) {
             stopMusic();
         }
-        currentlyPlaying = new MusicConfig(music.get(key), volume, looping, start);
+        currentlyPlaying = new MusicConfig(music.get(key), volume, looping);
         if (!muted) currentlyPlaying.play();
     }
 

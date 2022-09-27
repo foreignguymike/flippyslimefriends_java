@@ -7,19 +7,11 @@ public class MusicConfig {
     private final Music music;
     private final float volume;
     private final boolean looping;
-    private final float start;
 
-    public MusicConfig(Music music, float volume, boolean looping, float start) {
+    public MusicConfig(Music music, float volume, boolean looping) {
         this.music = music;
         this.volume = volume;
         this.looping = looping;
-        this.start = start;
-        if (start > 0 && looping) {
-            music.setOnCompletionListener(it -> {
-                it.play();
-                it.setPosition(start);
-            });
-        }
     }
 
     public Music getMusic() {
@@ -28,7 +20,7 @@ public class MusicConfig {
 
     public void play() {
         music.setVolume(volume);
-        music.setLooping(looping && start <= 0);
+        music.setLooping(looping);
         music.play();
     }
 
