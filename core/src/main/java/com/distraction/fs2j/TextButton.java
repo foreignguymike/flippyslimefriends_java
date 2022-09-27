@@ -9,7 +9,7 @@ public class TextButton extends ImageButton {
 
     public TextButton(Context context, String text, TextureRegion bgImage, float x, float y, float padding) {
         super(bgImage, x, y, padding);
-        textFont = new TextFont(context, TextFont.FontType.NORMAL2, text, true, x, y - 6);
+        textFont = new TextFont(context, TextFont.FontType.NORMAL2, text, true, x, y);
     }
 
     @Override

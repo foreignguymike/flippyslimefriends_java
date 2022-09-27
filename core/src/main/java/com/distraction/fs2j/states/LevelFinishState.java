@@ -86,7 +86,7 @@ class LevelFinishState extends GameState {
 
         String text = moves <= goal ? "perfect!" : "complete!";
         if (best < previousBest || previousBest == 0) text += " new record!";
-        finishText = new TextFont(context, TextFont.FontType.NORMAL2, text, true, Constants.WIDTH / 2f, Constants.HEIGHT - 50f);
+        finishText = new TextFont(context, TextFont.FontType.NORMAL2, text, true, Constants.WIDTH / 2f, Constants.HEIGHT - 42f);
         bestLabel = new TextFont(context, TextFont.FontType.NORMAL2, "best " + best, true, Constants.WIDTH / 2f - 60f, Constants.HEIGHT / 2f - infoBox.height / 2 + 64f);
         goalLabel = new TextFont(context, TextFont.FontType.NORMAL2, "goal " + goal, true, Constants.WIDTH / 2f + 10, Constants.HEIGHT / 2f - infoBox.height / 2 + 54f);
         movesLabel = new TextFont(context, TextFont.FontType.NORMAL2, "moves " + moves, true, Constants.WIDTH / 2f + 10f, Constants.HEIGHT / 2f - infoBox.height / 2 + 74f);

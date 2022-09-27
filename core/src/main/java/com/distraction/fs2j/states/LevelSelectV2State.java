@@ -74,7 +74,7 @@ class LevelSelectV2State extends GameState {
         }
         areaNames = new TextFont[areas.length];
         for (int i = 0; i < areaNames.length; i++) {
-            areaNames[i] = new TextFont(context, TextFont.FontType.BIG, areas[i].text, true, Constants.WIDTH / 2f + Constants.WIDTH * i, 23f);
+            areaNames[i] = new TextFont(context, TextFont.FontType.BIG, areas[i].text, true, Constants.WIDTH / 2f + Constants.WIDTH * i, 30f);
         }
         areaNamesCam = new OrthographicCamera();
         areaNamesCam.setToOrtho(false, Constants.WIDTH, Constants.HEIGHT);
@@ -101,7 +101,7 @@ class LevelSelectV2State extends GameState {
             float x = WIDTH_PADDING + col * CELL_WIDTH + CELL_WIDTH / 2 + Constants.WIDTH * page;
             float y = Constants.HEIGHT - HEIGHT_PADDING - (row * CELL_HEIGHT + CELL_HEIGHT / 2f);
             levels[i] = new ImageButton(context.getImage("levelbutton"), x, y);
-            numberFonts[i] = new TextFont(context, TextFont.FontType.BIG, Integer.toString(i + 1), true, x, y - 13);
+            numberFonts[i] = new TextFont(context, TextFont.FontType.BIG, Integer.toString(i + 1), true, x, y - 5);
         }
 
         levelSelectedBorder = new BreathingImage(
@@ -110,7 +110,7 @@ class LevelSelectV2State extends GameState {
                 level < 0 ? 0f : levels[level].pos.y,
                 0, 1f, 0.03f
         );
-        levelSelectText = new TextFont(context, TextFont.FontType.BIG, "level select", true, Constants.WIDTH / 2f, Constants.HEIGHT - 38f);
+        levelSelectText = new TextFont(context, TextFont.FontType.BIG, "level select", true, Constants.WIDTH / 2f, Constants.HEIGHT - 30f);
         backButton = new IconButton(context.getImage("backicon"), context.getImage("iconbuttonbg"), 25f, Constants.HEIGHT - 25, 5f);
         audioButton = new IconButton(context.getImage("audioicon"), context.getImage("iconbuttonbg"), 65f, Constants.HEIGHT - 25f, 5f);
         audioButton.enabled = !context.audioHandler.isMuted();
@@ -294,7 +294,7 @@ class LevelSelectV2State extends GameState {
             sb.setProjectionMatrix(staticCam.combined);
             backgrounds[previousArea.ordinal()].render(sb);
             backgrounds[currentArea.ordinal()].render(sb);
-            sb.setColor(GameColor.MIDNIGHT_BLUE);
+            sb.setColor(GameColor.DARK_TEAL);
             sb.draw(pixel, 0f, 0f, Constants.WIDTH, 60f);
             sb.draw(pixel, 0f, Constants.HEIGHT - 60f, Constants.WIDTH, 60f);
             sb.setColor(1, 1, 1, 1);

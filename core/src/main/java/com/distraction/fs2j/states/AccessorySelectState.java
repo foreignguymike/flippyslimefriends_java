@@ -85,7 +85,7 @@ class AccessorySelectState extends GameState {
         diamond = new ImageButton(context.getImage("diamondunlock"));
         diamondFont = new TextFont(context, TextFont.FontType.BIG, Integer.toString(numDiamonds), false, 0, 0);
         diamond.setPosition((Constants.WIDTH - diamondFont.getTotalWidth()) / 2f - 3, infoBox.pos.y + infoBox.height / 2 - 20);
-        diamondFont.setPosition(diamond.pos.x + diamond.width / 2 + 6, diamond.pos.y - 8);
+        diamondFont.setPosition(diamond.pos.x + diamond.width / 2 + 6, diamond.pos.y);
     }
 
     private void goBack() {

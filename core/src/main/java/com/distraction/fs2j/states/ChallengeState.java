@@ -78,10 +78,10 @@ public class ChallengeState extends GameState {
         for (int i = 0; i < tileMaps.length; i++) {
             tileMaps[i] = new TileMap(context, null, Area.CHALLENGE, i);
             infoBoxes[i] = new InfoBox(context, 36, -Constants.HEIGHT + Constants.HEIGHT / 8f + 10, Constants.WIDTH / 2f, Constants.HEIGHT / 4f);
-            levelTitles[i] = new TextFont(context, TextFont.FontType.BIG, "level " + (i + 1), true, -15, -Constants.HEIGHT + Constants.HEIGHT / 8f + 12);
+            levelTitles[i] = new TextFont(context, TextFont.FontType.BIG, "level " + (i + 1), true, -15, -Constants.HEIGHT + Constants.HEIGHT / 8f + 20);
             int score = context.scoreHandler.getScores(Area.CHALLENGE)[i];
             if (score == 0) score = -1;
-            bestMoves[i] = new TextFont(context, TextFont.FontType.NORMAL2, "best " + score, true, -15, -Constants.HEIGHT + Constants.HEIGHT / 8f - 9);
+            bestMoves[i] = new TextFont(context, TextFont.FontType.NORMAL2, "best " + score, true, -15, -Constants.HEIGHT + Constants.HEIGHT / 8f - 1);
             playButtons[i] = new IconButton(context.getImage("play"), context.getImage("buttonbgsmall"), 90, -Constants.HEIGHT + Constants.HEIGHT / 8f + 13, 5);
             cameras[i] = new OrthographicCamera();
             cameras[i].setToOrtho(false, Constants.WIDTH, Constants.HEIGHT);

@@ -42,7 +42,7 @@ public class TitleState extends GameState {
         String[] v = Constants.VERSION.split("\\.");
         v[0] = v[0].substring(1);
         build = new TextFont(context, TextFont.FontType.TINY, Constants.VERSION, false, 0, 0);
-        build.setPosition(Constants.WIDTH - build.getTotalWidth() - 1, 1);
+        build.setPosition(Constants.WIDTH - build.getTotalWidth(), 4);
 
         context.audioHandler.stopMusic();
     }
@@ -104,7 +104,7 @@ public class TitleState extends GameState {
         sb.begin();
         {
             sb.setProjectionMatrix(camera.combined);
-            sb.setColor(GameColor.MIDNIGHT_BLUE);
+            sb.setColor(GameColor.DARK_TEAL);
             sb.draw(pixel, 0, 0, Constants.WIDTH, 60);
             sb.draw(pixel, 0, Constants.HEIGHT - 60, Constants.WIDTH, 60);
             sb.setColor(1, 1, 1, 1);

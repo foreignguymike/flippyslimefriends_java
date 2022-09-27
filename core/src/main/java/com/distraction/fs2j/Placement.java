@@ -75,7 +75,7 @@ public class Placement {
         totalOffset += icon.getRegionWidth(); // place icon
         totalOffset += Player.SPRITE_WIDTH / 2f;
 
-        nameFont = new TextFont(context, null, totalOffset + (rank <= 3 ? Player.SPRITE_WIDTH / 2f + 30 : -10), y + end.getRegionHeight() / 2f - 4);
+        nameFont = new TextFont(context, TextFont.FontType.NORMAL, "",false,  totalOffset + (rank <= 3 ? Player.SPRITE_WIDTH / 2f + 30 : -10), y + end.getRegionHeight() / 2f);
     }
 
 
@@ -138,7 +138,8 @@ public class Placement {
         scoreFont.render(sb);
 
         // draw name
-        nameFont.x = x + totalOffset + scoreFont.getTotalWidth() + 10 + (rank <= 3 ? Player.SPRITE_WIDTH / 2f + 30 : -10);
+        scoreFont.x = x + totalOffset + (rank <= 3 ? Player.SPRITE_WIDTH / 2f + 30 : -10);
+        nameFont.x = x + totalOffset + scoreFont.getTotalWidth() + 15 + (rank <= 3 ? Player.SPRITE_WIDTH / 2f + 30 : -10);
         sb.setColor(GameColor.BLACK);
         nameFont.render(sb);
     }

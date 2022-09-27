@@ -28,6 +28,7 @@ public class TextFont {
     private String text;
     private final boolean centered;
     private float width;
+    private float height;
 
     public float x;
     public float y;
@@ -59,7 +60,7 @@ public class TextFont {
         if (!text.equals(this.text)) {
             text = text.toUpperCase().replaceAll("[^A-Z0-9 .!]", "");
             this.text = text;
-            calculateWidth(text);
+            measureDimensions(text);
         }
     }
 
@@ -76,7 +77,7 @@ public class TextFont {
         this.y = y;
     }
 
-    private void calculateWidth(String text) {
+    private void measureDimensions(String text) {
         width = 0;
         for (int i = 0; i < text.length(); i++) {
             int index = getIndex(text.charAt(i));
@@ -88,6 +89,7 @@ public class TextFont {
                 }
             }
         }
+        height = font[0].getRegionHeight();
     }
 
     private int getIndex(char c) {
@@ -102,6 +104,7 @@ public class TextFont {
 
     public void render(SpriteBatch sb) {
         float sx = centered ? x - width / 2f : x;
+        float sy = y - height / 2f;
         int offset = 0;
         for (int i = 0; i < text.length(); i++) {
             int index = getIndex(text.charAt(i));
@@ -109,7 +112,7 @@ public class TextFont {
                 if (index == SPACE) {
                     offset += font[0].getRegionWidth() + 1;
                 } else {
-                    sb.draw(font[index], sx + offset, y);
+                    sb.draw(font[index], sx + offset, sy);
                     offset += font[index].getRegionWidth() + 1;
                 }
             }

@@ -125,9 +125,9 @@ public class CustomizeState extends GameState {
         faceText = new TextFont(context, TextFont.FontType.BIG, "face", true, 5f * Constants.WIDTH / 6, 237);
         accessoriesText = new TextFont(context, TextFont.FontType.BIG, "accessories", true, 3f * Constants.WIDTH / 4 - 20, 157);
 
-        skinIcon = new AccessoryIcon(context, null, skinText.x, skinText.y - 25, numStars, numDiamonds);
+        skinIcon = new AccessoryIcon(context, null, skinText.x, skinText.y - 33, numStars, numDiamonds);
         skinIcon.setOffset(0, 4);
-        faceIcon = new AccessoryIcon(context, null, faceText.x, faceText.y - 25, numStars, numDiamonds);
+        faceIcon = new AccessoryIcon(context, null, faceText.x, faceText.y - 33, numStars, numDiamonds);
         faceIcon.setOffset(-1, 6);
         accessoryTypes = new AccessoryType[10];
         accessoryIcons = new AccessoryIcon[10];
@@ -142,7 +142,7 @@ public class CustomizeState extends GameState {
                 int i = row * c + col;
                 accessoryIcons[i] = new AccessoryIcon(context, null,
                         s + col * (w + p),
-                        accessoriesText.y - 25 - row * (w + p),
+                        accessoriesText.y - 33 - row * (w + p),
                         numStars,
                         numDiamonds
                 );
@@ -170,7 +170,7 @@ public class CustomizeState extends GameState {
                 "save",
                 context.getImage("buttonbg"),
                 3 * Constants.WIDTH / 4f,
-                30,
+                25,
                 5f
         );
 
@@ -362,7 +362,7 @@ public class CustomizeState extends GameState {
             sb.draw(pixel, Constants.WIDTH / 2f, 0, 1, Constants.HEIGHT);
 
             sb.setColor(1, 1, 1, 1);
-            Utils.drawCentered(sb, star, accessoriesText.x + 80, accessoriesText.y + 8);
+            Utils.drawCentered(sb, star, accessoriesText.x + 80, accessoriesText.y);
             starFont.render(sb);
 
             backButton.render(sb);
