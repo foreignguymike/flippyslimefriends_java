@@ -50,6 +50,9 @@ class LevelSelectV2State extends GameState {
     private final TextFont levelSelectText;
     private final IconButton backButton;
     private final IconButton audioButton;
+    private final TextureRegion star;
+    private final TextFont starText;
+    private final TextFont diamondText;
     private final OrthographicCamera staticCam;
     private final BreathingImage leftButton;
     private final BreathingImage rightButton;
@@ -110,10 +113,17 @@ class LevelSelectV2State extends GameState {
                 level < 0 ? 0f : levels[level].pos.y,
                 0, 1f, 0.03f
         );
+
         levelSelectText = new TextFont(context, TextFont.FontType.BIG, "level select", true, Constants.WIDTH / 2f, Constants.HEIGHT - 30f);
         backButton = new IconButton(context.getImage("backicon"), context.getImage("iconbuttonbg"), 25f, Constants.HEIGHT - 25, 5f);
         audioButton = new IconButton(context.getImage("audioicon"), context.getImage("iconbuttonbg"), 65f, Constants.HEIGHT - 25f, 5f);
         audioButton.enabled = !context.audioHandler.isMuted();
+        star = context.getImage("starunlock");
+        starText = new TextFont(context, TextFont.FontType.NORMAL2, Integer.toString(context.scoreHandler.getNumStars()), false, 0, 0);
+        starText.setPosition(Constants.WIDTH - starText.getTotalWidth() - 15, Constants.HEIGHT - 20);
+        diamondText = new TextFont(context, TextFont.FontType.NORMAL2, Integer.toString(context.scoreHandler.getNumDiamonds()), false, 0, 0);
+        diamondText.setPosition(Constants.WIDTH - starText.getTotalWidth() - 15, Constants.HEIGHT - 40);
+
         staticCam = new OrthographicCamera();
         staticCam.setToOrtho(false, Constants.WIDTH, Constants.HEIGHT);
         leftButton = new BreathingImage(context.getImage("areaselectarrow"), 50f, Constants.HEIGHT / 2f, 10f);
@@ -304,6 +314,10 @@ class LevelSelectV2State extends GameState {
             levelSelectText.render(sb);
             backButton.render(sb);
             audioButton.render(sb);
+            sb.draw(star, Constants.WIDTH - starText.getTotalWidth() - 30 - star.getRegionWidth(), Constants.HEIGHT - 20 - star.getRegionHeight() / 2f);
+            starText.render(sb);
+            sb.draw(diamond, Constants.WIDTH - starText.getTotalWidth() - 30 - diamond.getRegionWidth(), Constants.HEIGHT - 40 - diamond.getRegionHeight() / 2f);
+            diamondText.render(sb);
 
             sb.setProjectionMatrix(camera.combined);
             int lower = Math.max(page - 2, 0) * 15;

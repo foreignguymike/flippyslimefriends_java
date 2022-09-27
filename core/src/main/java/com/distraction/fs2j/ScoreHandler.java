@@ -46,7 +46,7 @@ public class ScoreHandler {
     public int getNumStars() {
         if (Constants.DEBUG_MODE) return 1000;
         int count = 0;
-        for (Area area : Area.values()) {
+        for (Area area : Area.getNormalAreas()) {
             int[] areaScores = getScores(area);
             for (int areaScore : areaScores) if (areaScore > 0) count++;
         }
