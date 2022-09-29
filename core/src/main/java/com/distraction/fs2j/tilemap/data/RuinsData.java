@@ -874,7 +874,7 @@ public class RuinsData {
                                 0, 0, 0, 0,
                                 0, 0, 0, 0
                         },
-                        16,
+                        14,
                         Arrays.asList(new TilePoint(2, 2), new TilePoint(3, 3)),
                         Arrays.asList(
                                 new ArrowData(3, 2, Direction.RIGHT),
