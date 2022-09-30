@@ -42,6 +42,20 @@ public class ChallengeData {
                         ),
                         new ArrayList<>(),
                         true
+                ),
+                new MapData(
+                        4, 4,
+                        new int[] {
+                                0, 0, 0, 0,
+                                0, e, e, 0,
+                                0, e, e, 0,
+                                0, 0, 0, 0
+                        },
+                        0,
+                        Arrays.asList(new TilePoint(0, 0)),
+                        new ArrayList<>(),
+                        new ArrayList<>(),
+                        false
                 )
         );
     }

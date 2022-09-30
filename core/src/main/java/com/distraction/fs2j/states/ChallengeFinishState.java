@@ -105,7 +105,7 @@ public class ChallengeFinishState extends GameState {
     private void submitScore() {
         if (context.playerDataHandler.name != null) {
             context.client.setGuestName(context.playerDataHandler.name);
-            context.client.submitToLeaderboard("BETA_1", moves, context.playerDataHandler.serialize());
+            context.client.submitToLeaderboard(Integer.toString(level), moves, context.playerDataHandler.serialize());
             goBack();
         }
     }

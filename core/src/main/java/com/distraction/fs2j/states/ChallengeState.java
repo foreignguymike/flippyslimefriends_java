@@ -80,8 +80,7 @@ public class ChallengeState extends GameState {
             infoBoxes[i] = new InfoBox(context, 36, -Constants.HEIGHT + Constants.HEIGHT / 8f + 10, Constants.WIDTH / 2f, Constants.HEIGHT / 4f);
             levelTitles[i] = new TextFont(context, TextFont.FontType.BIG, "level " + (i + 1), true, -15, -Constants.HEIGHT + Constants.HEIGHT / 8f + 20);
             int score = context.scoreHandler.getScores(Area.CHALLENGE)[i];
-            if (score == 0) score = -1;
-            bestMoves[i] = new TextFont(context, TextFont.FontType.NORMAL2, "best " + score, true, -15, -Constants.HEIGHT + Constants.HEIGHT / 8f - 1);
+            bestMoves[i] = new TextFont(context, TextFont.FontType.NORMAL2, "best " + (score == 0 ? "-" : score), true, -15, -Constants.HEIGHT + Constants.HEIGHT / 8f - 1);
             playButtons[i] = new IconButton(context.getImage("play"), context.getImage("buttonbgsmall"), 90, -Constants.HEIGHT + Constants.HEIGHT / 8f + 13, 5);
             cameras[i] = new OrthographicCamera();
             cameras[i].setToOrtho(false, Constants.WIDTH, Constants.HEIGHT);
@@ -136,7 +135,10 @@ public class ChallengeState extends GameState {
     }
 
     private void refresh() {
-        context.fetchLeaderboards(() -> changeLevel(0));
+        context.fetchLeaderboards(() -> {
+            System.out.println("finished fetching leaderboards");
+            changeLevel(0);
+        });
     }
 
     private void handleInput() {

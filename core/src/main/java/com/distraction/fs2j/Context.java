@@ -12,6 +12,7 @@ import com.distraction.fs2j.tilemap.data.MapData;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import de.golfgl.gdxgamesvcs.leaderboard.ILeaderBoardEntry;
 
@@ -66,13 +67,20 @@ public class Context {
     }
 
     public void fetchLeaderboards(SimpleCallback callback) {
-        client.fetchLeaderboardEntries("BETA_1", 7, false, leaderBoard -> {
-            playerDataHandler.leaderboards.clear();
-            List<ILeaderBoardEntry> entries = new ArrayList<>();
-            for (ILeaderBoardEntry it : leaderBoard) entries.add(it);
-            playerDataHandler.leaderboards.add(entries);
-            callback.callback();
-        });
+        AtomicInteger count = new AtomicInteger();
+        playerDataHandler.leaderboards.clear();
+        for (int i = 0; i < Constants.LEADERBOARDS.size(); i++) {
+            final int k = i;
+            client.fetchLeaderboardEntries(Integer.toString(i), 7, false, leaderBoard -> {
+                List<ILeaderBoardEntry> entries = new ArrayList<>();
+                for (ILeaderBoardEntry it : leaderBoard) entries.add(it);
+                playerDataHandler.leaderboards.put(k, entries);
+                count.getAndIncrement();
+                if (count.get() == Constants.LEADERBOARDS.size()) {
+                    callback.callback();
+                }
+            });
+        }
     }
 
 }

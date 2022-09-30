@@ -7,7 +7,9 @@ import com.distraction.fs2j.tilemap.player.Face;
 import com.distraction.fs2j.tilemap.player.Skin;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import de.golfgl.gdxgamesvcs.leaderboard.ILeaderBoardEntry;
@@ -29,7 +31,7 @@ public class PlayerDataHandler {
     public List<AccessoryType> accessories = new ArrayList<>();
 
     public String name;
-    public List<List<ILeaderBoardEntry>> leaderboards = new ArrayList<>();
+    public Map<Integer, List<ILeaderBoardEntry>> leaderboards = new HashMap<>();
 
     public PlayerDataHandler(Context context) {
         this.context = context;

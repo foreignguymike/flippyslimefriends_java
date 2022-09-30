@@ -30,9 +30,9 @@ public class FlippySlime2J extends ApplicationAdapter {
         gsm.push(new TitleState(context));
 
         GameJoltClient client = new GameJoltClient();
-        client.setGjScoreTableMapper(id -> {
-            if (id.equals("BETA_1")) return Constants.BETA_1_ID;
-            return -1;
+        client.setGjScoreTableMapper(key -> {
+            int k = Integer.parseInt(key);
+            return Constants.LEADERBOARDS.get(k);
         });
         client.initialize(Constants.APP_ID, Constants.API_KEY);
         client.setGuestName(context.playerDataHandler.name);
