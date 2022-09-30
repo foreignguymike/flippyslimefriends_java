@@ -10,7 +10,7 @@ public class TileLight extends TileObject {
     public static final float LIFE_TIME = 1f;
 
     private float timer = 0f;
-    private TextureRegion image;
+    private final TextureRegion image;
 
     public TileLight(Context context, TileMap tileMap, int row, int col) {
         super(context, tileMap);

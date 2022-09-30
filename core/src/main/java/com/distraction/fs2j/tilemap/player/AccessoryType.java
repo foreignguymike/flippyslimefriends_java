@@ -75,11 +75,11 @@ public enum AccessoryType implements Customizer {
         // sanity check
         AccessoryType[] accs = AccessoryType.values();
         int diamondCount = 0;
-        for (int i = 0; i < accs.length; i++) {
-            if (diamondCount > accs[i].getDiamonds()) {
-                throw new IllegalStateException(accs[i] + " is in wrong spot");
+        for (AccessoryType acc : accs) {
+            if (diamondCount > acc.getDiamonds()) {
+                throw new IllegalStateException(acc + " is in wrong spot");
             }
-            diamondCount = accs[i].getDiamonds();
+            diamondCount = acc.getDiamonds();
         }
     }
 

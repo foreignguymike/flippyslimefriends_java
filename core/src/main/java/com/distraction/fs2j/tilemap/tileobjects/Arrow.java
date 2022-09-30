@@ -12,7 +12,7 @@ public class Arrow extends TileObject {
 
     public Direction direction;
 
-    private Animation animation;
+    private final Animation animation;
 
     public Arrow(Context context, TileMap tileMap, int row, int col, Direction direction) {
         super(context, tileMap);

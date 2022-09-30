@@ -8,8 +8,8 @@ import com.distraction.fs2j.tilemap.TileMap;
 
 public class FinishTile extends TileObject {
 
-    private TextureRegion on;
-    private TextureRegion off;
+    private final TextureRegion on;
+    private final TextureRegion off;
 
     public boolean active = false;
 

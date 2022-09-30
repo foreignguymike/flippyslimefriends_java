@@ -69,15 +69,15 @@ class LevelSelectV2State extends GameState {
         super(context);
         this.level = level;
 
-        Area[] areas = Area.values();
-        backgrounds = new LevelBackground[areas.length];
+        List<Area> areas = Area.getNormalAreas();
+        backgrounds = new LevelBackground[areas.size()];
         for (int i = 0; i < backgrounds.length; i++) {
-            backgrounds[i] = new LevelBackground(context, Area.values()[i]);
+            backgrounds[i] = new LevelBackground(context, areas.get(i));
             backgrounds[i].setAlpha(i == currentArea.ordinal() ? 1f : 0f);
         }
-        areaNames = new TextFont[areas.length];
+        areaNames = new TextFont[areas.size()];
         for (int i = 0; i < areaNames.length; i++) {
-            areaNames[i] = new TextFont(context, TextFont.FontType.BIG, areas[i].text, true, Constants.WIDTH / 2f + Constants.WIDTH * i, 30f);
+            areaNames[i] = new TextFont(context, TextFont.FontType.BIG, areas.get(i).text, true, Constants.WIDTH / 2f + Constants.WIDTH * i, 30f);
         }
         areaNamesCam = new OrthographicCamera();
         areaNamesCam.setToOrtho(false, Constants.WIDTH, Constants.HEIGHT);
@@ -180,7 +180,7 @@ class LevelSelectV2State extends GameState {
     }
 
     private void updateArea(boolean force) {
-        Area newArea = Area.values()[page / 3];
+        Area newArea = Area.getNormalAreas().get(page / 3);
         if (currentArea != newArea || force) {
             previousArea = currentArea;
             currentArea = newArea;
@@ -208,7 +208,7 @@ class LevelSelectV2State extends GameState {
     }
 
     private Area getAreaFromLevel(int level) {
-        return Area.values()[level / 45];
+        return Area.getNormalAreas().get(level / 45);
     }
 
     private float getCamPosition() {
@@ -314,6 +314,7 @@ class LevelSelectV2State extends GameState {
             levelSelectText.render(sb);
             backButton.render(sb);
             audioButton.render(sb);
+            sb.setColor(GameColor.WHITE);
             sb.draw(star, Constants.WIDTH - starText.getTotalWidth() - 30 - star.getRegionWidth(), Constants.HEIGHT - 20 - star.getRegionHeight() / 2f);
             starText.render(sb);
             sb.draw(diamond, Constants.WIDTH - starText.getTotalWidth() - 30 - diamond.getRegionWidth(), Constants.HEIGHT - 40 - diamond.getRegionHeight() / 2f);

@@ -121,7 +121,7 @@ class LevelFinishState extends GameState {
         if (moves <= goal && (previousBest == 0 || previousBest > goal) && context.playerDataHandler.accessoryUnlockAt(context.scoreHandler.getNumDiamonds())) {
             newAccessoryText = new TextFont(context, TextFont.FontType.NORMAL2, "new accessory!", false, 0, 0);
             float w = newAccessoryText.getTotalWidth();
-            newAccessoryText.setPosition(Constants.WIDTH - w - 10, Constants.HEIGHT - 75);
+            newAccessoryText.setPosition(Constants.WIDTH - w - 10, Constants.HEIGHT - 74);
             newAccessoryBox = new InfoBox(context, Constants.WIDTH - w / 2f - 10, Constants.HEIGHT - 74, w + 30f, 30);
         } else {
             newAccessoryBox = null;
@@ -132,7 +132,7 @@ class LevelFinishState extends GameState {
     private void goToNextLevel() {
         if (level < context.gameData.getAllMapData().size() - 1) {
             ignoreInput = true;
-            context.gsm.push(new CheckeredTransitionState(context, new PlayState(context, Area.values()[(level + 1) / 45], level + 1), 2));
+            context.gsm.push(new CheckeredTransitionState(context, new PlayState(context, Area.getNormalAreas().get((level + 1) / 45), level + 1), 2));
             context.audioHandler.playSound("select", 0.3f);
         }
     }

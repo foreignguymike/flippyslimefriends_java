@@ -8,7 +8,7 @@ import com.distraction.fs2j.tilemap.TileMap;
 
 public class Bubble extends TileObject {
 
-    private TextureRegion bubbleMaker;
+    private final TextureRegion bubbleMaker;
     public BubbleBase bubbleBase;
 
     public Bubble(Context context, TileMap tileMap, int row, int col) {

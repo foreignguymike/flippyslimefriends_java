@@ -234,16 +234,16 @@ public class MatrixData {
                         )
                 ),
                 new MapData(
-                        3, 4,
-                        new int[]{
-                                0, 0, 0, e,
-                                e, 0, 0, 0,
-                                0, 0, 0, e
+                        3, 3,
+                        new int[] {
+                                0, 0, 0,
+                                0, 0, 0,
+                                0, 0, 0
                         },
-                        16,
-                        Arrays.asList(new TilePoint(1, 2)),
+                        12,
+                        Arrays.asList(new TilePoint(1, 1)),
                         Arrays.asList(
-                                new FinishTileData(1, 2)
+                                new FinishTileData(1, 1)
                         ),
                         new ArrayList<>(),
                         false

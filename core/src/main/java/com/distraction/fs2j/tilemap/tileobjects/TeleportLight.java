@@ -14,12 +14,12 @@ import java.util.List;
 
 public class TeleportLight extends TileObject {
 
-    private TextureRegion image;
-    private TextureRegion pixel;
-    private Color color = GameColor.CYAN;
-    private List<Vector3> particles;
+    private final TextureRegion image;
+    private final TextureRegion pixel;
+    private final Color color = new Color(GameColor.CYAN);
+    private final List<Vector3> particles;
 
-    private float interval = 0.1f;
+    private final float interval = 0.1f;
     private float time = interval;
 
     public TeleportLight(Context context, TileMap tileMap, int row, int col) {

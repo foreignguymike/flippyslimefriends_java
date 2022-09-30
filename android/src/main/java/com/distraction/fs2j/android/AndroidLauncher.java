@@ -16,9 +16,6 @@ public class AndroidLauncher extends AndroidApplication {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AndroidApplicationConfiguration configuration = new AndroidApplicationConfiguration();
-//        GpgsClient client = new GpgsClient();
-//        client.initialize(this, false);
-//        initialize(new FlippySlime2J(client), configuration);
         initialize(new FlippySlime2J(), configuration);
     }
 }

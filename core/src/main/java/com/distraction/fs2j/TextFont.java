@@ -58,7 +58,7 @@ public class TextFont {
     public void setText(String text) {
         if (text == null) text = "";
         if (!text.equals(this.text)) {
-            text = text.toUpperCase().replaceAll("[^A-Z0-9 .!]", "");
+            text = text.toUpperCase().replaceAll("[^A-Z0-9 .!-]", "");
             this.text = text;
             measureDimensions(text);
         }

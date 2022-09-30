@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.distraction.fs2j.Context;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +30,7 @@ public class GameData {
         mapData.put(Area.UNDERSEA, new UnderseaData().data);
         mapData.put(Area.MATRIX, new MatrixData().data);
         mapData.put(Area.CHALLENGE, new ChallengeData().data);
+        mapData.put(Area.TUTORIAL, new TutorialData().data);
 
         tileset = new HashMap<>();
         tileset.put(0, context.getImage("tileoff"));

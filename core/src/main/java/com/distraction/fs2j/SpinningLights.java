@@ -8,7 +8,7 @@ import java.util.List;
 
 public class SpinningLights extends ImageButton {
 
-    private float rotationSpeedDeg;
+    private final float rotationSpeedDeg;
 
     private final TextureRegion spotlight;
     private final List<Float> degrees;

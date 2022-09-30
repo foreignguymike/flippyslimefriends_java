@@ -8,8 +8,7 @@ import com.distraction.fs2j.tilemap.TileMap;
 
 public class Ice extends TileObject {
 
-    private TextureRegion image;
-    private float alpha = 0.85f;
+    private final TextureRegion image;
 
     public Ice(Context context, TileMap tileMap, int row, int col) {
         super(context, tileMap);
@@ -25,6 +24,6 @@ public class Ice extends TileObject {
     @Override
     public void render(SpriteBatch sb) {
         tileMap.toIsometric(p.x, p.y, isop);
-        Utils.drawAlpha(sb, image, isop.x - image.getRegionWidth() / 2f, isop.y - image.getRegionHeight() / 2f, alpha);
+        Utils.drawAlpha(sb, image, isop.x - image.getRegionWidth() / 2f, isop.y - image.getRegionHeight() / 2f, 0.85f);
     }
 }

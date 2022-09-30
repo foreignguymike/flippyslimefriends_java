@@ -8,8 +8,8 @@ import com.distraction.fs2j.tilemap.TileMap;
 
 public class SuperJumpLight extends TileObject {
 
-    private TextureRegion image;
-    private float duration = 1f;
+    private final TextureRegion image;
+    private final float duration = 1f;
     private float time = 0f;
 
     public SuperJumpLight(Context context, TileMap tileMap, int row, int col) {

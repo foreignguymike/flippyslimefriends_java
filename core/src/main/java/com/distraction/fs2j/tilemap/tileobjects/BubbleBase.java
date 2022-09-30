@@ -10,7 +10,7 @@ public class BubbleBase extends TileObject {
     public static final float RESET_INTERVAL = 1.9f;
     public static final float BLOW_UP_TIME = 1f;
 
-    private BreathingImage bubble;
+    private final BreathingImage bubble;
 
     public float resetTime;
     public boolean resetting = false;
