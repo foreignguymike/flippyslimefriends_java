@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.distraction.fs2j.AudioButton;
 import com.distraction.fs2j.Constants;
 import com.distraction.fs2j.Context;
 import com.distraction.fs2j.IconButton;
@@ -15,7 +16,7 @@ import com.distraction.fs2j.tilemap.data.GameColor;
 public class TitleState extends GameState {
 
     private final TextureRegion pixel;
-    private final IconButton audioButton;
+    private final AudioButton audioButton;
     private final ImageButton title;
     private final IconButton playButton;
     private final IconButton customizeButton;
@@ -30,8 +31,7 @@ public class TitleState extends GameState {
 
         pixel = context.getImage("pixel");
 
-        audioButton = new IconButton(context.getImage("audioicon"), context.getImage("iconbuttonbg"), 25f, Constants.HEIGHT - 25f, 5f);
-        audioButton.enabled = !context.audioHandler.isMuted();
+        audioButton = new AudioButton(context, context.audioHandler.getAudioState(), 25f, Constants.HEIGHT - 25f, 5f);
         title = new ImageButton(context.getImage("title"), Constants.WIDTH / 2f, Constants.HEIGHT + 100f, 0);
         playButton = new IconButton(context.getImage("play"), context.getImage("buttonbg"), Constants.WIDTH / 4f, 30, 0);
         customizeButton = new IconButton(context.getImage("slimetext"), context.getImage("buttonbg"), 2f * Constants.WIDTH / 4f, 30, 0);
@@ -79,7 +79,7 @@ public class TitleState extends GameState {
             if (customizeButton.containsPoint(touchPoint)) goToCustomize(false);
             if (challengeButton.containsPoint(touchPoint)) goToChallenge();
             if (audioButton.containsPoint(touchPoint))
-                audioButton.enabled = !context.audioHandler.toggleMute();
+                audioButton.setState(context.audioHandler.nextAudioState());
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) goToLevelSelect();
         if (Gdx.input.isKeyJustPressed(Input.Keys.N)) {

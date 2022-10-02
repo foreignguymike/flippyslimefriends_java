@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.distraction.fs2j.AccessoryIcon;
+import com.distraction.fs2j.AudioButton;
 import com.distraction.fs2j.GameBackground;
 import com.distraction.fs2j.BreathingImage;
 import com.distraction.fs2j.Constants;
@@ -37,7 +38,7 @@ public class CustomizeState extends GameState {
     private final TextureRegion pixel;
 
     private final IconButton backButton;
-    private final IconButton audioButton;
+    private final AudioButton audioButton;
 
     private final TextFont skinText;
     private final TextFont faceText;
@@ -119,8 +120,7 @@ public class CustomizeState extends GameState {
         bg = new GameBackground(context, context.getImage("slimebg"), GameColor.PEACH, GameColor.WHITE);
         pixel = context.getImage("pixel");
         backButton = new IconButton(context.getImage("backicon"), context.getImage("iconbuttonbg"), 25f, Constants.HEIGHT - 25, 5f);
-        audioButton = new IconButton(context.getImage("audioicon"), context.getImage("iconbuttonbg"), 65f, Constants.HEIGHT - 25f, 5f);
-        audioButton.enabled = !context.audioHandler.isMuted();
+        audioButton = new AudioButton(context, context.audioHandler.getAudioState(), 65f, Constants.HEIGHT - 25f, 5f);
         skinText = new TextFont(context, TextFont.FontType.BIG, "skin", true, 4f * Constants.WIDTH / 6, 237);
         faceText = new TextFont(context, TextFont.FontType.BIG, "face", true, 5f * Constants.WIDTH / 6, 237);
         accessoriesText = new TextFont(context, TextFont.FontType.BIG, "accessories", true, 3f * Constants.WIDTH / 4 - 20, 157);
@@ -323,7 +323,8 @@ public class CustomizeState extends GameState {
             }
             if (shiftLeft.scale < 1) shiftAccessory(-1);
             if (shiftRight.scale < 1) shiftAccessory(1);
-            if (audioButton.scale < 1) audioButton.enabled = !context.audioHandler.toggleMute();
+            if (audioButton.scale < 1)
+                audioButton.setState(context.audioHandler.nextAudioState());
             if (backButton.containsPoint(touchPoint)) goBack();
             if (saveButton.containsPoint(touchPoint)) save();
         }

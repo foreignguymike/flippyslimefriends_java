@@ -18,6 +18,10 @@ public class MusicConfig {
         return music;
     }
 
+    public void mute() {
+        music.setVolume(0f);
+    }
+
     public void play() {
         music.setVolume(volume);
         music.setLooping(looping);

@@ -71,8 +71,8 @@ class PlayState extends GameState implements TileMap.TileListener, Player.MoveLi
 
         if (players.size() > 1) player.showSelected(true);
 
-        if (area == Area.RUINS) context.audioHandler.playMusic("mystery", 0.5f, true);
-        else if (area == Area.TUNDRA) context.audioHandler.playMusic("calm", 0.5f, true);
+        if (area == Area.RUINS) context.audioHandler.playMusic("ruins", 0.5f, true);
+        else if (area == Area.TUNDRA) context.audioHandler.playMusic("tundra", 0.5f, true);
         else context.audioHandler.stopMusic();
     }
 

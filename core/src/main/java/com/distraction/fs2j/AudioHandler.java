@@ -9,17 +9,28 @@ import java.util.Map;
 
 public class AudioHandler {
 
+    public enum AudioState {
+        ON,
+        MUSIC,
+        SFX,
+        OFF
+    }
+
     private final Map<String, Music> music;
     private final Map<String, Sound> sounds;
 
     private MusicConfig currentlyPlaying;
 
-    private boolean muted = false;
+    private AudioState audioState = AudioState.ON;
+    private boolean musicMuted = false;
+    private boolean sfxMuted = false;
 
     public AudioHandler() {
         music = new HashMap<>();
         addMusic("calm", "music/calm.mp3");
         addMusic("mystery", "music/mystery.mp3");
+        addMusic("ruins", "music/ruins.mp3");
+        addMusic("tundra", "music/tundra.mp3");
 
         sounds = new HashMap<>();
         addSound("select", "sfx/select.wav");
@@ -37,21 +48,40 @@ public class AudioHandler {
         sounds.put(key, Gdx.audio.newSound(Gdx.files.internal(fileName)));
     }
 
-    public boolean isMuted() {
-        return muted;
+    public AudioState getAudioState() {
+        return audioState;
     }
 
-    public boolean toggleMute() {
-        muted = !muted;
-        if (muted) {
-            for (Music it : music.values()) it.setVolume(0f);
-            for (Sound it : sounds.values()) it.stop();
+    public AudioState nextAudioState() {
+        if (audioState == AudioHandler.AudioState.ON) {
+            audioState = AudioState.MUSIC;
+            setMuteState(false, true);
+        } else if (audioState == AudioHandler.AudioState.MUSIC) {
+            audioState = AudioState.SFX;
+            setMuteState(true, false);
+        } else if (audioState == AudioHandler.AudioState.SFX) {
+            audioState = AudioState.OFF;
+            setMuteState(true, true);
         } else {
-            if (currentlyPlaying != null) {
+            audioState = AudioState.ON;
+            setMuteState(false, false);
+        }
+        return audioState;
+    }
+
+    private void setMuteState(boolean musicMuted, boolean sfxMuted) {
+        this.musicMuted = musicMuted;
+        this.sfxMuted = sfxMuted;
+        if (currentlyPlaying != null) {
+            if (musicMuted) {
+                currentlyPlaying.mute();
+            } else {
                 currentlyPlaying.play();
             }
         }
-        return muted;
+        if (sfxMuted) {
+            for (Sound it : sounds.values()) it.stop();
+        }
     }
 
     public void playMusic(String key, float volume, boolean looping) {
@@ -63,7 +93,7 @@ public class AudioHandler {
             stopMusic();
         }
         currentlyPlaying = new MusicConfig(music.get(key), volume, looping);
-        if (!muted) currentlyPlaying.play();
+        if (!musicMuted) currentlyPlaying.play();
     }
 
     public void stopMusic() {
@@ -77,7 +107,7 @@ public class AudioHandler {
     }
 
     public void playSound(String key, float volume) {
-        if (muted) return;
+        if (sfxMuted) return;
         for (Map.Entry<String, Sound> entry : sounds.entrySet()) {
             if (entry.getKey().equals(key)) entry.getValue().play(volume);
         }

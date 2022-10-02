@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.distraction.fs2j.AudioButton;
 import com.distraction.fs2j.BreathingImage;
 import com.distraction.fs2j.Constants;
 import com.distraction.fs2j.Context;
@@ -49,7 +50,7 @@ class LevelSelectV2State extends GameState {
     private final BreathingImage levelSelectedBorder;
     private final TextFont levelSelectText;
     private final IconButton backButton;
-    private final IconButton audioButton;
+    private final AudioButton audioButton;
     private final TextureRegion star;
     private final TextFont starText;
     private final TextFont diamondText;
@@ -116,8 +117,7 @@ class LevelSelectV2State extends GameState {
 
         levelSelectText = new TextFont(context, TextFont.FontType.BIG, "level select", true, Constants.WIDTH / 2f, Constants.HEIGHT - 30f);
         backButton = new IconButton(context.getImage("backicon"), context.getImage("iconbuttonbg"), 25f, Constants.HEIGHT - 25, 5f);
-        audioButton = new IconButton(context.getImage("audioicon"), context.getImage("iconbuttonbg"), 65f, Constants.HEIGHT - 25f, 5f);
-        audioButton.enabled = !context.audioHandler.isMuted();
+        audioButton = new AudioButton(context, context.audioHandler.getAudioState(), 65f, Constants.HEIGHT - 25f, 5f);
         star = context.getImage("starunlock");
         starText = new TextFont(context, TextFont.FontType.NORMAL2, Integer.toString(context.scoreHandler.getNumStars()), false, 0, 0);
         starText.setPosition(Constants.WIDTH - starText.getTotalWidth() - 15, Constants.HEIGHT - 20);
@@ -216,7 +216,7 @@ class LevelSelectV2State extends GameState {
     }
 
     private float getAreaNamesCamPosition() {
-        return Constants.WIDTH * (int ) (page / 3) + Constants.WIDTH / 2f;
+        return Constants.WIDTH * (int) (page / 3) + Constants.WIDTH / 2f;
     }
 
     private void back() {
@@ -249,15 +249,14 @@ class LevelSelectV2State extends GameState {
             if (backButton.containsPoint(touchPoint)) back();
             if (leftButton.containsPoint(touchPoint)) {
                 decrementPage();
-                context.audioHandler.playSound("selectshort");
+                context.audioHandler.playSound("selectshort", 0.5f);
             }
             if (rightButton.containsPoint(touchPoint)) {
                 incrementPage();
-                context.audioHandler.playSound("selectshort");
+                context.audioHandler.playSound("selectshort", 0.5f);
             }
-            if (audioButton.containsPoint(touchPoint)) {
-                audioButton.enabled = !context.audioHandler.toggleMute();
-            }
+            if (audioButton.containsPoint(touchPoint))
+                audioButton.setState(context.audioHandler.nextAudioState());
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) goToLevel(level);

@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.distraction.fs2j.AudioButton;
 import com.distraction.fs2j.BreathingImage;
 import com.distraction.fs2j.Constants;
 import com.distraction.fs2j.Context;
@@ -29,7 +30,7 @@ public class ChallengeState extends GameState {
 
     private final IconButton backButton;
     private final IconButton refreshButton;
-    private final IconButton audioButton;
+    private final AudioButton audioButton;
 
     private final OrthographicCamera staticCam;
 
@@ -56,8 +57,7 @@ public class ChallengeState extends GameState {
 
         backButton = new IconButton(context.getImage("backicon"), context.getImage("iconbuttonbg"), 25f, Constants.HEIGHT - 25, 5f);
         refreshButton = new IconButton(context.getImage("restarticon"), context.getImage("iconbuttonbg"), 65f, Constants.HEIGHT - 25, 5f);
-        audioButton = new IconButton(context.getImage("audioicon"), context.getImage("iconbuttonbg"), 105f, Constants.HEIGHT - 25f, 5f);
-        audioButton.enabled = !context.audioHandler.isMuted();
+        audioButton = new AudioButton(context, context.audioHandler.getAudioState(), 105f, Constants.HEIGHT - 25f, 5f);
 
         staticCam = new OrthographicCamera();
         staticCam.setToOrtho(false, Constants.WIDTH, Constants.HEIGHT);
@@ -147,7 +147,7 @@ public class ChallengeState extends GameState {
             if (backButton.containsPoint(touchPoint)) goBack();
             if (refreshButton.containsPoint(touchPoint)) refresh();
             if (audioButton.containsPoint(touchPoint))
-                audioButton.enabled = !context.audioHandler.toggleMute();
+                audioButton.setState(context.audioHandler.nextAudioState());
             if (leftButton.containsPoint(touchPoint)) changeLevel(-1);
             if (rightButton.containsPoint(touchPoint)) changeLevel(1);
             for (int i = 0; i < playButtons.length; i++) {

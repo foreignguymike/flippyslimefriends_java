@@ -33,7 +33,7 @@ public class HUD {
     private final Map<ButtonListener.ButtonType, IconButton> topButtons;
     private final TextButton switchButton;
     private final IconButton bubbleDropButton;
-    private final IconButton audioButton;
+    private final AudioButton audioButton;
     private final TextFont[] labels;
 
     private int goal;
@@ -66,8 +66,7 @@ public class HUD {
                 new IconButton(context.getImage("restarticon"), context.getImage("iconbuttonbg"), 65f, Constants.HEIGHT - HEIGHT / 2f, 5f));
         switchButton = new TextButton(context, "switch", context.getImage("buttonbg"), Constants.WIDTH / 2f, 28f, 5f);
         bubbleDropButton = new IconButton(context.getImage("bubbledropicon"), context.getImage("iconbuttonbg"), Constants.WIDTH - 25f, 25f, 5f);
-        audioButton = new IconButton(context.getImage("audioicon"), context.getImage("iconbuttonbg"), 105f, Constants.HEIGHT - HEIGHT / 2f, 5f);
-        audioButton.enabled = !context.audioHandler.isMuted();
+        audioButton = new AudioButton(context, context.audioHandler.getAudioState(), 105f, Constants.HEIGHT - HEIGHT / 2f, 5f);
 
         labels = new TextFont[]{
                 new TextFont(context, TextFont.FontType.NORMAL2, "goal 0", false, Constants.WIDTH - 70f, Constants.HEIGHT - 14f),
@@ -160,7 +159,7 @@ public class HUD {
                 buttonListener.onButtonPressed(ButtonListener.ButtonType.BUBBLE_DROP);
             }
             if (audioButton.scale < 1f) {
-                audioButton.enabled = !context.audioHandler.toggleMute();
+                audioButton.setState(context.audioHandler.nextAudioState());
             }
         }
     }
