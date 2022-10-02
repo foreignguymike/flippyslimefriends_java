@@ -28,7 +28,7 @@ public class AudioHandler {
     public AudioHandler() {
         music = new HashMap<>();
         addMusic("calm", "music/calm.mp3");
-        addMusic("mystery", "music/mystery.mp3");
+        addMusic("meadow", "music/meadow.mp3");
         addMusic("ruins", "music/ruins.mp3");
         addMusic("tundra", "music/tundra.mp3");
 
