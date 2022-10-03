@@ -31,6 +31,7 @@ public class AudioHandler {
         addMusic("meadow", "music/meadow.mp3");
         addMusic("ruins", "music/ruins.mp3");
         addMusic("tundra", "music/tundra.mp3");
+        addMusic("undersea", "music/undersea.mp3");
 
         sounds = new HashMap<>();
         addSound("select", "sfx/select.wav");
