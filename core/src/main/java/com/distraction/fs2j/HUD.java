@@ -31,7 +31,7 @@ public class HUD {
 
     private final Map<ButtonListener.ButtonType, ImageButton> bottomButtons;
     private final Map<ButtonListener.ButtonType, IconButton> topButtons;
-    private final TextButton switchButton;
+    private final IconButton switchButton;
     private final IconButton bubbleDropButton;
     private final AudioButton audioButton;
     private final TextFont[] labels;
@@ -64,7 +64,7 @@ public class HUD {
                 new IconButton(context.getImage("backicon"), context.getImage("iconbuttonbg"), 25f, Constants.HEIGHT - HEIGHT / 2f, 5f));
         topButtons.put(ButtonListener.ButtonType.RESTART,
                 new IconButton(context.getImage("restarticon"), context.getImage("iconbuttonbg"), 65f, Constants.HEIGHT - HEIGHT / 2f, 5f));
-        switchButton = new TextButton(context, "switch", context.getImage("buttonbg"), Constants.WIDTH / 2f, 28f, 5f);
+        switchButton = new IconButton(context.getImage("switchicon"), context.getImage("iconbuttonbg"), Constants.WIDTH - 25f, 25f, 5f);
         bubbleDropButton = new IconButton(context.getImage("bubbledropicon"), context.getImage("iconbuttonbg"), Constants.WIDTH - 25f, 25f, 5f);
         audioButton = new AudioButton(context, context.audioHandler.getAudioState(), 105f, Constants.HEIGHT - HEIGHT / 2f, 5f);
 
@@ -74,6 +74,10 @@ public class HUD {
                 new TextFont(context, TextFont.FontType.NORMAL2, "moves 0", false, Constants.WIDTH - 150f, Constants.HEIGHT - 34f + (area == Area.CHALLENGE ? 12 : 0)),
                 new TextFont(context, TextFont.FontType.BIG, "level " + (level + 1), false, 170f, Constants.HEIGHT - HEIGHT / 2f),
         };
+
+        if (players.size() > 0) {
+            bubbleDropButton.setPosition(Constants.WIDTH - 25f, 65f);
+        }
     }
 
     public void setGoal(int goal) {
