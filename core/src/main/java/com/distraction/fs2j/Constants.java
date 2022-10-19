@@ -15,7 +15,7 @@ public class Constants {
     public static final int DESKTOP_WIDTH = 480 * SCALE;
     public static final int DESKTOP_HEIGHT = 270 * SCALE;
 
-    public static final String VERSION = "v0.1.13";
+    public static final String VERSION = "v0.2.0";
 
     public static final boolean FULLSCREEN = false;
 
