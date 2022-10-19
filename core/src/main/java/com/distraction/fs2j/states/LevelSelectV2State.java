@@ -249,11 +249,11 @@ class LevelSelectV2State extends GameState {
             if (backButton.containsPoint(touchPoint)) back();
             if (leftButton.containsPoint(touchPoint)) {
                 decrementPage();
-                context.audioHandler.playSound("selectshort", 0.5f);
+                context.audioHandler.playSound("selectshort2", 0.4f);
             }
             if (rightButton.containsPoint(touchPoint)) {
                 incrementPage();
-                context.audioHandler.playSound("selectshort", 0.5f);
+                context.audioHandler.playSound("selectshort2", 0.4f);
             }
             if (audioButton.containsPoint(touchPoint))
                 audioButton.setState(context.audioHandler.nextAudioState());

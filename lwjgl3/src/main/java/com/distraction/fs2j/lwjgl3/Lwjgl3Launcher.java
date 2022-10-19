@@ -12,7 +12,7 @@ import com.distraction.fs2j.gj.GameJoltClient;
 public class Lwjgl3Launcher {
     public static void main(String[] args) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-        config.setTitle(Constants.TITLE);
+        config.setTitle(Constants.TITLE + " " + Constants.VERSION);
         config.useVsync(true);
         config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
         if (Constants.FULLSCREEN) {

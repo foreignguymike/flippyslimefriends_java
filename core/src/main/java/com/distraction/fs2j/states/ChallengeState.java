@@ -90,6 +90,8 @@ public class ChallengeState extends GameState {
         }
         setLeaderboardsEnabled(true);
         changeLevel(level);
+
+        context.audioHandler.stopMusic();
     }
 
     private void goBack() {

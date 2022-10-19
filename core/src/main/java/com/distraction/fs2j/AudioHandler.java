@@ -27,15 +27,17 @@ public class AudioHandler {
 
     public AudioHandler() {
         music = new HashMap<>();
-        addMusic("calm", "music/calm.mp3");
         addMusic("meadow", "music/meadow.mp3");
         addMusic("ruins", "music/ruins.mp3");
         addMusic("tundra", "music/tundra.mp3");
         addMusic("undersea", "music/undersea.mp3");
+        addMusic("matrix", "music/matrix.mp3");
+        addMusic("challenge", "music/challenge.mp3");
 
         sounds = new HashMap<>();
         addSound("select", "sfx/select.wav");
         addSound("selectshort", "sfx/selectshort.wav");
+        addSound("selectshort2", "sfx/selectshort2.wav");
         addSound("activate", "sfx/activate.wav");
         addSound("deactivate", "sfx/deactivate.wav");
         addSound("complete", "sfx/complete.wav");

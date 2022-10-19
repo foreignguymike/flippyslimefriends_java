@@ -75,6 +75,8 @@ class PlayState extends GameState implements TileMap.TileListener, Player.MoveLi
         else if (area == Area.RUINS) context.audioHandler.playMusic("ruins", 0.5f, true);
         else if (area == Area.TUNDRA) context.audioHandler.playMusic("tundra", 0.5f, true);
         else if (area == Area.UNDERSEA) context.audioHandler.playMusic("undersea", 0.5f, true);
+        else if (area == Area.MATRIX) context.audioHandler.playMusic("matrix", 0.6f, true);
+        else if (area == Area.CHALLENGE) context.audioHandler.playMusic("challenge", 0.5f, true);
         else context.audioHandler.stopMusic();
     }
 
@@ -85,9 +87,7 @@ class PlayState extends GameState implements TileMap.TileListener, Player.MoveLi
 
     @Override
     public void onMoved(boolean on) {
-        if (tileMap.isFinished(players)) {
-            context.audioHandler.playSound("complete", 0.3f);
-        } else {
+        if (!ignoreInput) {
             hud.incrementMoves();
             context.audioHandler.playSound(on ? "activate" : "deactivate");
         }
@@ -122,6 +122,7 @@ class PlayState extends GameState implements TileMap.TileListener, Player.MoveLi
     }
 
     private void finish() {
+        context.audioHandler.playSound("complete", 0.3f);
         ignoreInput = true;
         hud.hideInfo = true;
         hud.incrementMoves();
