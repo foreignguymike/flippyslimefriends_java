@@ -39,7 +39,7 @@ public class ChallengeState extends GameState {
     private final BreathingImage leftButton;
     private final BreathingImage rightButton;
 
-    private int level = 0;
+    private int level = -1;
     private final TileMap[] tileMaps;
     private final OrthographicCamera[] cameras;
     private final InfoBox[] infoBoxes;
@@ -89,7 +89,7 @@ public class ChallengeState extends GameState {
             cameras[i].update();
         }
         setLeaderboardsEnabled(true);
-        changeLevel(level);
+        setLevel(level);
 
         context.audioHandler.stopMusic();
     }
@@ -100,8 +100,15 @@ public class ChallengeState extends GameState {
         context.audioHandler.playSound("select", 0.3f);
     }
 
+    private void setLevel(int level) {
+        changeLevel(level - this.level);
+    }
+
     private void changeLevel(int amount) {
         if (level + amount < 0 || level + amount >= tileMaps.length) return;
+        if (level != -1) {
+            context.audioHandler.playSound("selectshort2", 0.4f);
+        }
         level += amount;
         if (level >= context.playerDataHandler.leaderboards.size()) {
             for (Placement it : placements) it.setScore(0, "");
