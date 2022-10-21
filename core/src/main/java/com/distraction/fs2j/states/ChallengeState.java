@@ -167,6 +167,9 @@ public class ChallengeState extends GameState {
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) goBack();
+        if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) changeLevel(-1);
+        if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) changeLevel(1);
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) goToLevel();
     }
 
     @Override
