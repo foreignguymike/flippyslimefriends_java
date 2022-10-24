@@ -237,7 +237,7 @@ public class CustomizeState extends GameState {
         accessoryTypes[index] = accessoryType;
         accessoryIcons[index].setType(accessoryType);
         if (accessoryType != null) {
-            accessoryIcons[index].setOffset(accessoryType.xoffset, accessoryType.yoffset);
+            accessoryIcons[index].setOffset(accessoryType.iconx, accessoryType.icony);
         } else {
             setSelectedIndex(-1);
         }

@@ -686,7 +686,7 @@ public class TundraData {
                                 0, b, 0, 0,
                                 0, 0, 0, 0
                         },
-                        18,
+                        14,
                         Arrays.asList(new TilePoint(3, 0), new TilePoint(1, 3)),
                         Arrays.asList(
                                 new IceData(1, 0),

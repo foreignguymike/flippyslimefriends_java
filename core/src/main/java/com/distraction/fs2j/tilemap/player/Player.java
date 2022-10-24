@@ -507,23 +507,6 @@ public class Player extends TileObject implements Tile.TileMoveListener {
         public void render(SpriteBatch sb) {
             if (tileMap != null) tileMap.toIsometric(p.x, p.y, isop);
             if (!teleporting) {
-                if (bubbling) {
-                    sb.setColor(1, 1, 1, 1);
-                    if (!dropping) {
-                        bubble.setPosition(isop.x, isop.y + p.z + 10);
-                        bubble.render(sb);
-                    }
-                    if (p.z == BASELINE + BUBBLE_HEIGHT) {
-                        if (canDrop) {
-                            bubbleo.setPosition(isop.x, isop.y);
-                            bubbleo.render(sb);
-                        } else {
-                            bubblex.setPosition(isop.x, isop.y);
-                            bubblex.render(sb);
-                        }
-                    }
-                }
-
                 // draw accessories behind player first
                 // these have to go in reverse order since accessories are ordered by distance to center of player
                 sb.setColor(1, 1, 1, 1);
@@ -575,6 +558,24 @@ public class Player extends TileObject implements Tile.TileMoveListener {
                             isop.x - pointerImage.getRegionWidth() / 2f,
                             isop.y + p.z - 20f + 2 * MathUtils.sin(3 * selectedTimer)
                     );
+                }
+
+                // draw bubble
+                if (bubbling) {
+                    sb.setColor(1, 1, 1, 1);
+                    if (!dropping) {
+                        bubble.setPosition(isop.x, isop.y + p.z + 10);
+                        bubble.render(sb);
+                    }
+                    if (p.z == BASELINE + BUBBLE_HEIGHT) {
+                        if (canDrop) {
+                            bubbleo.setPosition(isop.x, isop.y);
+                            bubbleo.render(sb);
+                        } else {
+                            bubblex.setPosition(isop.x, isop.y);
+                            bubblex.render(sb);
+                        }
+                    }
                 }
             }
         }

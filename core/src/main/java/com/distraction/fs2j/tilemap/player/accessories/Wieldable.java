@@ -11,14 +11,23 @@ public class Wieldable extends Accessory {
 
     private static final float MAX_DEG = 30f;
 
-    private final TextureRegion image;
+    protected final TextureRegion image;
+    protected final TextureRegion image2;
 
     private float time;
-    private float deg;
+    protected float deg;
 
-    public Wieldable(Player player, AccessoryType type) {
+    protected final float xoffset;
+    protected final float yoffset;
+
+    public Wieldable(Player player, AccessoryType type, float xoffset, float yoffset) {
         super(player);
-        image = type.getSprites(player.context)[0];
+        TextureRegion[] sprites = type.getSprites(player.context);
+        image = sprites[0];
+        if (sprites.length > 1) image2 = sprites[1];
+        else image2 = null;
+        this.xoffset = xoffset;
+        this.yoffset = yoffset;
     }
 
     @Override
@@ -26,8 +35,9 @@ public class Wieldable extends Accessory {
         time += dt;
         float idleDeg = MathUtils.sin(time * 3) * 4 - 2;
         deg = MathUtils.lerp(deg, player.moving ? player.right() ? MAX_DEG : -MAX_DEG : idleDeg, 8f * dt);
-        if (player.forward()) offset.x = player.right() ? -15f : 0f;
-        else offset.x = player.right() ? 15f : 20f;
+        if (player.forward()) offset.x = player.right() ? -xoffset : 0f;
+        else offset.x = player.right() ? xoffset : xoffset + 5f;
+        offset.y = yoffset;
     }
 
     @Override
@@ -35,7 +45,7 @@ public class Wieldable extends Accessory {
         Vector3 isop = player.isop;
         if (player.right() && player.forward() || !player.right() && !player.forward()) {
             sb.draw(
-                    image,
+                    player.forward() ? image : image2 != null ? image2 : image,
                     isop.x + offset.x - image.getRegionWidth() / 2f,
                     isop.y + player.p.z + offset.y - image.getRegionHeight() / 2f,
                     image.getRegionWidth() / 2f,
@@ -54,7 +64,7 @@ public class Wieldable extends Accessory {
         Vector3 isop = player.isop;
         if (!player.right() && player.forward() || player.right() && !player.forward()) {
             sb.draw(
-                    image,
+                    player.forward() ? image : image2 != null ? image2 : image,
                     isop.x + offset.x - image.getRegionWidth() / 2f,
                     isop.y + player.p.z + offset.y - image.getRegionHeight() / 2f,
                     image.getRegionWidth() / 2f,

@@ -4,12 +4,12 @@ skins
 
 metal
 matte colors?
+ghost
 
 ======
 faces
 ======
 
-depressed
 ghost
 robot
 
@@ -18,26 +18,28 @@ accessories
 ============
 
 hats:
-pajama hat
-straw hat (color)
 cap (color)
 cultural (too many?)
 
 face:
 markings?
-eye brows
 cheek
 facial hair
+makeup
 
 effects:
-big star (max stars)
-orbiting stars (max stars)
 big diamond (max diamonds)
 orbiting diamonds (max diamonds)
 floating wisps
 floating candles
 sparkling
 weather (small weather thing floating over you, eg: little rain cloud)
+
+glasses:
+sunglasses
+heart glasses
+specs
+visors
 
 back:
 backpack (different styles/colors)

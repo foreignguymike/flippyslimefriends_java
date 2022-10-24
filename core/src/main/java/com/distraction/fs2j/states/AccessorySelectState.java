@@ -18,6 +18,8 @@ import com.distraction.fs2j.tilemap.player.AccessoryType;
 class AccessorySelectState extends GameState {
 
     private static final float MAX_ALPHA = 0.5f;
+    private static final int MAX_COL = 13;
+    private static final int MAX_ROW = 5;
 
     private final CustomizeState customizeState;
     private final int accessoryIndex;
@@ -52,10 +54,8 @@ class AccessorySelectState extends GameState {
 
         accessoryIcons = new AccessoryIcon[accessoryTypes.length];
 
-        int r = (int) (9 * 0.363241579);
-        int c = (int) Math.ceil(16 * 0.363241579);
-        while (r * c < accessoryIcons.length) c++;
-        while ((r - 1) * c > accessoryIcons.length) r--;
+        int r = accessoryIcons.length / MAX_COL + 1;
+        int c = MAX_COL;
         int p = 5;
         int w = 30;
         int tw = w * c + p * (c - 1);
@@ -70,7 +70,7 @@ class AccessorySelectState extends GameState {
                 float x = s + col * (w + p);
                 float y = sy - row * (w + p);
                 accessoryIcons[i] = new AccessoryIcon(context, accessoryTypes[i], x, y, -1, numDiamonds);
-                accessoryIcons[i].setOffset(accessoryTypes[i].xoffset, accessoryTypes[i].yoffset);
+                accessoryIcons[i].setOffset(accessoryTypes[i].iconx, accessoryTypes[i].icony);
                 if (accessoryTypes[i] != replacing && Utils.contains(alreadySelected, accessoryTypes[i])) {
                     accessoryIcons[i].enabled = false;
                 }
@@ -80,7 +80,7 @@ class AccessorySelectState extends GameState {
             }
         }
 
-        infoBox = new InfoBox(context, Constants.WIDTH / 2f, Constants.HEIGHT / 2f, tw + 40, th + 90);
+        infoBox = new InfoBox(context, Constants.WIDTH / 2f, Constants.HEIGHT / 2f, tw + 20, th + 90);
         xbutton = new IconButton(context.getImage("xicon"), context.getImage("iconbuttonbg"), Constants.WIDTH / 2f, infoBox.pos.y - infoBox.height / 2 + 30);
         diamond = new ImageButton(context.getImage("diamondunlock"));
         diamondFont = new TextFont(context, TextFont.FontType.BIG, Integer.toString(numDiamonds), false, 0, 0);

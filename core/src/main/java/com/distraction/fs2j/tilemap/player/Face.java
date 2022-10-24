@@ -7,13 +7,16 @@ import com.distraction.fs2j.Logging;
 public enum Face implements Customizer {
     NORMAL("normal"),
     LASHES("lashes"),
+    BLANK("blank", 5),
+    BLANK_LASHES("blanklashes", 5),
     SLEEP("sleep", 10),
     COOL("cool", 20),
-    DOG("dog", 40),
+    DOG("dog", 30),
     CAT("cat", 40),
     INVERTED("inverted", 50),
     BUNNY("bunny", 60),
     STARE("stare", 80),
+    CRAZY("crazy", 100),
     EYE("eye", 120),
     PUMPKIN("pumpkin", 150),
     EMIL("emil", 200);

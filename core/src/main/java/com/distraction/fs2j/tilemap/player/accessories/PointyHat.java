@@ -6,13 +6,13 @@ import com.distraction.fs2j.AnimationSet;
 import com.distraction.fs2j.tilemap.player.AccessoryType;
 import com.distraction.fs2j.tilemap.player.Player;
 
-public class SantaHat extends Accessory {
+public class PointyHat extends Accessory {
 
     private final TextureRegion[] sprites;
 
-    public SantaHat(Player player) {
+    public PointyHat(Player player, AccessoryType type) {
         super(player);
-        sprites = AccessoryType.SANTA_HAT.getSprites(player.context);
+        sprites = type.getSprites(player.context);
         offset.x = -3f;
     }
 
