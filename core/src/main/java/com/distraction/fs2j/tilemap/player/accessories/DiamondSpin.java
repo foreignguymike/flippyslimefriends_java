@@ -90,6 +90,7 @@ public class DiamondSpin extends Accessory {
                 );
             }
         }
+        sb.setColor(GameColor.WHITE);
     }
 
     @Override
