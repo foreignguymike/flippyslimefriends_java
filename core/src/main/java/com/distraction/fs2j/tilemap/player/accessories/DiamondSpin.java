@@ -67,16 +67,6 @@ public class DiamondSpin extends Accessory {
     @Override
     public void renderBehind(SpriteBatch sb) {
         Vector3 isop = player.isop;
-        if (player.forward() && !right || !player.forward() && right) {
-            sb.setColor(1, 1, 1, 1);
-            sb.draw(
-                    image,
-                    isop.x + offset.x - image.getRegionWidth() / 2f,
-                    isop.y + player.p.z + offset.y,
-                    image.getRegionWidth(),
-                    image.getRegionHeight()
-            );
-        }
         for (int i = infos.length - 1; i >= 0; i--) {
             DiamondInfo info = infos[i];
             if (player.forward() && !info.right || !player.forward() && info.right) {
@@ -85,19 +75,13 @@ public class DiamondSpin extends Accessory {
                         pixel,
                         isop.x + info.offset.x,
                         isop.y + player.p.z + info.offset.y,
-                        1,
-                        1
+                        2,
+                        2
                 );
             }
         }
         sb.setColor(GameColor.WHITE);
-    }
-
-    @Override
-    public void renderFront(SpriteBatch sb) {
-        Vector3 isop = player.isop;
-        if (player.forward() && right || !player.forward() && !right) {
-            sb.setColor(1, 1, 1, 1);
+        if (player.forward() && !right || !player.forward() && right) {
             sb.draw(
                     image,
                     isop.x + offset.x - image.getRegionWidth() / 2f,
@@ -106,6 +90,11 @@ public class DiamondSpin extends Accessory {
                     image.getRegionHeight()
             );
         }
+    }
+
+    @Override
+    public void renderFront(SpriteBatch sb) {
+        Vector3 isop = player.isop;
         for (int i = infos.length - 1; i >= 0; i--) {
             DiamondInfo info = infos[i];
             if (player.forward() && info.right || !player.forward() && !info.right) {
@@ -114,11 +103,20 @@ public class DiamondSpin extends Accessory {
                         pixel,
                         isop.x + info.offset.x,
                         isop.y + player.p.z + info.offset.y,
-                        1,
-                        1
+                        2,
+                        2
                 );
             }
         }
         sb.setColor(GameColor.WHITE);
+        if (player.forward() && right || !player.forward() && !right) {
+            sb.draw(
+                    image,
+                    isop.x + offset.x - image.getRegionWidth() / 2f,
+                    isop.y + player.p.z + offset.y,
+                    image.getRegionWidth(),
+                    image.getRegionHeight()
+            );
+        }
     }
 }

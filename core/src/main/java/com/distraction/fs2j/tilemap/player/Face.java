@@ -10,6 +10,7 @@ public enum Face implements Customizer {
     BLANK("blank", 5),
     BLANK_LASHES("blanklashes", 5),
     SLEEP("sleep", 10),
+    BIG_EYES("bigeyes", 15),
     COOL("cool", 20),
     DOG("dog", 30),
     CAT("cat", 40),
