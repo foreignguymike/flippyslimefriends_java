@@ -78,7 +78,7 @@ class LevelSelectV2State extends GameState {
         }
         areaNames = new TextFont[areas.size()];
         for (int i = 0; i < areaNames.length; i++) {
-            areaNames[i] = new TextFont(context, TextFont.FontType.BIG, areas.get(i).text, true, Constants.WIDTH / 2f + Constants.WIDTH * i, 30f);
+            areaNames[i] = new TextFont(context, TextFont.FontType.BIG, areas.get(i).name, true, Constants.WIDTH / 2f + Constants.WIDTH * i, 30f);
         }
         areaNamesCam = new OrthographicCamera();
         areaNamesCam.setToOrtho(false, Constants.WIDTH, Constants.HEIGHT);
