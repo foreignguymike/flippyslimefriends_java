@@ -102,6 +102,7 @@ public class AudioHandler {
     public void stopMusic() {
         if (currentlyPlaying != null) {
             currentlyPlaying.stop();
+            currentlyPlaying = null;
         }
     }
 
