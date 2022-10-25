@@ -17,7 +17,6 @@ public class ScoreHandler {
         this.context = context;
         scores = new HashMap<>();
         for (Area area : Area.values()) {
-            if (area == Area.TUTORIAL) continue;
             if (context.gameData == null) throw new IllegalStateException("game data null");
             if (context.gameData.getMapData(area) == null)
                 throw new IllegalStateException("map data for " + area + " null");
@@ -32,7 +31,6 @@ public class ScoreHandler {
 
     private void load() {
         for (Area area : Area.values()) {
-            if (area == Area.TUTORIAL) continue;
             Preferences prefs = getPreferences(area);
             int[] areaScores = getScores(area);
             for (int i = 0; i < areaScores.length; i++) {

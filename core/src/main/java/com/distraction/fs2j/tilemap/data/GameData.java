@@ -30,7 +30,6 @@ public class GameData {
         mapData.put(Area.UNDERSEA, new UnderseaData().data);
         mapData.put(Area.MATRIX, new MatrixData().data);
         mapData.put(Area.CHALLENGE, new ChallengeFinalData().data);
-        mapData.put(Area.TUTORIAL, new TutorialData().data);
 
         tileset = new HashMap<>();
         tileset.put(0, context.getImage("tileoff"));
