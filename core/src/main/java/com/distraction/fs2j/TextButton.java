@@ -12,6 +12,10 @@ public class TextButton extends ImageButton {
         textFont = new TextFont(context, TextFont.FontType.NORMAL2, text, true, x, y);
     }
 
+    public void setText(String text) {
+        textFont.setText(text);
+    }
+
     @Override
     public void render(SpriteBatch sb) {
         super.render(sb);

@@ -2,6 +2,7 @@ package com.distraction.fs2j;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector3;
 
 public class TextFont {
 
@@ -75,6 +76,18 @@ public class TextFont {
     public void setPosition(float x, float y) {
         this.x = x;
         this.y = y;
+    }
+
+    public boolean containsPoint(Vector3 p) {
+        return containsPoint(p.x, p.y);
+    }
+
+    public boolean containsPoint(float x, float y) {
+        int padding = 5;
+        return this.x - width / 2 - padding <= x
+                && this.x + width / 2 + padding >= x
+                && this.y - height / 2 - padding <= y
+                && this.y + height / 2 + padding >= y;
     }
 
     private void measureDimensions(String text) {

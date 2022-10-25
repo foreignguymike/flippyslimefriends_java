@@ -10,9 +10,9 @@ import java.util.Map;
 
 public class GameData {
 
-    public static final int e = -1;
-    public static final int b = 5;
-    public static final int g = 100;
+    public static final int e = -1; // empty
+    public static final int b = 5; // block
+    public static final int g = 100; // gray
 
     public Context context;
 
@@ -29,7 +29,7 @@ public class GameData {
         mapData.put(Area.RUINS, new RuinsData().data);
         mapData.put(Area.UNDERSEA, new UnderseaData().data);
         mapData.put(Area.MATRIX, new MatrixData().data);
-        mapData.put(Area.CHALLENGE, new ChallengeData().data);
+        mapData.put(Area.CHALLENGE, new ChallengeFinalData().data);
         mapData.put(Area.TUTORIAL, new TutorialData().data);
 
         tileset = new HashMap<>();

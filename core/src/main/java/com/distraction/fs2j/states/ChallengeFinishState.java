@@ -1,9 +1,11 @@
 package com.distraction.fs2j.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Net;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Json;
 import com.distraction.fs2j.Constants;
 import com.distraction.fs2j.Context;
 import com.distraction.fs2j.IconButton;
@@ -13,6 +15,14 @@ import com.distraction.fs2j.TextFont;
 import com.distraction.fs2j.Utils;
 
 public class ChallengeFinishState extends GameState {
+
+    public static class SubmitScoreResponse {
+        public Response response;
+
+        public static class Response {
+            public boolean success;
+        }
+    }
 
     private final TextureRegion pixel;
 
@@ -103,10 +113,44 @@ public class ChallengeFinishState extends GameState {
     }
 
     private void submitScore() {
-        if (context.playerDataHandler.name != null) {
-            context.client.setGuestName(context.playerDataHandler.name);
-            context.client.submitToLeaderboard(Integer.toString(level), moves, context.playerDataHandler.serialize());
-            goBack();
+        if (context.playerDataHandler.name == null || context.playerDataHandler.name.isEmpty())
+            return;
+        if (!submitButton.enabled) return;
+
+        submitButton.enabled = false;
+        submitButton.setText("submit");
+        context.client.setGuestName(context.playerDataHandler.name);
+        boolean success = context.client.submitToLeaderboard(Integer.toString(level), moves, context.playerDataHandler.serialize(), 10000, new Net.HttpResponseListener() {
+
+            @Override
+            public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                String res = httpResponse.getResultAsString();
+                Json json = new Json();
+                json.setIgnoreUnknownFields(true);
+                SubmitScoreResponse response = json.fromJson(SubmitScoreResponse.class, res);
+                if (response.response.success) {
+                    submitButton.setText("sent!");
+                } else {
+                    submitButton.enabled = true;
+                    submitButton.setText("try again");
+                }
+            }
+
+            @Override
+            public void failed(Throwable t) {
+                submitButton.enabled = true;
+                submitButton.setText("try again");
+            }
+
+            @Override
+            public void cancelled() {
+                submitButton.enabled = true;
+                submitButton.setText("try again");
+            }
+        });
+        if (!success) {
+            submitButton.enabled = true;
+            submitButton.setText("try again");
         }
     }
 
@@ -140,7 +184,6 @@ public class ChallengeFinishState extends GameState {
 
         Utils.lerp(camera.position, Constants.WIDTH / 2f, Constants.HEIGHT / 2f, 0f, 10f * dt);
         camera.update();
-        submitButton.enabled = context.playerDataHandler.name != null && !context.playerDataHandler.name.isEmpty();
     }
 
     @Override

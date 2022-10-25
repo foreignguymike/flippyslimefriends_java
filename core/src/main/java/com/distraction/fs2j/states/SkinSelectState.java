@@ -17,6 +17,7 @@ import com.distraction.fs2j.tilemap.player.Skin;
 public class SkinSelectState extends GameState {
 
     private static final float MAX_ALPHA = 0.5f;
+    private static final int MAX_COL = 10;
 
     private final CustomizeState customizeState;
 
@@ -46,10 +47,8 @@ public class SkinSelectState extends GameState {
         cameraDest = Constants.HEIGHT / 2f;
 
         skinIcons = new AccessoryIcon[skins.length];
-        int r = (int) (9 * 0.363241579);
-        int c = (int) Math.ceil(16 * 0.363241579);
-        while (r * c < skinIcons.length) c++;
-        while ((r - 1) * c > skinIcons.length) r--;
+        int r = skinIcons.length / MAX_COL + 1;
+        int c = MAX_COL;
         int p = 5;
         int w = 30;
         int tw = w * c + p * (c - 1);

@@ -158,7 +158,7 @@ class Tile(var row: Int, var col: Int, val rect: Rectangle = Rectangle(), tile: 
                 }
                 FINISH -> {
                     g.color = finishColor
-                    g.fillRect(rect.width / 4, rect.height / 4, rect.width / 2, rect.height / 2)
+                    g.fillRect(rect.width / 8, rect.height / 8, rect.width / 4, rect.height / 4)
                 }
                 else -> {
                 }

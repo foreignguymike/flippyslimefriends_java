@@ -21,6 +21,7 @@ public class TitleState extends GameState {
     private final IconButton playButton;
     private final IconButton customizeButton;
     private final IconButton challengeButton;
+    private final TextFont creditsButton;
 
     private final TextFont build;
 
@@ -36,6 +37,7 @@ public class TitleState extends GameState {
         playButton = new IconButton(context.getImage("play"), context.getImage("buttonbg"), Constants.WIDTH / 4f, 30, 0);
         customizeButton = new IconButton(context.getImage("slimetext"), context.getImage("buttonbg"), 2f * Constants.WIDTH / 4f, 30, 0);
         challengeButton = new IconButton(context.getImage("challenge"), context.getImage("buttonbg"), 3f * Constants.WIDTH / 4f, 30, 0);
+        creditsButton = new TextFont(context, TextFont.FontType.NORMAL2, "credits", true, Constants.WIDTH - 40f, Constants.HEIGHT - 20f);
 
         title.lerpTo(Constants.WIDTH / 2f, Constants.HEIGHT / 2f);
 
@@ -65,6 +67,12 @@ public class TitleState extends GameState {
         context.audioHandler.playSound("select", 0.3f);
     }
 
+    private void goToCredits() {
+        ignoreInput = true;
+        context.gsm.push(new CheckeredTransitionState(context, new CreditsState(context)));
+        context.audioHandler.playSound("select", 0.3f);
+    }
+
     private void handleInput() {
         if (Gdx.input.justTouched()) {
             unprojectTouch();
@@ -80,6 +88,7 @@ public class TitleState extends GameState {
             if (challengeButton.containsPoint(touchPoint)) goToChallenge();
             if (audioButton.containsPoint(touchPoint))
                 audioButton.setState(context.audioHandler.nextAudioState());
+            if (creditsButton.containsPoint(touchPoint)) goToCredits();
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) goToLevelSelect();
         if (Gdx.input.isKeyJustPressed(Input.Keys.N)) {
@@ -116,6 +125,7 @@ public class TitleState extends GameState {
             playButton.render(sb);
             customizeButton.render(sb);
             challengeButton.render(sb);
+            creditsButton.render(sb);
 
             sb.setColor(1, 1, 1, 1);
             build.render(sb);

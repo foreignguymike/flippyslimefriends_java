@@ -14,7 +14,7 @@ public enum Area {
     MATRIX("matrix", GameColor.BLACK, "pixel", "matrixbgicon", GameColor.NEON_GREEN, "tiledark", "tiledarkoff"),
 
     TUTORIAL("tutorial", GameColor.SKY_BLUE, "", "slimebg", GameColor.LIGHT_GRAY, "tiletutorial", "tiletutorial"),
-    CHALLENGE("challenge", GameColor.LIGHT_GRAY, "meadowbg", "challengebgicon", GameColor.GRAY, "tiletutorial", "tiletutorial");
+    CHALLENGE("challengefinal", GameColor.LIGHT_GRAY, "meadowbg", "challengebgicon", GameColor.GRAY, "tiletutorial", "tiletutorial");
 
     public String text;
     public Color color;

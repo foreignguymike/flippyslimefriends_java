@@ -269,7 +269,7 @@ public class CustomizeState extends GameState {
             List<AccessoryType> list = new ArrayList<>(Arrays.asList(accessoryTypes));
             list.removeAll(Collections.singleton(null));
             context.playerDataHandler.save(list);
-            goBack();
+            context.audioHandler.playSound("complete", 0.3f);
         }
     }
 
@@ -304,6 +304,7 @@ public class CustomizeState extends GameState {
             else shiftRight.scale = 1f;
             if (audioButton.containsPoint(touchPoint)) audioButton.scale = 0.75f;
             else audioButton.scale = 1f;
+            if (saveButton.containsPoint(touchPoint)) saveButton.enabled = false;
         } else {
             left.scale = 1f;
             right.scale = 1f;
@@ -312,6 +313,7 @@ public class CustomizeState extends GameState {
             shiftLeft.scale = 1f;
             shiftRight.scale = 1f;
             audioButton.scale = 1f;
+            saveButton.enabled = true;
         }
 
         if (Gdx.input.justTouched()) {

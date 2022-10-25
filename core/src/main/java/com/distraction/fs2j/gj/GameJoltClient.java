@@ -419,6 +419,10 @@ public class GameJoltClient implements IGameServiceClient {
 
     @Override
     public boolean submitToLeaderboard(String leaderboardId, long score, String tag) {
+        return false;
+    }
+
+    public boolean submitToLeaderboard(String leaderboardId, long score, String tag, int timeoutMs, Net.HttpResponseListener listener) {
         //GameJolt allows submitting scores without an open session.
         //Enable it by setting guest name.
         //see http://gamejolt.com/api/doc/game/scores/add
@@ -458,8 +462,9 @@ public class GameJoltClient implements IGameServiceClient {
         final Net.HttpRequest http = buildJsonRequest("scores/add/", params);
         if (http == null)
             return false;
+        http.setTimeOut(timeoutMs);
 
-        Gdx.net.sendHttpRequest(http, new NoOpResponseListener());
+        Gdx.net.sendHttpRequest(http, listener);
 
         return true;
     }
