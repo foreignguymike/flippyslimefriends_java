@@ -2,7 +2,15 @@ apply plugin: 'com.android.application'
 
 
 android {
-	compileSdkVersion 31
+	signingConfigs {
+        release {
+            storeFile file('C:\\Users\\forei\\.prefs\\keystores\\release.jks')
+            storePassword '52W36b88'
+            keyAlias 'a'
+            keyPassword '52W36b88'
+        }
+    }
+    compileSdkVersion 31
 	sourceSets {
 		main {
 			manifest.srcFile 'AndroidManifest.xml'
