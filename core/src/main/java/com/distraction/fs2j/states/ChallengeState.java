@@ -48,6 +48,8 @@ public class ChallengeState extends GameState {
     private final TextFont[] bestMoves;
     private final ImageButton[] playButtons;
 
+    private final TextFont[] refreshTexts;
+
     public ChallengeState(Context context) {
         this(context, 0);
     }
@@ -88,7 +90,12 @@ public class ChallengeState extends GameState {
             cam.position.y = -Constants.HEIGHT / 2f;
             cam.update();
         }
-        setLeaderboardsEnabled(true);
+
+        refreshTexts = new TextFont[3];
+        refreshTexts[0] = new TextFont(context, TextFont.FontType.NORMAL, "press refresh", true, 3f * Constants.WIDTH / 4f, Constants.HEIGHT / 2f + 15);
+        refreshTexts[1] = new TextFont(context, TextFont.FontType.NORMAL, "to update the", true, 3f * Constants.WIDTH / 4f, Constants.HEIGHT / 2f);
+        refreshTexts[2] = new TextFont(context, TextFont.FontType.NORMAL, "leaderboards", true, 3f * Constants.WIDTH / 4f, Constants.HEIGHT / 2f - 15);
+        setLeaderboardsEnabled(context.leaderboardsInitialized);
         setLevel(level);
 
         context.audioHandler.stopMusic();
@@ -145,6 +152,7 @@ public class ChallengeState extends GameState {
 
     private void refresh() {
         context.fetchLeaderboards(() -> {
+            setLeaderboardsEnabled(true);
             changeLevel(0);
         });
     }
@@ -222,6 +230,11 @@ public class ChallengeState extends GameState {
             backButton.render(sb);
             refreshButton.render(sb);
             audioButton.render(sb);
+            if (!context.leaderboardsInitialized) {
+                for (TextFont textFont : refreshTexts) {
+                    textFont.render(sb);
+                }
+            }
         }
         sb.end();
     }

@@ -28,6 +28,8 @@ public class Context {
     public GameJoltClient client;
     public AudioHandler audioHandler;
 
+    public boolean leaderboardsInitialized = false;
+
     public Context() {
         assets = new AssetManager();
         assets.load(ATLAS_NAME, TextureAtlas.class);
@@ -77,6 +79,7 @@ public class Context {
                 playerDataHandler.leaderboards.put(k, entries);
                 count.getAndIncrement();
                 if (count.get() == Constants.LEADERBOARDS.size()) {
+                    leaderboardsInitialized = true;
                     callback.callback();
                 }
             });
