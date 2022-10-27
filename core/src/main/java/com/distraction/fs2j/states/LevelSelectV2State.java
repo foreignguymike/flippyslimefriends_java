@@ -2,10 +2,11 @@ package com.distraction.fs2j.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.distraction.fs2j.AudioButton;
 import com.distraction.fs2j.BreathingImage;
 import com.distraction.fs2j.Constants;
@@ -13,6 +14,7 @@ import com.distraction.fs2j.Context;
 import com.distraction.fs2j.IconButton;
 import com.distraction.fs2j.ImageButton;
 import com.distraction.fs2j.LevelBackground;
+import com.distraction.fs2j.MyViewport;
 import com.distraction.fs2j.TextFont;
 import com.distraction.fs2j.Utils;
 import com.distraction.fs2j.tilemap.data.Area;
@@ -54,13 +56,14 @@ class LevelSelectV2State extends GameState {
     private final TextureRegion star;
     private final TextFont starText;
     private final TextFont diamondText;
-    private final OrthographicCamera staticCam;
+    private final Viewport staticViewport;
     private final BreathingImage leftButton;
     private final BreathingImage rightButton;
 
     private final LevelBackground[] backgrounds;
     private final TextFont[] areaNames;
-    private final OrthographicCamera areaNamesCam;
+    private final Viewport areaNamesViewport;
+    private final Camera areaNamesCamera;
 
     public LevelSelectV2State(Context context) {
         this(context, 0);
@@ -80,13 +83,13 @@ class LevelSelectV2State extends GameState {
         for (int i = 0; i < areaNames.length; i++) {
             areaNames[i] = new TextFont(context, TextFont.FontType.BIG, areas.get(i).name, true, Constants.WIDTH / 2f + Constants.WIDTH * i, 30f);
         }
-        areaNamesCam = new OrthographicCamera();
-        areaNamesCam.setToOrtho(false, Constants.WIDTH, Constants.HEIGHT);
+        areaNamesViewport = new MyViewport(Constants.WIDTH, Constants.HEIGHT);
+        areaNamesCamera = areaNamesViewport.getCamera();
 
         page = level / PAGE_SIZE;
         updateArea(true);
-        areaNamesCam.position.set(getAreaNamesCamPosition(), Constants.HEIGHT / 2f, 0f);
-        areaNamesCam.update();
+        areaNamesCamera.position.set(getAreaNamesCamPosition(), Constants.HEIGHT / 2f, 0f);
+        areaNamesCamera.update();
 
         levelData = context.gameData.getAllMapData();
         numLevels = levelData.size();
@@ -124,8 +127,7 @@ class LevelSelectV2State extends GameState {
         diamondText = new TextFont(context, TextFont.FontType.NORMAL2, Integer.toString(context.scoreHandler.getNumDiamonds()), false, 0, 0);
         diamondText.setPosition(Constants.WIDTH - starText.getTotalWidth() - 15, Constants.HEIGHT - 40);
 
-        staticCam = new OrthographicCamera();
-        staticCam.setToOrtho(false, Constants.WIDTH, Constants.HEIGHT);
+        staticViewport = new MyViewport(Constants.WIDTH, Constants.HEIGHT);
         leftButton = new BreathingImage(context.getImage("areaselectarrow"), 50f, Constants.HEIGHT / 2f, 10f);
         leftButton.flipped = true;
         rightButton = new BreathingImage(context.getImage("areaselectarrow"), Constants.WIDTH - 50f, Constants.HEIGHT / 2f - 5f, 10f);
@@ -245,7 +247,7 @@ class LevelSelectV2State extends GameState {
                 }
             }
 
-            unprojectTouch(staticCam);
+            unprojectTouch(staticViewport);
             if (backButton.containsPoint(touchPoint)) back();
             if (leftButton.containsPoint(touchPoint)) {
                 decrementPage();
@@ -279,14 +281,21 @@ class LevelSelectV2State extends GameState {
     }
 
     @Override
+    public void resize(int w, int h) {
+        super.resize(w, h);
+        staticViewport.update(w, h);
+        areaNamesViewport.update(w, h);
+    }
+
+    @Override
     public void update(float dt) {
         if (!ignoreInput) handleInput();
 
         camera.position.set(Utils.lerp(camera.position, getCamPosition(), Constants.HEIGHT / 2f, 0f, 6f * dt));
         camera.update();
 
-        areaNamesCam.position.set(Utils.lerp(areaNamesCam.position, getAreaNamesCamPosition(), Constants.HEIGHT / 2f, 0f, 6f * dt));
-        areaNamesCam.update();
+        areaNamesCamera.position.set(Utils.lerp(areaNamesCamera.position, getAreaNamesCamPosition(), Constants.HEIGHT / 2f, 0f, 6f * dt));
+        areaNamesCamera.update();
 
         levelSelectedBorder.update(dt);
         leftButton.update(dt);
@@ -300,7 +309,7 @@ class LevelSelectV2State extends GameState {
     public void render(SpriteBatch sb) {
         sb.begin();
         {
-            sb.setProjectionMatrix(staticCam.combined);
+            sb.setProjectionMatrix(staticViewport.getCamera().combined);
             backgrounds[previousArea.ordinal()].render(sb);
             backgrounds[currentArea.ordinal()].render(sb);
             sb.setColor(GameColor.DARK_TEAL);
@@ -339,11 +348,11 @@ class LevelSelectV2State extends GameState {
                 if (level == i) levelSelectedBorder.render(sb);
             }
 
-            sb.setProjectionMatrix(staticCam.combined);
+            sb.setProjectionMatrix(staticViewport.getCamera().combined);
             leftButton.render(sb);
             rightButton.render(sb);
 
-            sb.setProjectionMatrix(areaNamesCam.combined);
+            sb.setProjectionMatrix(areaNamesCamera.combined);
             for (TextFont textFont : areaNames) {
                 textFont.render(sb);
             }

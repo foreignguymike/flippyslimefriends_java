@@ -2,17 +2,18 @@ package com.distraction.fs2j.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.distraction.fs2j.AccessoryIcon;
 import com.distraction.fs2j.AudioButton;
-import com.distraction.fs2j.GameBackground;
 import com.distraction.fs2j.BreathingImage;
 import com.distraction.fs2j.Constants;
 import com.distraction.fs2j.Context;
+import com.distraction.fs2j.GameBackground;
 import com.distraction.fs2j.IconButton;
 import com.distraction.fs2j.ImageButton;
+import com.distraction.fs2j.MyViewport;
 import com.distraction.fs2j.TextButton;
 import com.distraction.fs2j.TextFont;
 import com.distraction.fs2j.Utils;
@@ -65,7 +66,7 @@ public class CustomizeState extends GameState {
 
     private final TextButton saveButton;
 
-    private final OrthographicCamera staticCam;
+    private final Viewport staticViewport;
 
     private final ImageButton right;
     private final ImageButton down;
@@ -177,8 +178,7 @@ public class CustomizeState extends GameState {
         camera.position.set(-100f, player.isop.y, 0f);
         camera.update();
 
-        staticCam = new OrthographicCamera();
-        staticCam.setToOrtho(false, Constants.WIDTH, Constants.HEIGHT);
+        staticViewport = new MyViewport(Constants.WIDTH, Constants.HEIGHT);
 
         int ax = 60;
         int ay = 60;
@@ -281,7 +281,7 @@ public class CustomizeState extends GameState {
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) player.moveTile(1, 0);
 
         if (Gdx.input.isTouched()) {
-            unprojectTouch(staticCam);
+            unprojectTouch(staticViewport);
             if (left.containsPoint(touchPoint)) {
                 player.moveTile(0, -1);
                 left.scale = 0.75f;
@@ -333,6 +333,12 @@ public class CustomizeState extends GameState {
     }
 
     @Override
+    public void resize(int w, int h) {
+        super.resize(w, h);
+        staticViewport.update(w, h);
+    }
+
+    @Override
     public void update(float dt) {
         if (!ignoreInput) handleInput();
         bg.update(dt);
@@ -345,10 +351,10 @@ public class CustomizeState extends GameState {
 
     @Override
     public void render(SpriteBatch sb) {
-        sb.setColor(1, 1, 1, 1);
         sb.begin();
         {
-            sb.setProjectionMatrix(staticCam.combined);
+            sb.setColor(1, 1, 1, 1);
+            sb.setProjectionMatrix(staticViewport.getCamera().combined);
             bg.render(sb);
 
             sb.setColor(1, 1, 1, 1);
@@ -356,7 +362,8 @@ public class CustomizeState extends GameState {
             tileMap.render(sb);
             tileMap.renderTop(sb, players);
 
-            sb.setProjectionMatrix(staticCam.combined);
+            sb.setColor(1, 1, 1, 1);
+            sb.setProjectionMatrix(staticViewport.getCamera().combined);
             sb.setColor(GameColor.BLACK);
             Utils.setAlpha(sb, 0.4f);
             sb.draw(pixel, Constants.WIDTH / 2f, 0, Constants.WIDTH / 2f, Constants.HEIGHT);

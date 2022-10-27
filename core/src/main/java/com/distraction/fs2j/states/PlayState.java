@@ -2,14 +2,15 @@ package com.distraction.fs2j.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.distraction.fs2j.GameBackground;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.distraction.fs2j.ButtonListener;
 import com.distraction.fs2j.Constants;
 import com.distraction.fs2j.Context;
+import com.distraction.fs2j.GameBackground;
 import com.distraction.fs2j.HUD;
+import com.distraction.fs2j.MyViewport;
 import com.distraction.fs2j.Utils;
 import com.distraction.fs2j.tilemap.TileMap;
 import com.distraction.fs2j.tilemap.data.Area;
@@ -33,7 +34,7 @@ class PlayState extends GameState implements TileMap.TileListener, Player.MoveLi
     private final List<Player> sortedPlayers;
 
     private final GameBackground bg;
-    private final OrthographicCamera bgCam;
+    private final Viewport bgViewport;
 
     private final HUD hud;
     private final Vector2 cameraOffset = new Vector2(0, 0);
@@ -56,8 +57,7 @@ class PlayState extends GameState implements TileMap.TileListener, Player.MoveLi
         sortedPlayers = new ArrayList<>(players);
 
         bg = new GameBackground(context, area);
-        bgCam = new OrthographicCamera();
-        bgCam.setToOrtho(false, Constants.WIDTH, Constants.HEIGHT);
+        bgViewport = new MyViewport(Constants.WIDTH, Constants.HEIGHT);
 
         hud = new HUD(context, level, this, players, area);
 
@@ -197,6 +197,13 @@ class PlayState extends GameState implements TileMap.TileListener, Player.MoveLi
     }
 
     @Override
+    public void resize(int w, int h) {
+        super.resize(w, h);
+        hud.resize(w, h);
+        bgViewport.update(w, h);
+    }
+
+    @Override
     public void update(float dt) {
         if (!ignoreInput) handleInput();
 
@@ -222,7 +229,7 @@ class PlayState extends GameState implements TileMap.TileListener, Player.MoveLi
     public void render(SpriteBatch sb) {
         sb.begin();
         {
-            sb.setProjectionMatrix(bgCam.combined);
+            sb.setProjectionMatrix(bgViewport.getCamera().combined);
             bg.render(sb);
 
             sb.setProjectionMatrix(camera.combined);

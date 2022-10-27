@@ -1,14 +1,15 @@
 package com.distraction.fs2j.states;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.distraction.fs2j.BreathingImage;
 import com.distraction.fs2j.Constants;
 import com.distraction.fs2j.Context;
 import com.distraction.fs2j.IconButton;
 import com.distraction.fs2j.ImageButton;
 import com.distraction.fs2j.InfoBox;
+import com.distraction.fs2j.MyViewport;
 import com.distraction.fs2j.TextButton;
 import com.distraction.fs2j.TextFont;
 import com.distraction.fs2j.Utils;
@@ -25,7 +26,7 @@ public class NameState extends GameState {
     private String name;
 
     private float alpha;
-    private final OrthographicCamera staticCam;
+    private final Viewport staticViewport;
 
     private final ImageButton left;
     private final ImageButton right;
@@ -52,8 +53,7 @@ public class NameState extends GameState {
         camera.position.y = Constants.HEIGHT * 2;
         camera.update();
 
-        staticCam = new OrthographicCamera();
-        staticCam.setToOrtho(false, Constants.WIDTH, Constants.HEIGHT);
+        staticViewport = new MyViewport(Constants.WIDTH, Constants.HEIGHT);
 
         left = new BreathingImage(context.getImage("shiftleft"), Constants.WIDTH / 2f - 15f, Constants.HEIGHT / 2f - 10, 5);
         right = new BreathingImage(context.getImage("shiftright"), Constants.WIDTH / 2f + 15f, Constants.HEIGHT / 2f - 10, 5);
@@ -118,6 +118,12 @@ public class NameState extends GameState {
     }
 
     @Override
+    public void resize(int w, int h) {
+        super.resize(w, h);
+        staticViewport.update(w, h);
+    }
+
+    @Override
     public void update(float dt) {
         if (!ignoreInput) handleInput();
 
@@ -145,7 +151,7 @@ public class NameState extends GameState {
     public void render(SpriteBatch sb) {
         sb.begin();
         {
-            sb.setProjectionMatrix(staticCam.combined);
+            sb.setProjectionMatrix(staticViewport.getCamera().combined);
             sb.setColor(0, 0, 0, alpha);
             sb.draw(pixel, 0f, 0f, Constants.WIDTH, Constants.HEIGHT);
 

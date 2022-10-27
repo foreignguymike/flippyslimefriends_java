@@ -26,6 +26,12 @@ public class GSM {
         states.push(state);
     }
 
+    public void resize(int w, int h) {
+        for (int i = states.size() - depth; i < states.size(); i++) {
+            states.get(i).resize(w, h);
+        }
+    }
+
     public void update(float dt) {
         for (int i = states.size() - depth; i < states.size(); i++) {
             states.get(i).update(dt);

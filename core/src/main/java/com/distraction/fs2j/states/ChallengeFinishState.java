@@ -2,14 +2,15 @@ package com.distraction.fs2j.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.distraction.fs2j.Constants;
 import com.distraction.fs2j.Context;
 import com.distraction.fs2j.IconButton;
 import com.distraction.fs2j.InfoBox;
+import com.distraction.fs2j.MyViewport;
 import com.distraction.fs2j.TextButton;
 import com.distraction.fs2j.TextFont;
 import com.distraction.fs2j.Utils;
@@ -30,7 +31,7 @@ public class ChallengeFinishState extends GameState {
     private final int moves;
 
     private float alpha;
-    private final OrthographicCamera staticCam;
+    private final Viewport staticViewport;
 
     private final InfoBox infoBox;
 
@@ -54,8 +55,7 @@ public class ChallengeFinishState extends GameState {
 
         pixel = context.getImage("pixel");
 
-        staticCam = new OrthographicCamera();
-        staticCam.setToOrtho(false, Constants.WIDTH, Constants.HEIGHT);
+        staticViewport = new MyViewport(Constants.WIDTH, Constants.HEIGHT);
 
         infoBox = new InfoBox(
                 context,
@@ -176,6 +176,12 @@ public class ChallengeFinishState extends GameState {
     }
 
     @Override
+    public void resize(int w, int h) {
+        super.resize(w, h);
+        staticViewport.update(w, h);
+    }
+
+    @Override
     public void update(float dt) {
         if (!ignoreInput) handleInput();
         alpha += dt * 2f;
@@ -190,7 +196,7 @@ public class ChallengeFinishState extends GameState {
     public void render(SpriteBatch sb) {
         sb.begin();
         {
-            sb.setProjectionMatrix(staticCam.combined);
+            sb.setProjectionMatrix(staticViewport.getCamera().combined);
             sb.setColor(0, 0, 0, alpha);
             sb.draw(pixel, 0f, 0f, Constants.WIDTH, Constants.HEIGHT);
 

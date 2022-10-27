@@ -109,10 +109,11 @@ public class TitleState extends GameState {
 
     @Override
     public void render(SpriteBatch sb) {
-        Utils.clearScreen(GameColor.SKY_BLUE);
         sb.begin();
         {
             sb.setProjectionMatrix(camera.combined);
+            sb.setColor(GameColor.SKY_BLUE);
+            sb.draw(pixel, 0, 0, Constants.WIDTH, Constants.HEIGHT);
             sb.setColor(GameColor.DARK_TEAL);
             sb.draw(pixel, 0, 0, Constants.WIDTH, 60);
             sb.draw(pixel, 0, Constants.HEIGHT - 60, Constants.WIDTH, 60);

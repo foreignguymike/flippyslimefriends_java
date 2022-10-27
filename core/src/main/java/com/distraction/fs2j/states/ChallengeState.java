@@ -2,9 +2,10 @@ package com.distraction.fs2j.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.distraction.fs2j.AudioButton;
 import com.distraction.fs2j.BreathingImage;
 import com.distraction.fs2j.Constants;
@@ -12,9 +13,9 @@ import com.distraction.fs2j.Context;
 import com.distraction.fs2j.IconButton;
 import com.distraction.fs2j.ImageButton;
 import com.distraction.fs2j.InfoBox;
+import com.distraction.fs2j.MyViewport;
 import com.distraction.fs2j.Placement;
 import com.distraction.fs2j.TextFont;
-import com.distraction.fs2j.Utils;
 import com.distraction.fs2j.tilemap.TileMap;
 import com.distraction.fs2j.tilemap.data.Area;
 import com.distraction.fs2j.tilemap.data.GameColor;
@@ -32,7 +33,7 @@ public class ChallengeState extends GameState {
     private final IconButton refreshButton;
     private final AudioButton audioButton;
 
-    private final OrthographicCamera staticCam;
+    private final Viewport staticViewport;
 
     private final Placement[] placements;
 
@@ -41,7 +42,7 @@ public class ChallengeState extends GameState {
 
     private int level = -1;
     private final TileMap[] tileMaps;
-    private final OrthographicCamera[] cameras;
+    private final Viewport[] viewports;
     private final InfoBox[] infoBoxes;
     private final TextFont[] levelTitles;
     private final TextFont[] bestMoves;
@@ -59,8 +60,7 @@ public class ChallengeState extends GameState {
         refreshButton = new IconButton(context.getImage("restarticon"), context.getImage("iconbuttonbg"), 65f, Constants.HEIGHT - 25, 5f);
         audioButton = new AudioButton(context, context.audioHandler.getAudioState(), 105f, Constants.HEIGHT - 25f, 5f);
 
-        staticCam = new OrthographicCamera();
-        staticCam.setToOrtho(false, Constants.WIDTH, Constants.HEIGHT);
+        staticViewport = new MyViewport(Constants.WIDTH, Constants.HEIGHT);
 
         placements = new Placement[7];
         for (int i = 0; i < placements.length; i++) placements[i] = new Placement(context, i + 1);
@@ -74,7 +74,7 @@ public class ChallengeState extends GameState {
         levelTitles = new TextFont[tileMaps.length];
         bestMoves = new TextFont[tileMaps.length];
         playButtons = new ImageButton[tileMaps.length];
-        cameras = new OrthographicCamera[tileMaps.length];
+        viewports = new MyViewport[tileMaps.length];
         for (int i = 0; i < tileMaps.length; i++) {
             tileMaps[i] = new TileMap(context, null, Area.CHALLENGE, i);
             infoBoxes[i] = new InfoBox(context, 36, -Constants.HEIGHT + Constants.HEIGHT / 8f + 10, Constants.WIDTH / 2f, Constants.HEIGHT / 4f);
@@ -82,11 +82,11 @@ public class ChallengeState extends GameState {
             int score = context.scoreHandler.getScores(Area.CHALLENGE)[i];
             bestMoves[i] = new TextFont(context, TextFont.FontType.NORMAL2, "best " + (score == 0 ? "-" : score), true, -15, -Constants.HEIGHT + Constants.HEIGHT / 8f - 1);
             playButtons[i] = new IconButton(context.getImage("play"), context.getImage("buttonbgsmall"), 90, -Constants.HEIGHT + Constants.HEIGHT / 8f + 13, 5);
-            cameras[i] = new OrthographicCamera();
-            cameras[i].setToOrtho(false, Constants.WIDTH, Constants.HEIGHT);
-            cameras[i].position.x = 150 + i * PAGE_WIDTH;
-            cameras[i].position.y = -Constants.HEIGHT / 2f;
-            cameras[i].update();
+            viewports[i] = new MyViewport(Constants.WIDTH, Constants.HEIGHT);
+            Camera cam = viewports[i].getCamera();
+            cam.position.x = 150 + i * PAGE_WIDTH;
+            cam.position.y = -Constants.HEIGHT / 2f;
+            cam.update();
         }
         setLeaderboardsEnabled(true);
         setLevel(level);
@@ -145,14 +145,13 @@ public class ChallengeState extends GameState {
 
     private void refresh() {
         context.fetchLeaderboards(() -> {
-            System.out.println("finished fetching leaderboards");
             changeLevel(0);
         });
     }
 
     private void handleInput() {
         if (Gdx.input.justTouched()) {
-            unprojectTouch(staticCam);
+            unprojectTouch(staticViewport);
             if (backButton.containsPoint(touchPoint)) goBack();
             if (refreshButton.containsPoint(touchPoint)) refresh();
             if (audioButton.containsPoint(touchPoint))
@@ -161,7 +160,7 @@ public class ChallengeState extends GameState {
             if (rightButton.containsPoint(touchPoint)) changeLevel(1);
             for (int i = 0; i < playButtons.length; i++) {
                 ImageButton button = playButtons[i];
-                unprojectTouch(cameras[i]);
+                unprojectTouch(viewports[i]);
                 if (button.containsPoint(touchPoint)) goToLevel();
             }
         }
@@ -173,14 +172,24 @@ public class ChallengeState extends GameState {
     }
 
     @Override
+    public void resize(int w, int h) {
+        super.resize(w, h);
+        staticViewport.update(w, h);
+        for (Viewport v : viewports) {
+            v.update(w, h);
+        }
+    }
+
+    @Override
     public void update(float dt) {
         if (!ignoreInput) handleInput();
 
         for (Placement it : placements) it.update(dt);
         for (int i = 0; i < tileMaps.length; i++) {
             tileMaps[i].update(dt);
-            cameras[i].position.x = MathUtils.lerp(cameras[i].position.x, 150 - i * PAGE_WIDTH + level * PAGE_WIDTH, 8 * dt);
-            cameras[i].update();
+            Camera cam = viewports[i].getCamera();
+            cam.position.x = MathUtils.lerp(cam.position.x, 150 - i * PAGE_WIDTH + level * PAGE_WIDTH, 8 * dt);
+            cam.update();
         }
 
         leftButton.update(dt);
@@ -189,13 +198,13 @@ public class ChallengeState extends GameState {
 
     @Override
     public void render(SpriteBatch sb) {
-        Utils.clearScreen(GameColor.DARK_GRAY);
         sb.begin();
         {
-
+            sb.setColor(GameColor.DARK_GRAY);
+            sb.draw(pixel, 0, 0, Constants.WIDTH, Constants.HEIGHT);
             for (int i = 0; i < tileMaps.length; i++) {
                 sb.setColor(1, 1, 1, 1);
-                sb.setProjectionMatrix(cameras[i].combined);
+                sb.setProjectionMatrix(viewports[i].getCamera().combined);
                 tileMaps[i].render(sb);
                 tileMaps[i].renderTop(sb, null);
                 infoBoxes[i].render(sb);
@@ -205,7 +214,7 @@ public class ChallengeState extends GameState {
             }
 
             sb.setColor(1, 1, 1, 1);
-            sb.setProjectionMatrix(staticCam.combined);
+            sb.setProjectionMatrix(staticViewport.getCamera().combined);
             leftButton.render(sb);
             rightButton.render(sb);
 

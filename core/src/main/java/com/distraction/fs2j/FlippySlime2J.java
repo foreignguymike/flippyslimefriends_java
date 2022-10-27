@@ -40,6 +40,11 @@ public class FlippySlime2J extends ApplicationAdapter {
     }
 
     @Override
+    public void resize(int width, int height) {
+        gsm.resize(width, height);
+    }
+
+    @Override
     public void render() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.F8)) Utils.takeScreenshot();
         float dt = Gdx.graphics.getDeltaTime();

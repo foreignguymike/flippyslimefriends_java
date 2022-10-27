@@ -3,13 +3,14 @@ package com.distraction.fs2j.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.distraction.fs2j.Constants;
 import com.distraction.fs2j.Context;
 import com.distraction.fs2j.IconButton;
 import com.distraction.fs2j.ImageButton;
 import com.distraction.fs2j.InfoBox;
+import com.distraction.fs2j.MyViewport;
 import com.distraction.fs2j.SpinningLights;
 import com.distraction.fs2j.TextButton;
 import com.distraction.fs2j.TextFont;
@@ -27,7 +28,7 @@ class LevelFinishState extends GameState {
     private final int goal;
 
     private final Color dimColor = new Color(0, 0, 0, 0);
-    private final OrthographicCamera staticCam;
+    private final Viewport staticViewport;
 
     private float time = 0f;
     public float alpha = 0f;
@@ -61,8 +62,7 @@ class LevelFinishState extends GameState {
         this.moves = moves;
         this.goal = goal;
 
-        staticCam = new OrthographicCamera();
-        staticCam.setToOrtho(false, Constants.WIDTH, Constants.HEIGHT);
+        staticViewport = new MyViewport(Constants.WIDTH, Constants.HEIGHT);
 
         infoBox = new InfoBox(
                 context,
@@ -162,6 +162,12 @@ class LevelFinishState extends GameState {
     }
 
     @Override
+    public void resize(int w, int h) {
+        super.resize(w, h);
+        staticViewport.update(w, h);
+    }
+
+    @Override
     public void update(float dt) {
         if (!ignoreInput) handleInput();
 
@@ -197,7 +203,7 @@ class LevelFinishState extends GameState {
     public void render(SpriteBatch sb) {
         sb.begin();
         {
-            sb.setProjectionMatrix(staticCam.combined);
+            sb.setProjectionMatrix(staticViewport.getCamera().combined);
 
             sb.setColor(dimColor);
             sb.draw(pixel, 0f, 0f, Constants.WIDTH, Constants.HEIGHT);

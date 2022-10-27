@@ -1,10 +1,11 @@
 package com.distraction.fs2j;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.distraction.fs2j.tilemap.data.Area;
 import com.distraction.fs2j.tilemap.player.Player;
 
@@ -26,8 +27,10 @@ public class HUD {
     public boolean hideInfo = false;
     public int currentPlayer = 0;
 
-    private final OrthographicCamera topCam;
-    private final OrthographicCamera bottomCam;
+    private final Viewport topViewport;
+    private final Camera topCam;
+    private final Viewport bottomViewport;
+    private final Camera bottomCam;
 
     private final Map<ButtonListener.ButtonType, ImageButton> bottomButtons;
     private final Map<ButtonListener.ButtonType, IconButton> topButtons;
@@ -46,10 +49,10 @@ public class HUD {
         this.players = players;
         this.area = area;
 
-        topCam = new OrthographicCamera();
-        topCam.setToOrtho(false, Constants.WIDTH, Constants.HEIGHT);
-        bottomCam = new OrthographicCamera();
-        bottomCam.setToOrtho(false, Constants.WIDTH, Constants.HEIGHT);
+        topViewport = new MyViewport(Constants.WIDTH, Constants.HEIGHT);
+        topCam = topViewport.getCamera();
+        bottomViewport = new MyViewport(Constants.WIDTH, Constants.HEIGHT);
+        bottomCam = bottomViewport.getCamera();
 
         bottomButtons = new HashMap<>();
         // for arrow button placement
@@ -128,7 +131,7 @@ public class HUD {
         audioButton.scale = 1f;
         if (Gdx.input.isTouched()) {
             touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-            topCam.unproject(touchPoint);
+            topViewport.unproject(touchPoint);
             for (Map.Entry<ButtonListener.ButtonType, IconButton> it : topButtons.entrySet()) {
                 ButtonListener.ButtonType key = it.getKey();
                 IconButton value = it.getValue();
@@ -140,7 +143,7 @@ public class HUD {
                 }
             }
             touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-            bottomCam.unproject(touchPoint);
+            bottomViewport.unproject(touchPoint);
             for (Map.Entry<ButtonListener.ButtonType, ImageButton> it : bottomButtons.entrySet()) {
                 ButtonListener.ButtonType key = it.getKey();
                 ImageButton value = it.getValue();
@@ -166,6 +169,11 @@ public class HUD {
                 audioButton.setState(context.audioHandler.nextAudioState());
             }
         }
+    }
+
+    public void resize(int w, int h) {
+        topViewport.update(w, h);
+        bottomViewport.update(w, h);
     }
 
     public void update(float dt) {
