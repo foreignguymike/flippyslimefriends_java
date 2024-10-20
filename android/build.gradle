@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 
 
 android {
+	namespace "com.distraction.fs2j"
 	signingConfigs {
         release {
             storeFile file('C:\\Users\\forei\\.prefs\\keystores\\release.jks')
@@ -10,7 +11,7 @@ android {
             keyPassword '52W36b88'
         }
     }
-    compileSdkVersion 31
+    compileSdk 34
 	sourceSets {
 		main {
 			manifest.srcFile 'AndroidManifest.xml'
@@ -40,7 +41,7 @@ android {
 	defaultConfig {
 		applicationId 'com.distraction.fs2j'
 		minSdkVersion 19
-		targetSdkVersion 31
+		targetSdkVersion 34
 		versionCode 1
 		versionName "1.0"
 		multiDexEnabled true

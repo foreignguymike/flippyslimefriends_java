@@ -1,0 +1,15 @@
+fs2.atlas
+fs2.png
+music/challenge.mp3
+music/matrix.mp3
+music/meadow.mp3
+music/ruins.mp3
+music/tundra.mp3
+music/undersea.mp3
+sfx/activate.wav
+sfx/complete.wav
+sfx/deactivate.wav
+sfx/select.wav
+sfx/selectshort.wav
+sfx/selectshort2.wav
+slime.png

@@ -10,25 +10,22 @@ buildscript {
 	}
 	dependencies {
 		classpath "com.android.tools.build:gradle:$androidPluginVersion"
-		classpath "org.wisepersist:gwt-gradle-plugin:$gwtPluginVersion"
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10'
-
-        // This follows advice from https://blog.gradle.org/log4j-vulnerability
-		constraints {
-			classpath("org.apache.logging.log4j:log4j-core") {
-				version {
-					strictly("[2.17, 3[")
-					prefer("2.17.0")
-				}
-				because("CVE-2021-44228, CVE-2021-45046, CVE-2021-45105: Log4j vulnerable to remote code execution and other critical security vulnerabilities")
-			}
-		}
+		classpath "org.docstr:gwt-gradle-plugin:$gwtPluginVersion"
+		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
 	}
 }
 
 allprojects {
 	apply plugin: 'eclipse'
 	apply plugin: 'idea'
+
+	// This allows you to "Build and run using IntelliJ IDEA", an option in IDEA's Settings.
+	idea {
+		module {
+			outputDir file('build/classes/java/main')
+			testOutputDir file('build/classes/java/test')
+		}
+	}
 }
 
 configure(subprojects - project(':android')) {
@@ -37,18 +34,26 @@ configure(subprojects - project(':android')) {
 	compileJava {
 		options.incremental = true
 	}
-	dependencies {
-		// This follows advice from https://blog.gradle.org/log4j-vulnerability
-		constraints {
-			implementation("org.apache.logging.log4j:log4j-core") {
-				version {
-					strictly("[2.17, 3[")
-					prefer("2.17.0")
-				}
-				because("CVE-2021-44228, CVE-2021-45046, CVE-2021-45105: Log4j vulnerable to remote code execution and other critical security vulnerabilities")
-			}
+
+	// From https://lyze.dev/2021/04/29/libGDX-Internal-Assets-List/
+	// The article can be helpful when using assets.txt in your project.
+	tasks.register('generateAssetList') {
+		inputs.dir("${project.rootDir}/assets/")
+		// projectFolder/assets
+		File assetsFolder = new File("${project.rootDir}/assets/")
+		// projectFolder/assets/assets.txt
+		File assetsFile = new File(assetsFolder, "assets.txt")
+		// delete that file in case we've already created it
+		assetsFile.delete()
+
+		// iterate through all files inside that folder
+		// convert it to a relative path
+		// and append it to the file assets.txt
+		fileTree(assetsFolder).collect { assetsFolder.relativePath(it) }.each {
+			assetsFile.append(it + "\n")
 		}
 	}
+	processResources.dependsOn 'generateAssetList'
 
 }
 
